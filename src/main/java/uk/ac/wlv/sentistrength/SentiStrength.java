@@ -15,36 +15,71 @@ import uk.ac.wlv.utilities.FileOps;
 
 public class SentiStrength {
    Corpus c = new Corpus();
-
+   
+   /**
+    * SentiStrength的构造方法，在其中一同初始化了语料库Corpus
+    * @param 
+    * @return 
+    * @author ruohao.zhang
+    */
+   
    public SentiStrength() {
       this.c = new Corpus();
    }
 
+   /**
+    * SentiStrength构造方法，利用args参数调用了initialiseAndRun方法
+    * @param args
+    * @return 
+    * @author ruohao.zhang
+    */
    public SentiStrength(String[] args) {
       this.c = new Corpus();
       this.initialiseAndRun(args);
    }
-
+   
+   /**
+    * main方法
+    * @param args
+    * @return 
+    * @author ruohao.zhang
+    */
+   
    public static void main(String[] args) {
       SentiStrength classifier = new SentiStrength();
       
       classifier.initialiseAndRun(args);
    }
    
+   /**
+    * 无使用情况
+    * @param 
+    * @return null
+    * @author ruohao.zhang
+    */
+   
    public String[] getinput(){
 	return null;
    }
 
+   /**
+    * 用于处理args，然后运行代码。
+    * 每一个变量的含义我将写在变量旁边。
+    * @param args
+    * @return
+    * @author ruohao.zhang
+    */
+   
    public void initialiseAndRun(String[] args) {
       Corpus c = this.c;
-      String sInputFile = "";
-      String sInputFolder = "";
+      String sInputFile = "";//输入文件路径
+      String sInputFolder = "";//输入目录路径
       String sTextToParse = "";
       String sOptimalTermStrengths = "";
       String sFileSubString = "\t";
-      String sResultsFolder = "";
+      String sResultsFolder = "";//输出目录路径
       String sResultsFileExtension = "_out.txt";
-      boolean[] bArgumentRecognised = new boolean[args.length];
+      boolean[] bArgumentRecognised = new boolean[args.length];//用于判断args中的参数有没有判断正确
       int iIterations = 1;
       int iMinImprovement = 2;
       int iMultiOptimisations = 1;
@@ -70,36 +105,53 @@ public class SentiStrength {
       //String rooty="/Users/mac/Documents/workspace/SentiStrength/src/input/";
       for(i = 0; i < args.length; ++i) {
          try {
+            /**
+             * input后面紧跟输入路径
+             */
             if (args[i].equalsIgnoreCase("input")) {
                sInputFile = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
+            /**
+             * inputfolder后面跟输入文件夹路径
+             */
             if (args[i].equalsIgnoreCase("inputfolder")) {
                sInputFolder=args[i+1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
+            /**
+             * outputfolder后面跟输出目录路径
+             */
             if (args[i].equalsIgnoreCase("outputfolder")) {
                sResultsFolder = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
+            /**
+             * 输出文件的扩展格式
+             */
             if (args[i].equalsIgnoreCase("resultextension")) {
                sResultsFileExtension = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
-
+            /**
+             * 输出文件的扩展格式
+             */
             if (args[i].equalsIgnoreCase("resultsextension")) {
                sResultsFileExtension = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
+            /**
+             *
+             */
             if (args[i].equalsIgnoreCase("filesubstring")) {
                sFileSubString = args[i + 1];
                bArgumentRecognised[i] = true;
@@ -736,6 +788,23 @@ public class SentiStrength {
 
    }
 
+   /**
+    * 作用是为语料库中的文本添加注释
+    * 如果bOkToOverwrite为false，则输出一条错误信息。
+    * 如果sInputFile非空，则注释该文件中的所有行。
+    * 如果sInputFolder非空，则注释该文件夹中所有文件的所有行。
+    * 如果sFileSubString非空，则只注释文件名中包含sFileSubString的文件。
+    * 如果以上条件都不满足，则输出一条错误信息。
+    * @param c 要注释的语料库
+    * @param sInputFile 要注释的输入文件名
+    * @param sInputFolder 要注释的输入文件夹名
+    * @param sFileSubString 要过滤的文件名子字符串
+    * @param iTextColForAnnotation 要注释的文本所在的列数
+    * @param bOkToOverwrite 是否允许覆盖已有的注释
+    * @return 
+    * @author ruohao.zhang
+    */
+   
    private void annotationTextCol(Corpus c, String sInputFile, String sInputFolder, String sFileSubString, int iTextColForAnnotation, boolean bOkToOverwrite) {
       if (!bOkToOverwrite) {
          System.out.println("Must include parameter overwrite to annotate");
@@ -812,6 +881,18 @@ public class SentiStrength {
       }
 
    }
+
+   /**
+    * 监听标准输入，利用语料库对通过它提供的文本进行情感分析。
+    * 根据特定的输入字符串更改某些情感单词的术语权重。
+    * 然后，该方法将情绪分析结果作为文本输出。
+    * 输出文本包括积极情绪评分、负面情绪评分以及对分类原理的可选解释。
+    * 该方法还处理不同的输出模式，具体取决于Corpus对象中设置的选项。
+    * @param c 语料库对象
+    * @param iTextCol 要分析的文本的输入文本中列的索引
+    * @return
+    * @author ruohao.zhang
+    */
 
    private void listenToStdIn(Corpus c, int iTextCol) {
       BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
@@ -1063,6 +1144,13 @@ public class SentiStrength {
       }
    }
 
+   /**
+    * 输出简短的帮助信息，帮助用户确定如何使用。
+    * @param
+    * @return
+    * @author ruohao.zhang
+    */
+
    private void showBriefHelp() {
       System.out.println();
       System.out.println("====" + this.c.options.sgProgramName + "Brief Help====");
@@ -1094,6 +1182,13 @@ public class SentiStrength {
       }
 
    }
+
+   /**
+    * 输出如何使用命令行
+    * @param
+    * @return
+    * @author ruohao.zhang
+    */
 
    private void printCommandLineOptions() {
       System.out.println("====" + this.c.options.sgProgramName + " Command Line Options====");
@@ -1178,6 +1273,13 @@ public class SentiStrength {
       System.out.println("   minImprovement [min. accuracy improvement to change " + this.c.options.sgProgramMeasuring + " weights (default 1)]");
       System.out.println("   multi [# duplicate term strength optimisations to change " + this.c.options.sgProgramMeasuring + " weights (default 1)]");
    }
+
+   /**
+    * getCorpus方法
+    * @param
+    * @return Corpus SentiStrength的成员
+    * @author ruohao.zhang
+    */
 
    public Corpus getCorpus() {
       return this.c;
