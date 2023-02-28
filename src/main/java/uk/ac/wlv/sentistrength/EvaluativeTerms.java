@@ -10,24 +10,42 @@ import java.io.*;
 
 import uk.ac.wlv.utilities.FileOps;
 
-// Referenced classes of package uk.ac.wlv.sentistrength:
-//            ClassificationOptions, IdiomList, SentimentWords
-
+/**
+ * 情感分析评价的初始化与存储类
+ * @author haofeng.Yu
+ */
 public class EvaluativeTerms
 {
-
+    /**存储最大评价值**/
     private int igObjectEvaluationMax;
+    /** 存储从源文件中读取到的评价对象 **/
     public String sgObject[];
+    /** 存储从源文件中读取到的评价性词语 **/
     public String sgObjectEvaluation[];
+    /** 存储从源文件中读取到的每个对象及其评估结构 object-evaluation pair **/
     public int igObjectEvaluationStrength[];
+    /** 成功读取并且评价的对象数目 **/
     public int igObjectEvaluationCount;
 
+    /**
+     * 默认构造函数，将igObjectEvaluationMax,igObjectEvaluationCount初始化为0
+     * @author haofeng.Yu
+     */
     public EvaluativeTerms()
     {
         igObjectEvaluationMax = 0;
         igObjectEvaluationCount = 0;
     }
 
+    /**
+     * 初始化评价词，并且为对应的对象添加额外的SentimentWord和idiom
+     * @param sSourceFile 包含情感词的源文件名称
+    * @param options ClassificationOptions对象
+    * @param idiomList IdiomList对象
+    * @param sentimentWords 情感词SentimentWords对象
+     * @return boolean 指示初始化是否成功
+     * @author haofeng.Yu
+     */ 
     public boolean initialise(String sSourceFile, ClassificationOptions options, IdiomList idiomList, SentimentWords sentimentWords)
     {
         if(igObjectEvaluationCount > 0)
