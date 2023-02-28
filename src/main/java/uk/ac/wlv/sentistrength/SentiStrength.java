@@ -758,7 +758,6 @@ public class SentiStrength {
     * @param iIterations 迭代次数
     * @param iMultiOptimisations 控制机器学习算法在优化期间使用不同参数配置运行的次数
     * @param sOutputFile 输出文件名
-    * @return 
     * @author ruohao.zhang
     */
    private void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement, boolean bUseTotalDifference, int iIterations, int iMultiOptimisations, String sOutputFile) {

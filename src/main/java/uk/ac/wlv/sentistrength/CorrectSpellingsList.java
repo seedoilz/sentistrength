@@ -11,9 +11,10 @@ import java.io.*;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
-// Referenced classes of package uk.ac.wlv.sentistrength:
-//            ClassificationOptions
-
+/**
+ * 拼写检查的字典类，用于检查给定字符串是否拼写正确
+ * @author haofeng.Yu
+ */
 public class CorrectSpellingsList
 {
 
@@ -27,6 +28,16 @@ public class CorrectSpellingsList
         igCorrectWordMax = 0;
     }
 
+    /**
+     * 该方法从指定的文本文件初始化拼写检查字典SpellingList
+     * 该方法然后返回 true 以指示字典已成功初始化。
+     * 如果在读取文件或初始化字典时出现错误，该方法将返回 false。
+     * @param sFilename 文件名
+     * @param options 分类选项
+     * @return boolean 如果没有发生异常，则返回true，否则返回false
+     *
+     * @author haofeng.Yu
+     */
     public boolean initialise(String sFilename, ClassificationOptions options)
     {
         if(igCorrectWordMax > 0)
@@ -74,6 +85,12 @@ public class CorrectSpellingsList
         return true;
     }
 
+    /**
+     * 检查一个字符串是否拼写正确
+     * @param sWord 待检查字符串
+     * @return boolean
+     * @author haofeng.Yu
+     */
     public boolean correctSpelling(String sWord)
     {
         return Sort.i_FindStringPositionInSortedArray(sWord, sgCorrectWord, 1, igCorrectWordCount) >= 0;
