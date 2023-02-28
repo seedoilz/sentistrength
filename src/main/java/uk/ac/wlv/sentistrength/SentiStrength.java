@@ -69,7 +69,6 @@ public class SentiStrength {
     * @return
     * @author ruohao.zhang
     */
-   
    public void initialiseAndRun(String[] args) {
       Corpus c = this.c;
       String sInputFile = "";//输入文件路径
@@ -381,15 +380,30 @@ public class SentiStrength {
 
    }
 
+   /**
+    * 解析传递给程序的命令行参数。
+    * 该方法贯穿args数组的所有元素，并试图将每个元素与一组预定义的选项匹配。如果找到匹配项，则执行相应的操作，并相应地更新bArgumentRecognized数组。
+    * 以下是此方法正在检查的选项的简要摘要：
+    * @param args
+    * @param bArgumentRecognised
+    * @return
+    * @author ruohao.zhang
+    */
    private void parseParametersForCorpusOptions(String[] args, boolean[] bArgumentRecognised) {
       for(int i = 0; i < args.length; ++i) {
          try {
+            /**
+             * 包含情感文件的文件夹路径
+             */
             if (args[i].equalsIgnoreCase("sentidata")) {
                this.c.resources.sgSentiStrengthFolder = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
+            /**
+             * 包含情绪查找表的文件路径
+             */
             if (args[i].equalsIgnoreCase("emotionlookuptable")) {
                this.c.resources.sgSentimentWordsFile = args[i + 1];
                bArgumentRecognised[i] = true;
@@ -676,6 +690,13 @@ public class SentiStrength {
       
    }
 
+   /**
+    * 对命令行参数进行解析和处理，以便初始化语料库
+    * 没有被识别，则输出错误信息并调用showBriefHelp方法展示帮助信息。最后，如果初始化成功，则初始化语料库。
+    * @param args 命令行参数
+    * @return
+    * @author ruohao.zhang
+    */
    public void initialise(String[] args) {
       boolean[] bArgumentRecognised = new boolean[args.length];
 
@@ -700,6 +721,12 @@ public class SentiStrength {
 
    }
 
+   /**
+    * 用于计算情感分数
+    * @param sentence
+    * @return String 
+    * @author ruohao.zhang
+    */
    public String computeSentimentScores(String sentence) {
       int iPos =1;
       int iNeg =1;
@@ -727,6 +754,19 @@ public class SentiStrength {
       }
    }
 
+   /**
+    * 在文本语料库上运行机器学习算法，评估结果的准确性，并将结果写入文件。
+    * @param c 语料库
+    * @param sInputFile 输入文件
+    * @param bDoAll 确定是否运行所有语料库中所有选项的迭代（即运行run10FoldCrossValidationForAllOptionVariations()方法）
+    * @param iMinImprovement 算法训练过程中所设置的最小精度提升值（小于1不进行任何操作）
+    * @param bUseTotalDifference 用于控制在训练机器学习模型时是否使用总体的差异（total difference）来计算精度
+    * @param iIterations 迭代次数
+    * @param iMultiOptimisations 控制机器学习算法在优化期间使用不同参数配置运行的次数
+    * @param sOutputFile 输出文件名
+    * @return 
+    * @author ruohao.zhang
+    */
    private void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement, boolean bUseTotalDifference, int iIterations, int iMultiOptimisations, String sOutputFile) {
       if (iMinImprovement < 1) {
          System.out.println("No action taken because min improvement < 1");
@@ -759,7 +799,17 @@ public class SentiStrength {
 
       }
    }
-
+   
+   /**
+    * 将给定的文本文件或文件夹中的文本进行分类，并将结果和文本ID保存在文件中
+    * @param c 语料库
+    * @param sInputFile 输入文件
+    * @param sInputFolder 输入文件夹
+    * @param iTextCol 输入文本所在的列数
+    * @param iIdCol ID所在的列数
+    * @return 
+    * @author ruohao.zhang
+    */
    private void classifyAndSaveWithID(Corpus c, String sInputFile, String sInputFolder, int iTextCol, int iIdCol) {
       if (!sInputFile.equals("")) {
          c.classifyAllLinesAndRecordWithID(sInputFile, iTextCol - 1, iIdCol - 1, FileOps.s_ChopFileNameExtension(sInputFile) + "_classID.txt");
@@ -804,7 +854,6 @@ public class SentiStrength {
     * @return 
     * @author ruohao.zhang
     */
-   
    private void annotationTextCol(Corpus c, String sInputFile, String sInputFolder, String sFileSubString, int iTextColForAnnotation, boolean bOkToOverwrite) {
       if (!bOkToOverwrite) {
          System.out.println("Must include parameter overwrite to annotate");
@@ -833,7 +882,16 @@ public class SentiStrength {
 
       }
    }
-
+   
+   /**
+    * 解析给定文本，并为给定语料库设置情感值。情绪值包括正负情绪评分、三年期情绪值和尺度情绪值。如果指定，输出可以进行URL编码。
+    * @param c 语料库对象
+    * @param sTextToParse 要解析的文本
+    * @param bURLEncodedOutput 指示输出是否应该进行URL编码的标志
+    * @return 
+    * @author ruohao.zhang
+    */
+   
    private void parseOneText(Corpus c, String sTextToParse, boolean bURLEncodedOutput) {
       int iPos =1;
       int iNeg =1;
@@ -967,6 +1025,12 @@ public class SentiStrength {
 
    }
 
+   /**
+    * 命令行监听用户输入，并使用Corpus对象提供的情感分析功能分析每个输入的情绪。
+    * @param c
+    * @return 
+    * @author ruohao.zhang
+    */
    private void listenForCmdInput(Corpus c) {
       BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 
@@ -1025,6 +1089,13 @@ public class SentiStrength {
       }
    }
 
+   /**
+    * 在指定端口上监听并接受来自客户端的请求
+    * @param c 要使用的Corpus对象
+    * @param iListenPort 监听的端口号
+    * @return
+    * @author ruohao.zhang
+    */
    private void listenAtPort(Corpus c, int iListenPort) {
       ServerSocket serverSocket = null;
       String decodedText = "";
@@ -1145,12 +1216,11 @@ public class SentiStrength {
    }
 
    /**
-    * 输出简短的帮助信息，帮助用户确定如何使用。
+    * 在用户输入错误的情况输出简短的帮助信息，帮助用户确定如何使用。
     * @param
     * @return
     * @author ruohao.zhang
     */
-
    private void showBriefHelp() {
       System.out.println();
       System.out.println("====" + this.c.options.sgProgramName + "Brief Help====");
@@ -1189,7 +1259,6 @@ public class SentiStrength {
     * @return
     * @author ruohao.zhang
     */
-
    private void printCommandLineOptions() {
       System.out.println("====" + this.c.options.sgProgramName + " Command Line Options====");
       System.out.println("=Source of data to be classified=");
