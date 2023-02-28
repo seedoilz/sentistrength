@@ -14,6 +14,10 @@ import uk.ac.wlv.utilities.Sort;
 // Referenced classes of package uk.ac.wlv.sentistrength:
 //            ClassificationOptions
 
+/**
+ * 情感符号表极其对应强度的实现类
+ * @author haofeng.Yu
+ */ 
 public class EmoticonsList
 {
 
@@ -22,12 +26,22 @@ public class EmoticonsList
     private int igEmoticonCount;
     private int igEmoticonMax;
 
+    /**
+     * 默认构造函数，将igEmoticonCount和igEmoticonMax初始化为0
+     * @author haofeng.Yu
+     */
     public EmoticonsList()
     {
         igEmoticonCount = 0;
         igEmoticonMax = 0;
     }
 
+    /**
+     * 接受一个情感符号并且返回一个表示情感强度的整数，如果无法找到该情感符号，则返回999
+     * @param emoticon 情感符号
+     * @return int 情感强度
+     * @author haofeng.Yu
+     */ 
     public int getEmoticon(String emoticon)
     {
         int iEmoticon = Sort.i_FindStringPositionInSortedArray(emoticon, sgEmoticon, 1, igEmoticonCount);
@@ -37,6 +51,13 @@ public class EmoticonsList
             return 999;
     }
 
+    /**
+     * 初始化EmoticonsList对象，同时更新在文件中找到的情感符号的数量
+     * @param sSourceFile 待读取情感符号的文件名
+     * @param options 分类选项
+     * @return boolean 若无异常，则返回true，否则返回false
+     * @author haofeng.Yu
+     */ 
     public boolean initialise(String sSourceFile, ClassificationOptions options)
     {
         if(igEmoticonCount > 0)
