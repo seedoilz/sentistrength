@@ -92,9 +92,9 @@ public class UnusedTermsClassificationIndex
      *     将每一个索引都加入到主索引中，并记录新索引的情绪政府和情绪强度
      * </p>
      * @param iCorrectPosClass          积极的类
-     * @param iEstPosClass              积极的强度
+     * @param iEstPosClass              估计的积极情绪类
      * @param iCorrectNegClass          消极的类
-     * @param iEstNegClass              消极的强度
+     * @param iEstNegClass              估计的消极情绪类
      * @return void
      * @author zhangsong
      */
@@ -131,7 +131,7 @@ public class UnusedTermsClassificationIndex
      *     对每一个索引都加入到主索引中，并记录新索引的单尺度值
      * </p>
      * @param iCorrectScaleClass            单尺度
-     * @param iEstScaleClass                单尺度
+     * @param iEstScaleClass                估计的单尺度类
      * @return void
      * @author zhangsong
      */
@@ -164,7 +164,7 @@ public class UnusedTermsClassificationIndex
      *
      * </p>
      * @param iCorrectTrinaryClass              三位一体的值
-     * @param iEstTrinaryClass                  三位一体的强度
+     * @param iEstTrinaryClass                  估计的三位一体
      * @return void
      * @author zhangsong
      */
@@ -194,7 +194,7 @@ public class UnusedTermsClassificationIndex
     /**
      * 将新索引添加到主索引中，并记录新索引的双精度二进制值和强度
      * @param iCorrectBinaryClass               二进制的值
-     * @param iEstBinaryClass                   二进制的强度
+     * @param iEstBinaryClass                   估计的二进制
      * @return void
      * @author zhangsong
      */
