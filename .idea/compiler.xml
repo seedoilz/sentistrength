@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="sentistrength" target="1.8" />
+      <module name="sentistrength" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

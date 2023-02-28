@@ -15,28 +15,29 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions, ClassificationResources, UnusedTermsClassificationIndex, Paragraph, 
 //            ClassificationStatistics, SentimentWords
 
+/*Corpus 语料库*/
 public class Corpus
 {
 
     public ClassificationOptions options;
     public ClassificationResources resources;
-    private Paragraph paragraph[];
+    private Paragraph[] paragraph;
     private int igParagraphCount;
-    private int igPosCorrect[];
-    private int igNegCorrect[];
-    private int igTrinaryCorrect[];
-    private int igScaleCorrect[];
-    private int igPosClass[];
-    private int igNegClass[];
-    private int igTrinaryClass[];
-    private int igScaleClass[];
+    private int[] igPosCorrect;
+    private int[] igNegCorrect;
+    private int[] igTrinaryCorrect;
+    private int[] igScaleCorrect;
+    private int[] igPosClass;
+    private int[] igNegClass;
+    private int[] igTrinaryClass;
+    private int[] igScaleClass;
     private boolean bgCorpusClassified;
-    private int igSentimentIDList[];
+    private int[] igSentimentIDList;
     private int igSentimentIDListCount;
-    private int igSentimentIDParagraphCount[];
+    private int[] igSentimentIDParagraphCount;
     private boolean bSentimentIDListMade;
     UnusedTermsClassificationIndex unusedTermsClassificationIndex;
-    private boolean bgSupcorpusMember[];
+    private boolean[] bgSupcorpusMember;
     int igSupcorpusMemberCount;
 
     public Corpus()
@@ -101,7 +102,7 @@ public class Corpus
         System.out.println((new StringBuilder("Term weights saved to ")).append(saveFile).toString());
     }
 
-    public void setSubcorpus(boolean bSubcorpusMember[])
+    public void setSubcorpus(boolean[] bSubcorpusMember)
     {
         igSupcorpusMemberCount = 0;
         for(int i = 0; i <= igParagraphCount; i++)

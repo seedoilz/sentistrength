@@ -5,6 +5,7 @@ import java.util.Random;
 import uk.ac.wlv.utilities.Sort;
 import uk.ac.wlv.utilities.StringIndex;
 
+/*Paragraph 段*/
 public class Paragraph {
    private Sentence[] sentence;
    private int igSentenceCount = 0;
