@@ -11,6 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * 分类选项类，用来存取与分类相关的选项和预处理代码
+ * @author ruohao.zhang
+ **/
 public class ClassificationOptions {
     public boolean bgTensiStrength = false;
     public String sgProgramName = "SentiStrength";
@@ -69,15 +73,33 @@ public class ClassificationOptions {
     public int igMinSentencePosForQuotesIrony = 10;
     public int igMinSentencePosForPunctuationIrony = 10;
     public int igMinSentencePosForTermsIrony = 10;
-
+    
+    /**
+     * 构造函数
+     * @author ruohao.zhang
+     */
     public ClassificationOptions() {
     }
 
+    /**
+     * 传递keywordlist（要求格式为用","隔开），随后的处理中要忽略没有关键词的句子
+     * @param sKeywordList 由keyword和","组成的字符串
+     * @author ruohao.zhang
+     */
     public void parseKeywordList(String sKeywordList) {
         this.sgSentimentKeyWords = sKeywordList.split(",");
         this.bgIgnoreSentencesWithoutKeywords = true;
     }
 
+    /**
+     * 此方法将一组分类选项写入指定的BufferedWriter对象。这些选项包括控制情绪分析算法工作原理的各种布尔值和整数值。
+     * @param wWriter 用于写入分类选项信息的输出流
+     * @param iMinImprovement 使用分类器对情感分类时的最小改进值
+     * @param bUseTotalDifference 是否使用总差异而不是精确计数来计算情感分类结果
+     * @param iMultiOptimisations 情感分类器中应用的优化级别
+     * @return boolean 指示选项是否已成功写入BufferedWriter。如果有IOException，它将打印堆栈跟踪并返回false。
+     * @author ruohao.zhang
+     */
     public boolean printClassificationOptions(BufferedWriter wWriter, int iMinImprovement, boolean bUseTotalDifference, int iMultiOptimisations) {
         try {
             if (this.igEmotionParagraphCombineMethod == 0) {
@@ -110,6 +132,12 @@ public class ClassificationOptions {
         }
     }
 
+    /**
+     * 用于打印空白的分类选项，目的是在输出中保持格式的一致性
+     * @param wWriter 写入文本文件的输出流
+     * @return boolean 如果正常写入就返回true，有异常就返回false
+     * @author ruohao.zhang
+     */
     public boolean printBlankClassificationOptions(BufferedWriter wWriter) {
         try {
             wWriter.write("~");
@@ -123,6 +151,12 @@ public class ClassificationOptions {
         }
     }
 
+    /**
+     * 为打印的参数编写标题或标签
+     * @param wWriter 写入文本文件的输出流
+     * @return boolean 如果正常写入就返回true，有异常就返回false
+     * @author ruohao.zhang
+     */
     public boolean printClassificationOptionsHeadings(BufferedWriter wWriter) {
         try {
             wWriter.write("EmotionParagraphCombineMethod\tEmotionSentenceCombineMethod\tDifferenceCalculationMethodForTermWeightAdjustments\tMultiOptimisations\tReduceNegativeEmotionInQuestionSentences\tMissCountsAsPlus2\tYouOrYourIsPlus2UnlessSentenceNegative\tExclamationCountsAsPlus2\tUseIdiomLookupTable\tMoodToInterpretNeutralEmphasis\tAllowMultiplePositiveWordsToIncreasePositiveEmotion\tAllowMultipleNegativeWordsToIncreaseNegativeEmotion\tIgnoreBoosterWordsAfterNegatives\tMultipleLettersBoostSentiment\tBoosterWordsChangeEmotion\tNegatingWordsFlipEmotion\tNegatingPositiveFlipsEmotion\tNegatingNegativeNeutralisesEmotion\tCorrectSpellingsWithRepeatedLetter\tUseEmoticons\tCapitalsBoostTermSentiment\tMinRepeatedLettersForBoost\tWordsBeforeSentimentToNegate\tMinImprovement");
@@ -133,6 +167,12 @@ public class ClassificationOptions {
         }
     }
 
+    /**
+     * 读取文件的内容，解析文件中指定的选项，并在对象（即自己）中设置相应的变量（成员）
+     * @param sFilename 要读取的文件名
+     * @return boolean 遇到它无法识别的选项名称，它将返回false，表明解析文件时出错。否则，该方法返回true
+     * @author ruohao.zhang
+     */
     public boolean setClassificationOptions(String sFilename) {
         try {
             BufferedReader rReader = new BufferedReader(new FileReader(sFilename));
@@ -230,7 +270,12 @@ public class ClassificationOptions {
             return false;
         }
     }
-
+    
+    /**
+     * 根据bTensiStrength选择不同处理方法，其中一种与压力放松有关，还有一种与情绪有关
+     * @param bTensiStrength 如果为true，与压力放松有关；如果为false则与情绪有关
+     * @author ruohao.zhang
+     */
     public void nameProgram(boolean bTensiStrength) {
         this.bgTensiStrength = bTensiStrength;
         if (bTensiStrength) {
