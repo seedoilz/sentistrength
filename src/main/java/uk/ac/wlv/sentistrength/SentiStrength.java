@@ -13,13 +13,15 @@ import java.net.URLEncoder;
 import java.util.Locale;
 import uk.ac.wlv.utilities.FileOps;
 
+/**
+ * SentiStrength类,主要目的是根据命令行参数初始化语料库，并提供情感分析方法
+ * @author ruohao.zhang
+ **/
 public class SentiStrength {
    Corpus c = new Corpus();
    
    /**
     * SentiStrength的构造方法，在其中一同初始化了语料库Corpus
-    * @param 
-    * @return 
     * @author ruohao.zhang
     */
    
@@ -29,8 +31,7 @@ public class SentiStrength {
 
    /**
     * SentiStrength构造方法，利用args参数调用了initialiseAndRun方法
-    * @param args
-    * @return 
+    * @param args 命令行参数
     * @author ruohao.zhang
     */
    public SentiStrength(String[] args) {
@@ -40,8 +41,7 @@ public class SentiStrength {
    
    /**
     * main方法
-    * @param args
-    * @return 
+    * @param args 命令行参数
     * @author ruohao.zhang
     */
    
@@ -53,7 +53,6 @@ public class SentiStrength {
    
    /**
     * 无使用情况
-    * @param 
     * @return null
     * @author ruohao.zhang
     */
@@ -65,8 +64,7 @@ public class SentiStrength {
    /**
     * 用于处理args，然后运行代码。
     * 每一个变量的含义我将写在变量旁边。
-    * @param args
-    * @return
+    * @param args 命令行参数
     * @author ruohao.zhang
     */
    public void initialiseAndRun(String[] args) {
@@ -104,8 +102,8 @@ public class SentiStrength {
       //String rooty="/Users/mac/Documents/workspace/SentiStrength/src/input/";
       for(i = 0; i < args.length; ++i) {
          try {
-            /**
-             * input后面紧跟输入路径
+            /*
+              input后面紧跟输入路径
              */
             if (args[i].equalsIgnoreCase("input")) {
                sInputFile = args[i + 1];
@@ -113,8 +111,8 @@ public class SentiStrength {
                bArgumentRecognised[i + 1] = true;
             }
 
-            /**
-             * inputfolder后面跟输入文件夹路径
+            /*
+              inputfolder后面跟输入文件夹路径
              */
             if (args[i].equalsIgnoreCase("inputfolder")) {
                sInputFolder=args[i+1];
@@ -122,8 +120,8 @@ public class SentiStrength {
                bArgumentRecognised[i + 1] = true;
             }
 
-            /**
-             * outputfolder后面跟输出目录路径
+            /*
+              outputfolder后面跟输出目录路径
              */
             if (args[i].equalsIgnoreCase("outputfolder")) {
                sResultsFolder = args[i + 1];
@@ -131,16 +129,16 @@ public class SentiStrength {
                bArgumentRecognised[i + 1] = true;
             }
 
-            /**
-             * 输出文件的扩展格式
+            /*
+              输出文件的扩展格式
              */
             if (args[i].equalsIgnoreCase("resultextension")) {
                sResultsFileExtension = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
-            /**
-             * 输出文件的扩展格式
+            /*
+              输出文件的扩展格式
              */
             if (args[i].equalsIgnoreCase("resultsextension")) {
                sResultsFileExtension = args[i + 1];
@@ -148,9 +146,6 @@ public class SentiStrength {
                bArgumentRecognised[i + 1] = true;
             }
 
-            /**
-             *
-             */
             if (args[i].equalsIgnoreCase("filesubstring")) {
                sFileSubString = args[i + 1];
                bArgumentRecognised[i] = true;
@@ -384,16 +379,15 @@ public class SentiStrength {
     * 解析传递给程序的命令行参数。
     * 该方法贯穿args数组的所有元素，并试图将每个元素与一组预定义的选项匹配。如果找到匹配项，则执行相应的操作，并相应地更新bArgumentRecognized数组。
     * 以下是此方法正在检查的选项的简要摘要：
-    * @param args
-    * @param bArgumentRecognised
-    * @return
+    * @param args 命令行参数
+    * @param bArgumentRecognised 判断参数是否被识别
     * @author ruohao.zhang
     */
    private void parseParametersForCorpusOptions(String[] args, boolean[] bArgumentRecognised) {
       for(int i = 0; i < args.length; ++i) {
          try {
-            /**
-             * 包含情感文件的文件夹路径
+            /*
+              包含情感文件的文件夹路径
              */
             if (args[i].equalsIgnoreCase("sentidata")) {
                this.c.resources.sgSentiStrengthFolder = args[i + 1];
@@ -401,8 +395,8 @@ public class SentiStrength {
                bArgumentRecognised[i + 1] = true;
             }
 
-            /**
-             * 包含情绪查找表的文件路径
+            /*
+              包含情绪查找表的文件路径
              */
             if (args[i].equalsIgnoreCase("emotionlookuptable")) {
                this.c.resources.sgSentimentWordsFile = args[i + 1];
@@ -723,7 +717,7 @@ public class SentiStrength {
 
    /**
     * 用于计算情感分数
-    * @param sentence
+    * @param sentence 要进行计算的句子
     * @return String 
     * @author ruohao.zhang
     */
@@ -807,7 +801,6 @@ public class SentiStrength {
     * @param sInputFolder 输入文件夹
     * @param iTextCol 输入文本所在的列数
     * @param iIdCol ID所在的列数
-    * @return 
     * @author ruohao.zhang
     */
    private void classifyAndSaveWithID(Corpus c, String sInputFile, String sInputFolder, int iTextCol, int iIdCol) {
@@ -851,7 +844,6 @@ public class SentiStrength {
     * @param sFileSubString 要过滤的文件名子字符串
     * @param iTextColForAnnotation 要注释的文本所在的列数
     * @param bOkToOverwrite 是否允许覆盖已有的注释
-    * @return 
     * @author ruohao.zhang
     */
    private void annotationTextCol(Corpus c, String sInputFile, String sInputFolder, String sFileSubString, int iTextColForAnnotation, boolean bOkToOverwrite) {
@@ -888,7 +880,6 @@ public class SentiStrength {
     * @param c 语料库对象
     * @param sTextToParse 要解析的文本
     * @param bURLEncodedOutput 指示输出是否应该进行URL编码的标志
-    * @return 
     * @author ruohao.zhang
     */
    
@@ -948,7 +939,6 @@ public class SentiStrength {
     * 该方法还处理不同的输出模式，具体取决于Corpus对象中设置的选项。
     * @param c 语料库对象
     * @param iTextCol 要分析的文本的输入文本中列的索引
-    * @return
     * @author ruohao.zhang
     */
 
@@ -1027,8 +1017,7 @@ public class SentiStrength {
 
    /**
     * 命令行监听用户输入，并使用Corpus对象提供的情感分析功能分析每个输入的情绪。
-    * @param c
-    * @return 
+    * @param c 语料库对象
     * @author ruohao.zhang
     */
    private void listenForCmdInput(Corpus c) {
@@ -1093,7 +1082,6 @@ public class SentiStrength {
     * 在指定端口上监听并接受来自客户端的请求
     * @param c 要使用的Corpus对象
     * @param iListenPort 监听的端口号
-    * @return
     * @author ruohao.zhang
     */
    private void listenAtPort(Corpus c, int iListenPort) {
@@ -1217,8 +1205,6 @@ public class SentiStrength {
 
    /**
     * 在用户输入错误的情况输出简短的帮助信息，帮助用户确定如何使用。
-    * @param
-    * @return
     * @author ruohao.zhang
     */
    private void showBriefHelp() {
@@ -1255,8 +1241,6 @@ public class SentiStrength {
 
    /**
     * 输出如何使用命令行
-    * @param
-    * @return
     * @author ruohao.zhang
     */
    private void printCommandLineOptions() {
@@ -1345,7 +1329,6 @@ public class SentiStrength {
 
    /**
     * getCorpus方法
-    * @param
     * @return Corpus SentiStrength的成员
     * @author ruohao.zhang
     */
