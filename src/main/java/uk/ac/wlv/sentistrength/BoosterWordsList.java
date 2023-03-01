@@ -15,6 +15,7 @@ import uk.ac.wlv.utilities.Sort;
 
 /**
  * 该类用于确认加强情绪表达的词汇和符号，如really，！
+ * @author zhengjie
  */
 public class BoosterWordsList
 {
@@ -25,6 +26,7 @@ public class BoosterWordsList
 
     /**
      * 构造函数
+     * @author 郑杰
      */
     public BoosterWordsList()
     {
@@ -33,9 +35,10 @@ public class BoosterWordsList
 
     /**
      * @param sFilename 存放booster words文件的文件名。
-     * @param options
-     * @param iExtraBlankArrayEntriesToInclude
-     * @return
+     * @param options 由ClassficationOptions类确定，分类选项。
+     * @param iExtraBlankArrayEntriesToInclude 额外开辟的用于存放新的booster words的空间大小。
+     * @return true(当成功初始化时返回) 或者false(当初始化失败时返回，通常情况为找不到对应的sFilename、文件为空或无法读文件。)
+     * @author zhengjie
      */
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude)
     {
@@ -118,6 +121,14 @@ public class BoosterWordsList
         return true;
     }
 
+    /**
+     * 该方法用于添加额外的表达强烈情绪的词汇短语
+     * @param sText 需要新添加的表达强烈情绪的词汇
+     * @param iWordStrength 该词汇长度
+     * @param bSortBoosterListAfterAddingTerm 为true则表示在添加后需要对BoosterWords数组进行排序，为false则不需要
+     * @return 添加成功时返回true，失败时返回false
+     * @author zhengjie
+     */
     public boolean addExtraTerm(String sText, int iWordStrength, boolean bSortBoosterListAfterAddingTerm)
     {
         try
@@ -137,11 +148,21 @@ public class BoosterWordsList
         return true;
     }
 
+    /**
+     *该方法对BoosterWords数组进行了排序
+     * @author zhengjie
+     */
     public void sortBoosterWordList()
     {
         Sort.quickSortStringsWithInt(sgBoosterWords, igBoosterWordStrength, 1, igBoosterWordsCount);
     }
 
+    /**
+     * 该方法用于获取存在于BoosterWords数组中的某个单词的长度
+     * @param sWord 单词
+     * @return 返回单词长度
+     * @author zhengjie
+     */
     public int getBoosterStrength(String sWord)
     {
         int iWordID = Sort.i_FindStringPositionInSortedArray(sWord.toLowerCase(), sgBoosterWords, 1, igBoosterWordsCount);
