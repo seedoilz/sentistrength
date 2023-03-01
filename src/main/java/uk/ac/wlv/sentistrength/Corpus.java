@@ -15,30 +15,37 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions, ClassificationResources, UnusedTermsClassificationIndex, Paragraph, 
 //            ClassificationStatistics, SentimentWords
 
+/*Corpus 语料库*/
 public class Corpus
 {
 
     public ClassificationOptions options;
     public ClassificationResources resources;
-    private Paragraph paragraph[];
+    private Paragraph[] paragraph;
     private int igParagraphCount;
-    private int igPosCorrect[];
-    private int igNegCorrect[];
-    private int igTrinaryCorrect[];
-    private int igScaleCorrect[];
-    private int igPosClass[];
-    private int igNegClass[];
-    private int igTrinaryClass[];
-    private int igScaleClass[];
+    private int[] igPosCorrect;
+    private int[] igNegCorrect;
+    private int[] igTrinaryCorrect;
+    private int[] igScaleCorrect;
+    private int[] igPosClass;
+    private int[] igNegClass;
+    private int[] igTrinaryClass;
+    private int[] igScaleClass;
     private boolean bgCorpusClassified;
-    private int igSentimentIDList[];
+    private int[] igSentimentIDList;
     private int igSentimentIDListCount;
-    private int igSentimentIDParagraphCount[];
+    private int[] igSentimentIDParagraphCount;
     private boolean bSentimentIDListMade;
     UnusedTermsClassificationIndex unusedTermsClassificationIndex;
-    private boolean bgSupcorpusMember[];
+    private boolean[] bgSupcorpusMember;
     int igSupcorpusMemberCount;
 
+    /**
+     * 语料库构造函数
+
+     * @return
+     * @author zhangsong
+     */
     public Corpus()
     {
         options = new ClassificationOptions();
@@ -50,8 +57,20 @@ public class Corpus
         unusedTermsClassificationIndex = null;
     }
 
+    /**
+     * 根据指定的分类选项为语料库编制索引
+     * <p>
+     *     首先创建一个未使用术语分类索引对象。根据不同的模式进行语料库索引编制
+     *     （四种模式：单尺度、双精度二进制、三元值、正负情绪值）
+     *     如果单尺度模式==true，则对于单尺度模式进行术语分类，然后将段落添加到具有单尺度的索引中
+     * </p>
+
+     * @return void
+     * @author zhangsong
+     */
     public void indexClassifiedCorpus()
     {
+        // 未使用术语分类索引
         unusedTermsClassificationIndex = new UnusedTermsClassificationIndex();
         if(options.bgScaleMode)
         {
@@ -82,6 +101,19 @@ public class Corpus
         }
     }
 
+    /**
+     * 打印语料库中未使用的术语分类索引
+     * <p>
+     *     如果还没有分类，则首先计算情感分数。
+     *     如果未使用的术语分类索引没有被索引，它索引分类语料库。
+     *     然后它根据比例模式、三元模式的二进制版本、三元模式或正负值打印索引。
+     *     最后打印术语权重已保存到文件
+     * </p>
+     * @param saveFile 文件名
+     * @param iMinFreq 最小频率
+     * @return void
+     * @author zhangsong
+     */
     public void printCorpusUnusedTermsClassificationIndex(String saveFile, int iMinFreq)
     {
         if(!bgCorpusClassified)
@@ -101,7 +133,16 @@ public class Corpus
         System.out.println((new StringBuilder("Term weights saved to ")).append(saveFile).toString());
     }
 
-    public void setSubcorpus(boolean bSubcorpusMember[])
+    /**
+     * 指示特定段落是否属于子语料库
+     * <p>
+     *     如果bSubcorpusMember==ture（属于子语料库），则将bgSupcorpusMember[i]==true，同时用igSupcorpusMemberCount记录段落数
+     * </p>
+     * @param bSubcorpusMember 子语料库成员
+     * @return void
+     * @author zhangsong
+     */
+    public void setSubcorpus(boolean[] bSubcorpusMember)
     {
         igSupcorpusMemberCount = 0;
         for(int i = 0; i <= igParagraphCount; i++)
@@ -116,6 +157,15 @@ public class Corpus
 
     }
 
+    /**
+     * 将整个语料库用作子语料库
+     * <p>
+     *     将整个段落中的bgSupcorpusMember=true，igSupcorpusMemberCount反映了段落中枢
+     * </p>
+
+     * @return void
+     * @author zhangsong
+     */
     public void useWholeCorpusNotSubcorpus()
     {
         for(int i = 0; i <= igParagraphCount; i++)
@@ -124,16 +174,37 @@ public class Corpus
         igSupcorpusMemberCount = igParagraphCount;
     }
 
+    /**
+     * 得到语料库的大小
+
+     * @return int 段落总数
+     * @author zhangsong
+     */
     public int getCorpusSize()
     {
         return igParagraphCount;
     }
 
+    /**
+     * 将单个输入文本设置为要分析的语料库
+     * <p>
+     *     为sText创建一个Paragraph对象，并设置积极和消极两个情感标签，
+     *     然后将此 Paragraph 对象设置为段落数组的唯一元素。
+     * </p>
+     * <p>
+     *     将变量设置为适合但文本语料库的值，最后将整个语料作为子语料。
+     * </p>
+     * @param sText 文本字符串
+     * @param iPosCorrect 正确的积极情感标签
+     * @param iNegCorrect 正确的消极情感标签
+     * @return boolean 是否设置成功
+     * @author zhangsong
+     */
     public boolean setSingleTextAsCorpus(String sText, int iPosCorrect, int iNegCorrect)
     {
         if(resources == null && !resources.initialise(options))
             return false;
-        igParagraphCount = 2;
+        igParagraphCount = 2; //？？？？？？？？？？？？？？？？
         paragraph = new Paragraph[igParagraphCount];
         igPosCorrect = new int[igParagraphCount];
         igNegCorrect = new int[igParagraphCount];
@@ -151,6 +222,17 @@ public class Corpus
         return true;
     }
 
+    /**
+     * 设置语料库，处理成带有相关分类信息的语料库
+     * <p>
+     *     首先检查资源是否被初始化，没有返回false。
+     *     然后计算文本的行数，如果<=2则返回false，如果==true则初始化数组保存每个段落的信息。
+     *     接着进行一系列初始化
+     * </p>
+     * @param sInFilenameAndPath 文件名和文件路径
+     * @return boolean 返回语料库是否设置成功
+     * @author zhangsong
+     */
     public boolean setCorpus(String sInFilenameAndPath)
     {
         if(resources == null && !resources.initialise(options))
@@ -275,11 +357,27 @@ public class Corpus
         return true;
     }
 
+    /**
+     * 资源是否初始化
+
+     * @return boolean 如果资源初始化返回true
+     * @author zhangsong
+     */
     public boolean initialise()
     {
         return resources.initialise(options);
     }
 
+    /**
+     * 重新计算（更新）语料库的情感分数
+     * <p>
+     *    首先循环遍历语料库中的所有段落，并检查当前段落是否是子语料库的成员，
+     *    如果是，则重新计算情感分数
+     * </p>
+
+     * @return void
+     * @author zhangsong
+     */
     public void reCalculateCorpusSentimentScores()
     {
         for(int i = 1; i <= igParagraphCount; i++)
@@ -289,6 +387,15 @@ public class Corpus
         calculateCorpusSentimentScores();
     }
 
+    /**
+     * 得到语料库某个成员积极情感分数
+     * <p>
+     *      计算paragraph[i]的积极情感分数
+     * </p>
+     * @param i 语料库成员索引
+     * @return int 查询成员的积极情感得分
+     * @author zhangsong
+     */
     public int getCorpusMemberPositiveSentimentScore(int i)
     {
         if(i < 1 || i > igParagraphCount)
@@ -297,6 +404,15 @@ public class Corpus
             return paragraph[i].getParagraphPositiveSentiment();
     }
 
+    /**
+     * 得到语料库某个成员消极情感分数
+     * <p>
+     *      计算paragraph[i]的消极情感分数
+     * </p>
+     * @param i 语料库成员索引
+     * @return int 查询成员的消极情感得分
+     * @author zhangsong
+     */
     public int getCorpusMemberNegativeSentimentScore(int i)
     {
         if(i < 1 || i > igParagraphCount)
@@ -305,6 +421,23 @@ public class Corpus
             return paragraph[i].getParagraphNegativeSentiment();
     }
 
+    /**
+     * 计算整个语料库情感分数
+     * <p>
+     *     首先检查语料库中是否有段落，如果没有直接返回。
+     *     然后创建四种数组分别存储分数
+     * </p>
+     * <p>
+     *     遍历语料库中的每个段落，检查它是否是超级语料库（包含当前语料库的更大语料库）的成员。
+     *     如果是，它会检索该段落的正面、负面、三元和尺度情绪分数，并将它们存储在相应的数组中。
+     * </p>
+     * <p>
+     *     最后用一个bgCorpusClassified来指示语料库情感分数已被计算
+     * </p>
+
+     * @return void
+     * @author zhangsong
+     */
     public void calculateCorpusSentimentScores()
     {
         if(igParagraphCount == 0)
@@ -330,6 +463,23 @@ public class Corpus
         bgCorpusClassified = true;
     }
 
+    /**
+     * 根据特定情感词 ID 和包含该词所需的最少段落数对分类语料库进行重新分类
+     * <p>
+     *     如果语料库中没有段落、情感词ID列表没有制作、没有找到指定的ID、段落数少于最少段落数都将直接返回。
+     * </p>
+     * <p>
+     *     遍历每一个段落，如果段落属于超级语料库成员，则调用paragraph[i].reClassifyClassifiedParagraphForSentimentChange(iSentimentWordID)对于当前段落重新分类
+     *     同时对四种情感数组的分类进行分类
+     * </p>
+     * <p>
+     *     最后将语料库情感词分类标志=true
+     * </p>
+     * @param iSentimentWordID 指定情感词的ID
+     * @param iMinParasToContainWord 包含情感词的最少段落数（条件）
+     * @return void
+     * @author zhangsong
+     */
     public void reClassifyClassifiedCorpusForSentimentChange(int iSentimentWordID, int iMinParasToContainWord)
     {
         if(igParagraphCount == 0)
@@ -358,6 +508,15 @@ public class Corpus
         bgCorpusClassified = true;
     }
 
+    /**
+     * 打印语料库情感分数
+     * <p>
+     *      遍历每一个段落，如果属于超级语料库，则制表打印所有信息
+     * </p>
+     * @param sOutFilenameAndPath 输出到的文件名和文件路径
+     * @return boolean 返回是否成功打印
+     * @author zhangsong
+     */
     public boolean printCorpusSentimentScores(String sOutFilenameAndPath)
     {
         if(!bgCorpusClassified)
@@ -385,6 +544,16 @@ public class Corpus
         return true;
     }
 
+    /**
+     * 计算语料库中正确分类的积极情绪的比例
+     * <p>
+     *     如果没有高级语料库成员返回0。
+     *     如果有，将正确分类的积极情绪的数量 / 语料库中的段落总数
+     * </p>
+
+     * @return float 正确分类的积极情绪的比例
+     * @author zhangsong
+     */
     public float getClassificationPositiveAccuracyProportion()
     {
         if(igSupcorpusMemberCount == 0)
@@ -393,6 +562,16 @@ public class Corpus
             return (float)getClassificationPositiveNumberCorrect() / (float)igSupcorpusMemberCount;
     }
 
+    /**
+     * 计算语料库中正确分类的消极情绪的比例
+     * <p>
+     *     如果没有高级语料库成员返回0。
+     *     如果有，将正确分类的消极情绪的数量 / 语料库中的段落总数
+     * </p>
+
+     * @return float 正确分类的消极情绪的比例
+     * @author zhangsong
+     */
     public float getClassificationNegativeAccuracyProportion()
     {
         if(igSupcorpusMemberCount == 0)
@@ -401,6 +580,12 @@ public class Corpus
             return (float)getClassificationNegativeNumberCorrect() / (float)igSupcorpusMemberCount;
     }
 
+    /**
+     * 预测消极情感的基线准确率比例
+
+     * @return double 基线负准确率
+     * @author zhangsong
+     */
     public double getBaselineNegativeAccuracyProportion()
     {
         if(igParagraphCount == 0)
@@ -409,6 +594,12 @@ public class Corpus
             return ClassificationStatistics.baselineAccuracyMajorityClassProportion(igNegCorrect, igParagraphCount);
     }
 
+    /**
+     * 预测积极情感的基线准确率比例
+
+     * @return double 基线正准确率
+     * @author zhangsong
+     */
     public double getBaselinePositiveAccuracyProportion()
     {
         if(igParagraphCount == 0)
@@ -417,6 +608,17 @@ public class Corpus
             return ClassificationStatistics.baselineAccuracyMajorityClassProportion(igPosCorrect, igParagraphCount);
     }
 
+    /**
+     * 得到消极情感正确分类的数量
+     * <p>
+     *     它循环遍历作为超级语料库成员的每个段落，
+     *     并检查该段落的真实负面情绪 (igNegCorrect[i]) 是否与分类器 (-igNegClass[i]) 分配的负面情绪相匹配
+     *     如果匹配则数量++
+     * </p>
+
+     * @return int 消极情感正确分类的数量
+     * @author zhangsong
+     */
     public int getClassificationNegativeNumberCorrect()
     {
         if(igParagraphCount == 0)
@@ -431,6 +633,17 @@ public class Corpus
         return iMatches;
     }
 
+    /**
+     * 得到积极情感正确分类的数量
+     * <p>
+     *     它循环遍历作为超级语料库成员的每个段落，
+     *     并检查该段落的真实积极情绪 (igNegCorrect[i]) 是否与分类器 (-igNegClass[i]) 分配的积极情绪相匹配
+     *     如果匹配则数量++
+     * </p>
+
+     * @return int 积极情感正确分类的数量
+     * @author zhangsong
+     */
     public int getClassificationPositiveNumberCorrect()
     {
         if(igParagraphCount == 0)
@@ -445,6 +658,15 @@ public class Corpus
         return iMatches;
     }
 
+    /**
+     * 得到正确积极情绪分类与预测积极情绪分类之间的平均差
+     * <p>
+     *     得到|igPosCorrect-igPosClass|的差值，最后计算平均值
+     * </p>
+
+     * @return double 正确积极情绪分类与预测积极情绪分类之间的平均差
+     * @author zhangsong
+     */
     public double getClassificationPositiveMeanDifference()
     {
         if(igParagraphCount == 0)
@@ -466,6 +688,15 @@ public class Corpus
             return 0.0D;
     }
 
+    /**
+     * 得到正确积极情绪分类与预测积极情绪分类之间的总差值
+     * <p>
+     *     得到|igPosCorrect-igPosClass|的差值累加和
+     * </p>
+
+     * @return double 积极情感正确差值的总差值
+     * @author zhangsong
+     */
     public int getClassificationPositiveTotalDifference()
     {
         if(igParagraphCount == 0)
@@ -480,6 +711,15 @@ public class Corpus
         return iTotalDiff;
     }
 
+    /**
+     * 得到三元情绪分类与预测分类完全符合的正确数
+     * <p>
+     *     如果三元情绪分类与预测分类完全一致，数量++
+     * </p>
+
+     * @return int 三元情绪分类与预测分类完全符合的正确数
+     * @author zhangsong
+     */
     public int getClassificationTrinaryNumberCorrect()
     {
         if(igParagraphCount == 0)
@@ -494,6 +734,12 @@ public class Corpus
         return iTrinaryCorrect;
     }
 
+    /**
+     * 计算整个语料库的正确量表分数与预测量表分数之间的相关性
+
+     * @return float 返回整个语料库正确分数与预测分数相关性
+     * @author zhangsong
+     */
     public float getClassificationScaleCorrelationWholeCorpus()
     {
         if(igParagraphCount == 0)
@@ -502,6 +748,12 @@ public class Corpus
             return (float)ClassificationStatistics.correlation(igScaleCorrect, igScaleClass, igParagraphCount);
     }
 
+    /**
+     * 计算正确分类段落的比例
+
+     * @return float 正确分类段落的比例
+     * @author zhangsong
+     */
     public float getClassificationScaleAccuracyProportion()
     {
         if(igSupcorpusMemberCount == 0)
@@ -510,6 +762,12 @@ public class Corpus
             return (float)getClassificationScaleNumberCorrect() / (float)igSupcorpusMemberCount;
     }
 
+    /**
+     * 计算分类器预测的积极情绪得分与语料库中实际积极情绪得分之间的相关性
+
+     * @return float 积极情绪得分与语料库中实际积极情绪得分之间的相关性
+     * @author zhangsong
+     */
     public float getClassificationPosCorrelationWholeCorpus()
     {
         if(igParagraphCount == 0)
@@ -518,6 +776,12 @@ public class Corpus
             return (float)ClassificationStatistics.correlationAbs(igPosCorrect, igPosClass, igParagraphCount);
     }
 
+    /**
+     * 计算分类器预测的消极情绪得分与语料库中实际消极情绪得分之间的相关性
+
+     * @return float 消极情绪得分与语料库中实际消极情绪得分之间的相关性
+     * @author zhangsong
+     */
     public float getClassificationNegCorrelationWholeCorpus()
     {
         if(igParagraphCount == 0)
@@ -526,6 +790,15 @@ public class Corpus
             return (float)ClassificationStatistics.correlationAbs(igNegCorrect, igNegClass, igParagraphCount);
     }
 
+    /**
+     * 计算比例情绪的预测正确数
+     * <p>
+     *     如果比例情绪与预测比例情绪分类一致，数量++
+     * </p>
+
+     * @return int 比例情绪的预测正确数
+     * @author zhangsong
+     */
     public int getClassificationScaleNumberCorrect()
     {
         if(igParagraphCount == 0)
@@ -540,6 +813,12 @@ public class Corpus
         return iScaleCorrect;
     }
 
+    /**
+     * 计算语料库中所有段落的正确负面情绪分数和预测负面情绪分数之间的总差
+
+     * @return int 正确负面情绪分数和预测负面情绪分数之间的总差
+     * @author zhangsong
+     */
     public int getClassificationNegativeTotalDifference()
     {
         if(igParagraphCount == 0)
@@ -554,6 +833,12 @@ public class Corpus
         return iTotalDiff;
     }
 
+    /**
+     * 计算语料库中所有段落的正确负面情绪分数和预测负面情绪分数之间的总平均差
+
+     * @return double 正确负面情绪分数和预测负面情绪分数之间的总平均差
+     * @author zhangsong
+     */
     public double getClassificationNegativeMeanDifference()
     {
         if(igParagraphCount == 0)
@@ -575,6 +860,12 @@ public class Corpus
             return 0.0D;
     }
 
+    /**
+     * printClassificationResultsSummary_NOT_DONE
+     * @param sOutFilenameAndPath description
+     * @return boolean
+     * @author zhangsong
+     */
     public boolean printClassificationResultsSummary_NOT_DONE(String sOutFilenameAndPath)
     {
         if(!bgCorpusClassified)
@@ -602,6 +893,25 @@ public class Corpus
         return true;
     }
 
+    /**
+     * 为完整语料库创建情感 ID 列表，忽略任何子语料库划分
+     * <p>
+     *      先遍历语料库的每个段落，为每个段落创建一个情感ID列表，
+     *      如果列表不为空，它会将情绪 ID 的数量添加到 igSentimentIDListCount
+     * </p>
+     * <p>
+     *     如果语料库存在情感ID，则再次遍历每个段落，
+     *     获取情绪 ID 列表，如果它不为空，则将情绪 ID 添加到 igSentimentIDList 数组。
+     * </p>
+     * <p>
+     *     接着对于情绪ID列表igSentimentIDList进行你升序排序，
+     *     再次遍历每个段落，。
+     *     bSentimentIDListMade=true，指示已创建情绪 ID 列表
+     * </p>
+
+     * @return void
+     * @author zhangsong
+     */
     public void makeSentimentIDListForCompleteCorpusIgnoringSubcorpus()
     {
         igSentimentIDListCount = 0;
@@ -646,6 +956,17 @@ public class Corpus
         bSentimentIDListMade = true;
     }
 
+    /**
+     * 运行 10 折交叉验证的具体实现
+     * @param iMinImprovement description
+     * @param bUseTotalDifference description
+     * @param iReplications description
+     * @param iMultiOptimisations description
+     * @param sWriter description
+     * @param wTermStrengthWriter description
+     * @return void
+     * @author zhangsong
+     */
     private void run10FoldCrossValidationMultipleTimes(int iMinImprovement, boolean bUseTotalDifference, int iReplications, int iMultiOptimisations, BufferedWriter sWriter, BufferedWriter wTermStrengthWriter)
     {
         for(int i = 1; i <= iReplications; i++)
@@ -654,6 +975,16 @@ public class Corpus
         System.out.println((new StringBuilder("Set of ")).append(iReplications).append(" 10-fold cross validations finished").toString());
     }
 
+    /**
+     * 运行 10 折交叉验证的公开调用方法
+     * @param iMinImprovement description
+     * @param bUseTotalDifference description
+     * @param iReplications description
+     * @param iMultiOptimisations description
+     * @param sOutFileName description
+     * @return void
+     * @author zhangsong
+     */
     public void run10FoldCrossValidationMultipleTimes(int iMinImprovement, boolean bUseTotalDifference, int iReplications, int iMultiOptimisations, String sOutFileName)
     {
         try
@@ -675,6 +1006,19 @@ public class Corpus
         }
     }
 
+    /**
+     * 对文本进行分类
+     * <p>
+     *     创建新的 Paragraph 对象，调用相关方法获得情绪分数，
+     *     最后捕获一些可能的异常
+     * </p>
+     * @param sInputFile 读取文件路径
+     * @param iTextCol description
+     * @param iIDCol description
+     * @param sOutputFile 输出文件路径
+     * @return void
+     * @author zhangsong
+     */
     public void classifyAllLinesAndRecordWithID(String sInputFile, int iTextCol, int iIDCol, String sOutputFile)
     {
         int iPos = 0;
@@ -743,6 +1087,16 @@ public class Corpus
         System.out.println((new StringBuilder("Processed ")).append(iCount1).append(" lines from file: ").append(sInputFile).append(". Last line was:\n").append(sLine).toString());
     }
 
+    /**
+     * 将情绪分析结果注释输入文件中的所有行
+     * <p>
+     *     将不同模式的情绪分析结果添加在每一行末尾
+     * </p>
+     * @param sInputFile 输入文件路径
+     * @param iTextCol 要分析的文本索引
+     * @return void
+     * @author zhangsong
+     */
     public void annotateAllLinesInInputFile(String sInputFile, int iTextCol)
     {
         int iPos = 0;
@@ -809,6 +1163,19 @@ public class Corpus
         }
     }
 
+    /**
+     * 对输入文件的所有进行分类
+     * <p>
+     *     首先初始化变量，对于文件的每一行分析文本并提取情感信息，对相关信息进行分类，
+     *     根据四种模式是否开启分别进行情绪分析
+     *     最后将所有信息写入输出文本中
+     * </p>
+     * @param sInputFile 输入文件名
+     * @param iTextCol 文件索引
+     * @param sOutputFile 输出文件名
+     * @return void
+     * @author zhangsong
+     */
     public void classifyAllLinesInInputFile(String sInputFile, int iTextCol, String sOutputFile)
     {
         int iPos = 0;
@@ -1029,6 +1396,12 @@ public class Corpus
         }
     }
 
+    /**
+     * 将分类算法写入标题中
+     * @param w description
+     * @return void
+     * @author zhangsong
+     */
     private void writeClassificationStatsHeadings(BufferedWriter w)
         throws IOException
     {
@@ -1040,6 +1413,16 @@ public class Corpus
         w.write((new StringBuilder("\tPosCorrect\tiPosCorrect/Total\tNegCorrect\tNegCorrect/Total\tPosWithin1\tPosWithin1/Total\tNegWithin1\tNegWithin1/Total\t")).append(sPosOrScale).append("\tNegCorrel").append("\tPosMPE\tNegMPE\tPosMPEnoDiv\tNegMPEnoDiv").append("\tTrinaryOrScaleCorrect\tTrinaryOrScaleCorrect/TotalClassified").append("\tTrinaryOrScaleCorrectWithin1\tTrinaryOrScaleCorrectWithin1/TotalClassified").append("\test-1corr-1\test-1corr0\test-1corr1").append("\test0corr-1\test0corr0\test0corr1").append("\test1corr-1\test1corr0\test1corr1").append("\tTotalClassified\n").toString());
     }
 
+    /**
+     * 多个选项变体执行 10 折交叉验证（机器学习分类算法）
+     * @param iMinImprovement description
+     * @param bUseTotalDifference description
+     * @param iReplications description
+     * @param iMultiOptimisations description
+     * @param sOutFileName description
+     * @return void
+     * @author zhangsong
+     */
     public void run10FoldCrossValidationForAllOptionVariations(int iMinImprovement, boolean bUseTotalDifference, int iReplications, int iMultiOptimisations, String sOutFileName)
     {
         try
@@ -1162,6 +1545,19 @@ public class Corpus
         }
     }
 
+    /**
+     * 执行 10 折交叉验证的更大情绪分析系统的十次迭代
+     * <p>
+     *     运行 10 折交叉验证过程的一次迭代，循环运行十次之后重新计算整个预料的情感分数，最后打印
+     * </p>
+     * @param iMinImprovement description
+     * @param bUseTotalDifference description
+     * @param iMultiOptimisations description
+     * @param wWriter description
+     * @param wTermStrengthWriter description
+     * @return void
+     * @author zhangsong
+     */
     private void run10FoldCrossValidationOnce(int iMinImprovement, boolean bUseTotalDifference, int iMultiOptimisations, BufferedWriter wWriter, BufferedWriter wTermStrengthWriter)
     {
         int iTotalSentimentWords = resources.sentimentWords.getSentimentWordCount();
@@ -1206,6 +1602,19 @@ public class Corpus
         printClassificationResultsRow(iPosClassAll, iNegClassAll, iTrinaryOrScaleClassAll, wWriter);
     }
 
+    /**
+     * 将分类统计信息写入文件
+     * <p>
+     *     将所有模式的情绪分类结果写入文件，
+     *     分类结果包括实例比例、平均百分比错误等
+     * </p>
+     * @param iPosClassAll 积极情绪分类
+     * @param iNegClassAll 消极情绪分类
+     * @param iTrinaryOrScaleClassAll 三元情绪分类
+     * @param wWriter 写入文件
+     * @return boolean 表示是否成功写入
+     * @author zhangsong
+     */
     private boolean printClassificationResultsRow(int iPosClassAll[], int iNegClassAll[], int iTrinaryOrScaleClassAll[], BufferedWriter wWriter)
     {
         int iPosCorrect = -1;
@@ -1273,6 +1682,14 @@ public class Corpus
         return true;
     }
 
+    /**
+     * 根据 iDecile 参数选择 iParagraphRand 数组的一个子集作为子语料库
+     * @param iParagraphRand description
+     * @param iDecile description
+     * @param bInvert 用于确定是选择指定十分位数内的段落还是排除它们
+     * @return void
+     * @author zhangsong
+     */
     private void selectDecileAsSubcorpus(int iParagraphRand[], int iDecile, boolean bInvert)
     {
         if(igParagraphCount == 0)
@@ -1299,6 +1716,14 @@ public class Corpus
 
     }
 
+    /**
+     * 通过多次运行优化过程来优化语料库中情感词的权重
+     * @param iMinImprovement 它确定继续优化权重所需的最小改进
+     * @param bUseTotalDifference 决定是使用总差还是平均差来决定是否应该继续优化
+     * @param iOptimisationTotal 用于确定优化过程应运行的次数
+     * @return void
+     * @author zhangsong
+     */
     public void optimiseDictionaryWeightingsForCorpusMultipleTimes(int iMinImprovement, boolean bUseTotalDifference, int iOptimisationTotal)
     {
         if(iOptimisationTotal < 1)
@@ -1334,6 +1759,16 @@ public class Corpus
         optimiseDictionaryWeightingsForCorpus(iMinImprovement, bUseTotalDifference);
     }
 
+    /**
+     * 优化语料库中情感词的权重
+     * <p>
+     *     根据三种模式选择不同的优化方法
+     * </p>
+     * @param iMinImprovement 更新单词所需的最小改进
+     * @param bUseTotalDifference 在更新单词权重时是否使用正面和负面情感词之间的总差
+     * @return void
+     * @author zhangsong
+     */
     public void optimiseDictionaryWeightingsForCorpus(int iMinImprovement, boolean bUseTotalDifference)
     {
         if(options.bgTrinaryMode)

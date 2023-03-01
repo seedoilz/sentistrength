@@ -12,37 +12,61 @@ import uk.ac.wlv.utilities.Trie;
 public class UnusedTermsClassificationIndex
 {
 
-    private String sgTermList[];
+    private String[] sgTermList;
     private int igTermListCount;
     private int igTermListMax;
-    private int igTermListLessPtr[];
-    private int igTermListMorePtr[];
-    private int igTermListFreq[];
-    private int igTermListFreqTemp[];
-    private int igTermListPosClassDiff[];
-    private int iTermsAddedIDTemp[];
-    private int igTermListNegClassDiff[];
-    private int igTermListScaleClassDiff[];
-    private int igTermListBinaryClassDiff[];
-    private int igTermListTrinaryClassDiff[];
+    private int[] igTermListLessPtr;
+    private int[] igTermListMorePtr;
+    private int[] igTermListFreq;
+    private int[] igTermListFreqTemp;
+    private int[] igTermListPosClassDiff;
+    private int[] iTermsAddedIDTemp;
+    private int[] igTermListNegClassDiff;
+    private int[] igTermListScaleClassDiff;
+    private int[] igTermListBinaryClassDiff;
+    private int[] igTermListTrinaryClassDiff;
     private int iTermsAddedIDTempCount;
-    private int igTermListPosCorrectClass[][];
-    private int igTermListNegCorrectClass[][];
-    private int igTermListScaleCorrectClass[][];
-    private int igTermListBinaryCorrectClass[][];
-    private int igTermListTrinaryCorrectClass[][];
+    private int[][] igTermListPosCorrectClass;
+    private int[][] igTermListNegCorrectClass;
+    private int[][] igTermListScaleCorrectClass;
+    private int[][] igTermListBinaryCorrectClass;
+    private int[][] igTermListTrinaryCorrectClass;
 
+    /**
+     * 未使用术语分类索引.
+     */
     public UnusedTermsClassificationIndex()
     {
         sgTermList = null;
         igTermListCount = 0;
         igTermListMax = 50000;
     }
-
-    public static void main(String args1[])
+    /**
+     * main
+     * @param args1 description
+     * @return void
+     * @author zhangsong
+     */
+    
+    public static void main(String[] args1)
     {
     }
 
+    /**
+     * 将术语添加到新术语索引
+     * <p>
+     *     如果传入的字符串为空，直接返回。
+     * </p>
+     * <p>
+     *     bDontAddMoreElements用于判断是否还能往术语数组中添加元素。如果为true，则表明需要数组已满，无法添加新的元素。
+     * </p>
+     * <p>
+     *     通过Trie中的方法查找到sTerm的ID，当ID>0时表示sTerm存在，并将ID添加到术语添加数组（iTermsAddedIDTemp）中。并且在术语频率数组（igTermListFreqTemp）中记录频率。如果超出数组长度，则扩展数组。
+     * </p>
+     * @param sTerm                 新术语的字符串
+     * @return void
+     * @author zhangsong
+     */
     public void addTermToNewTermIndex(String sTerm)
     {
         if(sgTermList == null)
@@ -62,6 +86,18 @@ public class UnusedTermsClassificationIndex
         }
     }
 
+    /**
+     * 添加新的索引到主索引与Pos Neg值，新的索引包含情绪正负值和强度
+     * <p>
+     *     将每一个索引都加入到主索引中，并记录新索引的情绪政府和情绪强度
+     * </p>
+     * @param iCorrectPosClass          积极的类
+     * @param iEstPosClass              估计的积极情绪类
+     * @param iCorrectNegClass          消极的类
+     * @param iEstNegClass              估计的消极情绪类
+     * @return void
+     * @author zhangsong
+     */
     public void addNewIndexToMainIndexWithPosNegValues(int iCorrectPosClass, int iEstPosClass, int iCorrectNegClass, int iEstNegClass)
     {
         if(iCorrectNegClass > 0 && iCorrectPosClass > 0)
@@ -88,7 +124,18 @@ public class UnusedTermsClassificationIndex
         }
         iTermsAddedIDTempCount = 0;
     }
-
+    
+    /**
+     * 将单尺度值的新索引添加到主索引中
+     * <p>
+     *     对每一个索引都加入到主索引中，并记录新索引的单尺度值
+     * </p>
+     * @param iCorrectScaleClass            单尺度
+     * @param iEstScaleClass                估计的单尺度类
+     * @return void
+     * @author zhangsong
+     */
+    
     public void addNewIndexToMainIndexWithScaleValues(int iCorrectScaleClass, int iEstScaleClass)
     {
         for(int iTerm = 1; iTerm <= iTermsAddedIDTempCount; iTerm++)
@@ -110,6 +157,17 @@ public class UnusedTermsClassificationIndex
 
         iTermsAddedIDTempCount = 0;
     }
+    
+    /**
+     * 将新索引添加到主索引中，并记录新索引的三位一体值和强度
+     * <p>
+     *
+     * </p>
+     * @param iCorrectTrinaryClass              三位一体的值
+     * @param iEstTrinaryClass                  估计的三位一体
+     * @return void
+     * @author zhangsong
+     */
 
     public void addNewIndexToMainIndexWithTrinaryValues(int iCorrectTrinaryClass, int iEstTrinaryClass)
     {
@@ -132,6 +190,14 @@ public class UnusedTermsClassificationIndex
 
         iTermsAddedIDTempCount = 0;
     }
+
+    /**
+     * 将新索引添加到主索引中，并记录新索引的双精度二进制值和强度
+     * @param iCorrectBinaryClass               二进制的值
+     * @param iEstBinaryClass                   估计的二进制
+     * @return void
+     * @author zhangsong
+     */
 
     public void addNewIndexToMainIndexWithBinaryValues(int iCorrectBinaryClass, int iEstBinaryClass)
     {
@@ -157,6 +223,17 @@ public class UnusedTermsClassificationIndex
         iTermsAddedIDTempCount = 0;
     }
 
+    /**
+     * 变量初始化
+     * <p>
+     *     传入四个布尔类型的参数，通过true/false来对各个变量进行初始化
+     * </p>
+     * @param bInitialiseBinary         二进制
+     * @param bInitialisePosNeg         情绪
+     * @param bInitialiseScale          单尺度
+     * @param bInitialiseTrinary        三位一体
+     *
+     * */
     public void initialise(boolean bInitialiseScale, boolean bInitialisePosNeg, boolean bInitialiseBinary, boolean bInitialiseTrinary)
     {
         igTermListCount = 0;
@@ -191,6 +268,14 @@ public class UnusedTermsClassificationIndex
             igTermListTrinaryClassDiff = new int[igTermListMax + 1];
         }
     }
+
+    /**
+     * 打印积极情绪和消极情绪的检测结果
+     * @param sOutputFile               输出到的文件路径
+     * @param iMinFreq                  最小频率
+     * @return void
+     * @author zhangsong
+     */
 
     public void printIndexWithPosNegValues(String sOutputFile, int iMinFreq)
     {
@@ -233,6 +318,14 @@ public class UnusedTermsClassificationIndex
         }
     }
 
+    /**
+     * 打印单尺度检测的结果
+     * @param sOutputFile 输出到的文件路径
+     * @param iMinFreq 最小频率
+     * @return void
+     * @author zhangsong
+     */
+
     public void printIndexWithScaleValues(String sOutputFile, int iMinFreq)
     {
         try
@@ -262,6 +355,13 @@ public class UnusedTermsClassificationIndex
         }
     }
 
+    /**
+     * 打印三位一体检测的结果
+     * @param sOutputFile 输出到的文件路径
+     * @param iMinFreq 最小频率
+     * @return void
+     * @author zhangsong
+     */
     public void printIndexWithTrinaryValues(String sOutputFile, int iMinFreq)
     {
         try
@@ -291,6 +391,13 @@ public class UnusedTermsClassificationIndex
         }
     }
 
+    /**
+     * 打印双精度二进制检测的结果
+     * @param sOutputFile 输出到的文件路径
+     * @param iMinFreq 最小频率
+     * @return void
+     * @author zhangsong
+     */
     public void printIndexWithBinaryValues(String sOutputFile, int iMinFreq)
     {
         try
