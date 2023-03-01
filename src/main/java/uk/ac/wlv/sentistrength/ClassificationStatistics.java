@@ -7,13 +7,26 @@ package uk.ac.wlv.sentistrength;
 
 import java.io.PrintStream;
 
+/**
+ *
+ */
 public class ClassificationStatistics
 {
 
+    /**
+     * 构造函数
+     */
     public ClassificationStatistics()
     {
     }
 
+    /**
+     * 用于计算预测准确率
+     * @param iCorrect
+     * @param iPredicted
+     * @param iCount
+     * @return
+     */
     public static double correlationAbs(int iCorrect[], int iPredicted[], int iCount)
     {
         double fMeanC = 0.0D;

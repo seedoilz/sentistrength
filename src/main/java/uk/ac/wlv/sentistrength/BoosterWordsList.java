@@ -13,6 +13,9 @@ import uk.ac.wlv.utilities.Sort;
 // Referenced classes of package uk.ac.wlv.sentistrength:
 //            ClassificationOptions
 
+/**
+ * 该类用于确认加强情绪表达的词汇和符号，如really，！
+ */
 public class BoosterWordsList
 {
 
@@ -20,11 +23,20 @@ public class BoosterWordsList
     private int igBoosterWordStrength[];
     private int igBoosterWordsCount;
 
+    /**
+     * 构造函数
+     */
     public BoosterWordsList()
     {
         igBoosterWordsCount = 0;
     }
 
+    /**
+     * @param sFilename 存放booster words文件的文件名。
+     * @param options
+     * @param iExtraBlankArrayEntriesToInclude
+     * @return
+     */
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude)
     {
         int iLinesInFile = 0;
