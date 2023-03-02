@@ -42,7 +42,7 @@ public class ClassificationStatistics
         }
 
         fMeanC /= iCount;//计算平均正确率
-        fMeanP /= iCount;//计算平均预测率
+        fMeanP /= iCount;//计算平均预测率.
         for(int iRow = 1; iRow <= iCount; iRow++)
         {
             fProdCP += ((double)Math.abs(iCorrect[iRow]) - fMeanC) * ((double)Math.abs(iPredicted[iRow]) - fMeanP);
