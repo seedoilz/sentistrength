@@ -14,7 +14,7 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions
 
 /**
- * 该类用于确认加强情绪表达的词汇和符号，如really，！
+ * 该类用于翻译或替换加强情绪表达的词汇和符号，如中文中的“非常”
  * @author zhengjie
  */
 public class BoosterWordsList

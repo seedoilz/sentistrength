@@ -50,6 +50,7 @@ public class ClassificationResources
 
     /**
      * 构造函数，用于初始化引入需要使用的对象和变量。
+     *
      */
     public ClassificationResources()
     {
