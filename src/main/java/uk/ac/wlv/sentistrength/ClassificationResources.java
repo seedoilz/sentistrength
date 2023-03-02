@@ -16,6 +16,10 @@ import uk.ac.wlv.utilities.FileOps;
 //            QuestionWords, BoosterWordsList, IdiomList, EvaluativeTerms, 
 //            IronyList, Lemmatiser, ClassificationOptions
 
+/**
+ * 用于分类处理的所需资源类
+ * @author zhengjie
+ */
 public class ClassificationResources
 {
 
@@ -44,6 +48,10 @@ public class ClassificationResources
     public String sgAdditionalFile;
     public String sgLemmaFile;
 
+    /**
+     * 构造函数，用于初始化引入需要使用的对象和变量。
+     *
+     */
     public ClassificationResources()
     {
         emoticons = new EmoticonsList();
@@ -72,6 +80,11 @@ public class ClassificationResources
         sgLemmaFile = "";
     }
 
+    /**
+     * @param options 由ClassificationOptions类确认，是用于initialise初始化时的分类相关的选项。
+     * @return 创建成功则返回true，失败则返回flase。
+     * @author zhengjie
+     */
     public boolean initialise(ClassificationOptions options)
     {   
     	int iExtraLinesToReserve = 0;
