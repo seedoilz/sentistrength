@@ -11,22 +11,42 @@ import java.io.*;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
-// Referenced classes of package uk.ac.wlv.sentistrength:
-//            ClassificationOptions
-
+/**
+ * 该类表示否定词列表
+ */
 public class NegatingWordList
 {
 
+    /**
+     * 否定词数组
+     */
     private String sgNegatingWord[];
+
+    /**
+     * 列表中否定词数量
+     */
     private int igNegatingWordCount;
+
+    /**
+     * 列表中能存最大否定词容量
+     */
     private int igNegatingWordMax;
 
+    /**
+     * 构造一个否定词列表
+     */
     public NegatingWordList()
     {
         igNegatingWordCount = 0;
         igNegatingWordMax = 0;
     }
 
+    /**
+     * 使用输入的文件名、分类选项，初始化否定词列表
+     * @param sFilename 文件名
+     * @param options 一个ClassificationOptions类型的分类选项
+     * @return 初始化成功返回true，反之返回false
+     */
     public boolean initialise(String sFilename, ClassificationOptions options)
     {
         if(igNegatingWordMax > 0)
@@ -72,6 +92,11 @@ public class NegatingWordList
         return true;
     }
 
+    /**
+     * 判断输入词是否为否定词
+     * @param sWord 要判断的单词
+     * @return 是否定词则返回true，反之返回false
+     */
     public boolean negatingWord(String sWord)
     {
         return Sort.i_FindStringPositionInSortedArray(sWord, sgNegatingWord, 1, igNegatingWordCount) >= 0;
