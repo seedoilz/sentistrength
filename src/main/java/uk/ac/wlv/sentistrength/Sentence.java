@@ -10,8 +10,11 @@ import uk.ac.wlv.utilities.StringIndex;
 import uk.ac.wlv.wkaclass.Arff;
 
 public class Sentence {
+    /** Term对象数组，其中每个对象代表sentence中的一个词、标点符号或情感符号 **/
     private Term[] term;
+    /** 指示空格是否应该跟在每个术语之后 **/
     private boolean[] bgSpaceAfterTerm;
+    /** 表示sentence中的term数 **/
     private int igTermCount = 0;
     public int getIgTermCount() {
 		return igTermCount;
@@ -19,23 +22,45 @@ public class Sentence {
     public int getIgSentiCount() {
 		return igSentiCount;
 	}
+    /**表示sentence中情感词的数量 **/
     private int igSentiCount = 0;
+    /** 积极情绪词的数量 **/
     private int igPositiveSentiment = 0;
+    /** 消极情绪词的数量 **/
     private int igNegativeSentiment = 0;
+    /** 表示一个语句中是否没有可分类的 **/
     private boolean bgNothingToClassify = true;
+    /** 分类资源的对象 **/
     private ClassificationResources resources;
+    /** 分类选项的对象 **/
     private ClassificationOptions options;
+    /** 情感词的情感 ID **/
     private int[] igSentimentIDList;
+    /** 情感 ID 的数量 **/
     private int igSentimentIDListCount = 0;
+    /** 是否已经创建了igSentimentIDList **/
     private boolean bSentimentIDListMade = false;
+    /** 每个term是否应包含在情感分析中 **/
     private boolean[] bgIncludeTerm;
+    /** idioms是否已应用于sentence **/
     private boolean bgIdiomsApplied = false;
+    /** 对象评估是否已应用于sentence **/
     private boolean bgObjectEvaluationsApplied = false;
+    /** sentence分类原理的字符串 **/
     private String sgClassificationRationale = "";
 
+    /**
+     * 默认构造函数
+     * @author haofeng.Yu
+     */
     public Sentence() {
     }
 
+    /**
+     * 将sentence中的term加入到index中
+     * @param unusedTermClassificationIndex 未使用术语的分类索引对象
+     * @author haofeng.Yu
+     */ 
     public void addSentenceToIndex(UnusedTermsClassificationIndex unusedTermClassificationIndex) {
         for(int i = 1; i <= this.igTermCount; ++i) {
             unusedTermClassificationIndex.addTermToNewTermIndex(this.term[i].getText());
@@ -43,6 +68,15 @@ public class Sentence {
 
     }
 
+    /**
+     * 将sentence中的每个term加到字符串索引并返回检查的term数
+     * @param stringIndex 要使用的字符串索引
+     * @param textParsingOptions 字符转换选项
+     * @param bRecordCount 是否应记录term的频率计数
+     * @param bArffIndex 是否应创建索引以用于 Weka 机器学习库的 ARFF 文件格式
+     * @return 检查的term数
+     * @author haofeng.Yu
+     */ 
     public int addToStringIndex(StringIndex stringIndex, TextParsingOptions textParsingOptions, boolean bRecordCount, boolean bArffIndex) {
         String sEncoded = "";
         int iStringPos =1;
@@ -101,6 +135,14 @@ public class Sentence {
         return iTermsChecked;
     }
 
+    /**
+     * 设置分类器处理的sentence以及分类资源和选项
+     * @param sSentence 要处理的sentence字符串
+     * @param classResources 分类资源的实例（词典、情感词字典、idiomList等）
+     * @param newClassificationOptions 分类选项的实例
+     * @return void
+     * @author haofeng.Yu
+     */ 
     public void setSentence(String sSentence, ClassificationResources classResources, ClassificationOptions newClassificationOptions) {
         this.resources = classResources;
         this.options = newClassificationOptions;
@@ -133,6 +175,11 @@ public class Sentence {
         this.bgSpaceAfterTerm[this.igTermCount] = false;
     }
 
+    /**
+     * 返回sentence中情感 ID 数组
+     * @return int[] sentence中情感 ID 数组
+     * @author haofeng.Yu
+     */ 
     public int[] getSentimentIDList() {
         if (!this.bSentimentIDListMade) {
             this.makeSentimentIDList();
@@ -141,6 +188,11 @@ public class Sentence {
         return this.igSentimentIDList;
     }
 
+    /**
+     * 在sentence中创建情感 ID 数组
+     * @return void
+     * @author haofeng.Yu
+     */ 
     public void makeSentimentIDList() {
         int iSentimentIDTemp = 0;
         this.igSentimentIDListCount = 0;
@@ -178,6 +230,11 @@ public class Sentence {
         this.bSentimentIDListMade = true;
     }
 
+    /**
+     * 返回标记sentence的字符串，其中每个term都用其相应的词性标记进行注释
+     * @return java.lang.String 标记后的字符串
+     * @author haofeng.Yu
+     */ 
     public String getTaggedSentence() {
         String sTagged = "";
 
@@ -192,10 +249,20 @@ public class Sentence {
         return sTagged + "<br>";
     }
 
+    /**
+     * 获取分类原理实例
+     * @return java.lang.String 分类原理实例
+     * @author haofeng.Yu
+     */ 
     public String getClassificationRationale() {
         return this.sgClassificationRationale;
     }
 
+    /**
+     * 返回翻译后sentence的字符串，其中每个单词都被其翻译替换
+     * @return java.lang.String
+     * @author haofeng.Yu
+     */ 
     public String getTranslatedSentence() {
         String sTranslated = "";
 
@@ -216,10 +283,19 @@ public class Sentence {
         return sTranslated + "<br>";
     }
 
+    /**
+     * 重新计算sentence的情感得分
+     * @author haofeng.Yu
+     */ 
     public void recalculateSentenceSentimentScore() {
         this.calculateSentenceSentimentScore();
     }
 
+    /**
+     * 重新分类sentence的情感变化
+     * @param iSentimentWordID 情感词id，如果这个词出现在sentence中，则重新计算情感分数
+     * @author haofeng.Yu
+     */ 
     public void reClassifyClassifiedSentenceForSentimentChange(int iSentimentWordID) {
         if (this.igNegativeSentiment == 0) {
             this.calculateSentenceSentimentScore();
@@ -237,6 +313,11 @@ public class Sentence {
         }
     }
 
+    /**
+     * 返回sentence的积极情感得分
+     * @return int
+     * @author haofeng.Yu
+     */ 
     public int getSentencePositiveSentiment() {
         if (this.igPositiveSentiment == 0) {
             this.calculateSentenceSentimentScore();
@@ -245,6 +326,11 @@ public class Sentence {
         return this.igPositiveSentiment;
     }
 
+    /**
+     * 返回sentence的消极情感得分
+     * @return int
+     * @author haofeng.Yu
+     */
     public int getSentenceNegativeSentiment() {
         if (this.igNegativeSentiment == 0) {
             this.calculateSentenceSentimentScore();
@@ -253,6 +339,10 @@ public class Sentence {
         return this.igNegativeSentiment;
     }
 
+    /**
+     * 标记sentence中的有效term数
+     * @author haofeng.Yu
+     */ 
     private void markTermsValidToClassify() {
         this.bgIncludeTerm = new boolean[this.igTermCount + 1];
         int iTermsSinceValid;
@@ -309,6 +399,10 @@ public class Sentence {
 
     }
 
+    /**
+     * 计算sentence的情感得分的核心函数
+     * @author haofeng.Yu
+     */ 
     private void calculateSentenceSentimentScore() {
         if (this.options.bgExplainClassification && this.sgClassificationRationale.length() > 0) {
             this.sgClassificationRationale = "";
@@ -692,6 +786,10 @@ public class Sentence {
         }
     }
 
+    /**
+     * 根据反讽调整sentence的情感得分
+     * @author haofeng.Yu
+     */ 
     private void adjustSentimentForIrony() {
         int iTerm;
         if (this.igPositiveSentiment >= this.options.igMinSentencePosForQuotesIrony) {
@@ -738,6 +836,11 @@ public class Sentence {
 
     }
 
+    /**
+     * 用相应对象评估的强度覆盖sentence中每个term的强度
+     * @param recalculateIfAlreadyDone 是否重新计算情绪得分
+     * @author haofeng.Yu
+     */ 
     public void overrideTermStrengthsWithObjectEvaluationStrengths(boolean recalculateIfAlreadyDone) {
         boolean bMatchingObject = false;
         boolean bMatchingEvaluation = false;
@@ -777,6 +880,11 @@ public class Sentence {
 
     }
 
+    /**
+     * 用idiom的强度覆盖sentence中每个term的强度
+     * @param recalculateIfAlreadyDone 是否重新计算情绪得分
+     * @author haofeng.Yu
+     */
     public void overrideTermStrengthsWithIdiomStrengths(boolean recalculateIfAlreadyDone) {
         if (!this.bgIdiomsApplied || recalculateIfAlreadyDone) {
             for(int iTerm = 1; iTerm <= this.igTermCount; ++iTerm) {
