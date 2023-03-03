@@ -135,7 +135,6 @@ public class UnusedTermsClassificationIndex
      * @return void
      * @author zhangsong
      */
-    
     public void addNewIndexToMainIndexWithScaleValues(int iCorrectScaleClass, int iEstScaleClass)
     {
         for(int iTerm = 1; iTerm <= iTermsAddedIDTempCount; iTerm++)
@@ -168,7 +167,6 @@ public class UnusedTermsClassificationIndex
      * @return void
      * @author zhangsong
      */
-
     public void addNewIndexToMainIndexWithTrinaryValues(int iCorrectTrinaryClass, int iEstTrinaryClass)
     {
         for(int iTerm = 1; iTerm <= iTermsAddedIDTempCount; iTerm++)
@@ -198,7 +196,6 @@ public class UnusedTermsClassificationIndex
      * @return void
      * @author zhangsong
      */
-
     public void addNewIndexToMainIndexWithBinaryValues(int iCorrectBinaryClass, int iEstBinaryClass)
     {
         for(int iTerm = 1; iTerm <= iTermsAddedIDTempCount; iTerm++)
@@ -276,7 +273,6 @@ public class UnusedTermsClassificationIndex
      * @return void
      * @author zhangsong
      */
-
     public void printIndexWithPosNegValues(String sOutputFile, int iMinFreq)
     {
         try
@@ -325,7 +321,6 @@ public class UnusedTermsClassificationIndex
      * @return void
      * @author zhangsong
      */
-
     public void printIndexWithScaleValues(String sOutputFile, int iMinFreq)
     {
         try
