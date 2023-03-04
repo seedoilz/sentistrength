@@ -14,7 +14,7 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions
 
 /**
- * 该类用于存放、翻译、替换加强情绪表达的词汇和符号，对应SentStrength_Data中的BoosterWordList.txt
+ * 该类用于存放、翻译、替换加强情绪表达的词汇和符号，对应了SentStrength_Data中的BoosterWordList.txt
  * @author zhengjie
  */
 public class BoosterWordsList
