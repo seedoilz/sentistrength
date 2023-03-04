@@ -14,7 +14,7 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions
 
 /**
- * 该类用于翻译或替换加强情绪表达的词汇和符号，如中文中的“非常”
+ * 该类用于存放、翻译、替换加强情绪表达的词汇和符号，对应SentStrength_Data中的BoosterWordList.txt
  * @author zhengjie
  */
 public class BoosterWordsList
@@ -26,7 +26,7 @@ public class BoosterWordsList
 
     /**
      * 构造函数
-     * @author 郑杰
+     * @author zhengjie
      */
     public BoosterWordsList()
     {
@@ -122,8 +122,8 @@ public class BoosterWordsList
     }
 
     /**
-     * 该方法用于添加额外的表达强烈情绪的词汇短语
-     * @param sText 需要新添加的表达强烈情绪的词汇
+     * 该方法用于添加额外的放大情绪的词汇短语
+     * @param sText 需要新添加的放大情绪的词汇
      * @param iWordStrength 该词汇长度
      * @param bSortBoosterListAfterAddingTerm 为true则表示在添加后需要对BoosterWords数组进行排序，为false则不需要
      * @return 添加成功时返回true，失败时返回false
