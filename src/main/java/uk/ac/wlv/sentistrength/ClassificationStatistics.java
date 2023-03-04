@@ -11,6 +11,7 @@ import java.io.PrintStream;
  * 用于进行数据统计相关的类，基本用于计算准确率
  * 该类中的iCorrect为正确的情绪值，由人手动计算
  * 该类中的iPredicted为程序预测的每一行情绪值
+ * @author zhengjie
  */
 public class ClassificationStatistics
 {
@@ -28,6 +29,7 @@ public class ClassificationStatistics
      * @param iPredicted 每一行的预测
      * @param iCount 文本总行数
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
+     * @author zhengjie
      */
     public static double correlationAbs(int iCorrect[], int iPredicted[], int iCount)
     {
@@ -61,6 +63,7 @@ public class ClassificationStatistics
      * @param iPredicted 每一行的预测
      * @param iCount 行数
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
+     * @author zhengjie
      */
     public static double correlation(int iCorrect[], int iPredicted[], int iCount)
     {
@@ -93,6 +96,7 @@ public class ClassificationStatistics
      * @param iTrinaryCorrect 正确的情绪值
      * @param iDataCount 计数
      * @param estCorr 估计关联性，若estimate[i]和correct[i]两个情绪值均为-1，0或1，则对应的estCorr[i][i]++证明正确相关
+     * @author zhengjie
      */
     public static void TrinaryOrBinaryConfusionTable(int iTrinaryEstimate[], int iTrinaryCorrect[], int iDataCount, int estCorr[][])
     {
@@ -119,6 +123,7 @@ public class ClassificationStatistics
      * @param bInvert 是否是转换词（如：not）
      * @param iCount  行数
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
+     * @author zhengjie
      */
     public static double correlationAbs(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
     {
@@ -156,6 +161,7 @@ public class ClassificationStatistics
      * @param iCount 行数
      * @param bChangeSignOfOneArray 是否有转换符，如：not，有的话值的正负号需转换
      * @return 正确的情绪值行数
+     * @author zhengjie
      */
     public static int accuracy(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
     {
@@ -184,6 +190,7 @@ public class ClassificationStatistics
      * @param bInvert 转换符（如：not），若出现则正负号转换
      * @param iCount 行数
      * @return 正确的情绪值行数
+     * @author zhengjie
      */
     public static int accuracy(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
     {
@@ -203,6 +210,7 @@ public class ClassificationStatistics
      * @param bInvert 是否有转换词
      * @param iCount 文本总行数
      * @return 正确的行数
+     * @author zhengjie
      */
     public static int accuracyWithin1(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
     {
@@ -221,6 +229,7 @@ public class ClassificationStatistics
      * @param iCount 文本总行数
      * @param bChangeSignOfOneArray 是否有转换符
      * @return 正确的行数
+     * @author zhengjie
      */
     public static int accuracyWithin1(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
     {
@@ -250,6 +259,7 @@ public class ClassificationStatistics
      * @param bInvert 是否有not类型词汇
      * @param iCount 文本总行数
      * @return 平均每一行的情绪值偏差
+     * @author zhengjie
      */
     public static double absoluteMeanPercentageErrorNoDivision(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
     {
@@ -273,6 +283,7 @@ public class ClassificationStatistics
      * @param bInvert 是否有not类型词汇
      * @param iCount 文本总行数
      * @return 偏差比例
+     * @author zhengjie
      */
     public static double absoluteMeanPercentageError(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
     {
@@ -295,6 +306,7 @@ public class ClassificationStatistics
      * @param iCount 文本总行数
      * @param bChangeSignOfOneArray 是否有转换符
      * @return 平均每一行的情绪差
+     * @author zhengjie
      */
     public static double absoluteMeanPercentageErrorNoDivision(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
     {
@@ -314,9 +326,11 @@ public class ClassificationStatistics
     }
 
     /**
+     * 该方法用于计算情绪值与最小值差值出现最多的行数（，用于计算离散情况？）
      * @param iCorrect 每一行正确的情绪值
      * @param iCount 文本行数
      * @return 返回情绪值出现最多的值（众数）/总行数，返回一个比例
+     * @author zhengjie
      */
     public static double baselineAccuracyMajorityClassProportion(int iCorrect[], int iCount)
     {
@@ -356,6 +370,7 @@ public class ClassificationStatistics
      * @param iPredict 预测的情绪值
      * @param iCount 文本总行数
      * @param bChangeSign 是否有转换符
+     * @author zhengjie
      */
     public static void baselineAccuracyMakeLargestClassPrediction(int iCorrect[], int iPredict[], int iCount, boolean bChangeSign)
     {
@@ -407,11 +422,13 @@ public class ClassificationStatistics
      * @param iPredicted 预测的每一行情绪值
      * @param iCount 文本总行数
      * @param bChangeSignOfOneArray 是否有转换符
-     * @return
+     * @return 返回每一行的情绪值偏差比例
+     * @author zhengjie
      */
     public static double absoluteMeanPercentageError(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
     {
         double fAMeanPE = 0.0D;
+        //fAMeanPE做完for循环后为每一行偏差比例的总和
         if(bChangeSignOfOneArray)
         {
             for(int iRow = 1; iRow <= iCount; iRow++)
