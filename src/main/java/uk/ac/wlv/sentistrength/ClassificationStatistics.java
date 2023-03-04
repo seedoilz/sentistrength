@@ -26,7 +26,7 @@ public class ClassificationStatistics
      * 用于计算绝对值关联性
      * @param iCorrect 每一行正确的情感标签
      * @param iPredicted 每一行的预测
-     * @param iCount 行数
+     * @param iCount 文本总行数
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
      */
     public static double correlationAbs(int iCorrect[], int iPredicted[], int iCount)
