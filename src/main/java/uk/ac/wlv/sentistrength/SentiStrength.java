@@ -24,7 +24,6 @@ public class SentiStrength {
     * SentiStrength的构造方法，在其中一同初始化了语料库Corpus
     * @author ruohao.zhang
     */
-   
    public SentiStrength() {
       this.c = new Corpus();
    }
@@ -44,7 +43,6 @@ public class SentiStrength {
     * @param args 命令行参数
     * @author ruohao.zhang
     */
-   
    public static void main(String[] args) {
       SentiStrength classifier = new SentiStrength();
       
@@ -56,14 +54,12 @@ public class SentiStrength {
     * @return null
     * @author ruohao.zhang
     */
-   
    public String[] getinput(){
 	return null;
    }
 
    /**
     * 用于处理args，然后运行代码。
-    * 每一个变量的含义我将写在变量旁边。
     * @param args 命令行参数
     * @author ruohao.zhang
     */
@@ -881,7 +877,6 @@ public class SentiStrength {
     * @param bURLEncodedOutput 指示输出是否应该进行URL编码的标志
     * @author ruohao.zhang
     */
-   
    private void parseOneText(Corpus c, String sTextToParse, boolean bURLEncodedOutput) {
       int iPos =1;
       int iNeg =1;
@@ -940,7 +935,6 @@ public class SentiStrength {
     * @param iTextCol 要分析的文本的输入文本中列的索引
     * @author ruohao.zhang
     */
-
    private void listenToStdIn(Corpus c, int iTextCol) {
       BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 
@@ -1331,7 +1325,6 @@ public class SentiStrength {
     * @return Corpus SentiStrength的成员
     * @author ruohao.zhang
     */
-
    public Corpus getCorpus() {
       return this.c;
    }

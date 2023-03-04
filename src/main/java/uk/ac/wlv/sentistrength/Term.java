@@ -1,5 +1,8 @@
 package uk.ac.wlv.sentistrength;
 
+/**
+ * 该类（术语）表示文本中的单个单词、标点符号或表情符号，提供了从文本中提取下一个术语的方法，以及各种判断形式是否规范，与文本是否匹配等方法
+ */
 public class Term {
    private final int igContentTypeWord = 1;
    private final int igContentTypePunctuation = 2;
@@ -27,6 +30,14 @@ public class Term {
    private boolean bgOverrideSentimentScore = false;
    private int igOverrideSentimentScore = 0;
 
+   /**
+    * 从给定的文本中提取下一个术语，并设置改术语的属性
+    *
+    * @param sWordAndPunctuation 给定的文本
+    * @param classResources 分类资源
+    * @param classOptions 分类选项
+    * @return 文本中提取的术语结尾的位置，如果没有则返回-1
+    */
    public int extractNextWordOrPunctuationOrEmoticon(String sWordAndPunctuation, ClassificationResources classResources, ClassificationOptions classOptions) {
       int iWordCharOrAppostrophe =1;
       int iPunctuation =1;
@@ -70,6 +81,10 @@ public class Term {
       }
    }
 
+   /**
+    * 获取代表这个术语的HTML标签
+    * @return 代表这个术语的HTML标签
+    */
    public String getTag() {
       switch(this.igContentType) {
       case 1:
@@ -99,6 +114,10 @@ public class Term {
       }
    }
 
+   /**
+    * 获取这个术语的情绪id
+    * @return 这个术语的情绪id
+    */
    public int getSentimentID() {
       if (!this.bgWordSentimentIDCalculated) {
          this.igWordSentimentID = this.resources.sentimentWords.getSentimentID(this.sgTranslatedWord.toLowerCase());
@@ -108,11 +127,22 @@ public class Term {
       return this.igWordSentimentID;
    }
 
+   /**
+    * 为这个术语的情绪分设置覆盖值
+    * @param iSentiment 设定的覆盖值
+    */
    public void setSentimentOverrideValue(int iSentiment) {
       this.bgOverrideSentimentScore = true;
       this.igOverrideSentimentScore = iSentiment;
    }
 
+   /**
+    * 获取这个术语的情绪值
+    * 如果设置了情绪覆盖标志，则返回其覆盖值；
+    * 如果情绪值为正，则根据情绪id返回情绪值；如果为负数或为零，则返回0
+    *
+    * @return 术语情绪值
+    */
    public int getSentimentValue() {
       if (this.bgOverrideSentimentScore) {
          return this.igOverrideSentimentScore;
@@ -121,14 +151,29 @@ public class Term {
       }
    }
 
+   /**
+    * 获取这个术语（单词）的强调的长度
+    *
+    * @return 这个术语的强调的长度
+    */
    public int getWordEmphasisLength() {
       return this.sgWordEmphasis.length();
    }
 
+   /**
+    * 获取这个术语（单词）的强调
+    *
+    * @return 这个术语的强调
+    */
    public String getWordEmphasis() {
       return this.sgWordEmphasis;
    }
 
+   /**
+    * 检查这个术语是否含有强调
+    *
+    * @return 有则返回true，反之返回false
+    */
    public boolean containsEmphasis() {
       if (this.igContentType == 1) {
          return this.sgWordEmphasis.length() > 1;
@@ -139,10 +184,19 @@ public class Term {
       }
    }
 
+   /**
+    * 获取这个术语的翻译词
+    * @return 这个术语的翻译词
+    */
    public String getTranslatedWord() {
       return this.sgTranslatedWord;
    }
 
+   /**
+    * 获取这个术语的翻译
+    * 根据术语类型给出翻译
+    * @return 各自类型的翻译词，如果都不是则返回空表情符号“”
+    */
    public String getTranslation() {
       if (this.igContentType == 1) {
          return this.sgTranslatedWord;
@@ -153,6 +207,12 @@ public class Term {
       }
    }
 
+
+   /**
+    * 获取这个术语的加强语气词数值
+    * 如果加强语气词数值为999，则重新设定该术语加强词数值
+    * @return 这个术语的加强词数值
+    */
    public int getBoosterWordScore() {
       if (this.igBoosterWordScore == 999) {
          this.setBoosterWordScore();
@@ -161,6 +221,10 @@ public class Term {
       return this.igBoosterWordScore;
    }
 
+   /**
+    * 判断该术语是否是全大写
+    * @return 是全大写则返回true，反之返回false
+    */
    public boolean isAllCapitals() {
       if (!this.bgAllCaptialsCalculated) {
          if (this.sgOriginalWord == this.sgOriginalWord.toUpperCase()) {
@@ -175,10 +239,18 @@ public class Term {
       return this.bgAllCapitals;
    }
 
+   /**
+    * 为这个术语设置这个术语的加强语气词数值
+    */
    public void setBoosterWordScore() {
       this.igBoosterWordScore = this.resources.boosterWords.getBoosterStrength(this.sgTranslatedWord);
    }
 
+   /**
+    * 判断术语（标点符号类型）是否含有给定标点符号
+    * @param sPunctuation 给定标点符号
+    * @return 包含则返回true，反之返回false
+    */
    public boolean punctuationContains(String sPunctuation) {
       if (this.igContentType != 2) {
          return false;
@@ -189,30 +261,59 @@ public class Term {
       }
    }
 
+   /**
+    * 获取这个术语（标点）的强调的长度
+    * @return 这个术语（标点）的强调的长度
+    */
    public int getPunctuationEmphasisLength() {
       return this.sgPunctuationEmphasis.length();
    }
 
+   /**
+    * 获取这个术语（表情符号）的情绪强度
+    * @return 这个术语（表情符号）的情绪强度
+    */
    public int getEmoticonSentimentStrength() {
       return this.igEmoticonStrength;
    }
 
+   /**
+    * 获取这个术语（表情符号）
+    * @return 这个术语（表情符号）
+    */
    public String getEmoticon() {
       return this.sgEmoticon;
    }
 
+
+   /**
+    * 获取这个术语翻译后的标点符号
+    * @return 这个术语翻译后的标点符号
+    */
    public String getTranslatedPunctuation() {
       return this.sgPunctuation;
    }
 
+   /**
+    * 判断该术语是否是单词
+    * @return 是单词则返回true，反之返回false
+    */
    public boolean isWord() {
       return this.igContentType == 1;
    }
 
+   /**
+    * 判断该术语是否是标点
+    * @return 是单词则返回true，反之返回false
+    */
    public boolean isPunctuation() {
       return this.igContentType == 2;
    }
 
+   /**
+    * 判断该术语是否是符合要求的名词
+    * @return 是符合要求的名词则返回true，反之返回false
+    */
    public boolean isProperNoun() {
       if (this.igContentType != 1) {
          return false;
@@ -235,10 +336,18 @@ public class Term {
       }
    }
 
+   /**
+    * 判断该术语是否是表情符号
+    * @return 是单词则返回true，反之返回false
+    */
    public boolean isEmoticon() {
       return this.igContentType == 3;
    }
 
+   /**
+    * 以对应形式获取该术语的内容
+    * @return 是单词则返回其小写翻译词，是标点则返回标点，是表情符号则返回表情符号，如果都不是则返回空表情符号“”
+    */
    public String getText() {
       if (this.igContentType == 1) {
          return this.sgTranslatedWord.toLowerCase();
@@ -249,6 +358,12 @@ public class Term {
       }
    }
 
+
+   /**
+    * 根据术语类型，获取这个术语的原文本
+    * 单词则返回单词，标点符号则返回标点符号和其强调，表情符号则返回表情符号，都不是则返回“”
+    * @return 这个术语的原文
+    */
    public String getOriginalText() {
       if (this.igContentType == 1) {
          return this.sgOriginalWord;
@@ -259,6 +374,10 @@ public class Term {
       }
    }
 
+   /**
+    * 判断该术语是否是否定词
+    * @return 是否定词则返回true，反之返回false
+    */
    public boolean isNegatingWord() {
       if (!this.bgNegatingWordCalculated) {
          if (this.sgLCaseWord.length() == 0) {
@@ -272,6 +391,12 @@ public class Term {
       return this.bgNegatingWord;
    }
 
+   /**
+    * 判断给定文本是否与这个术语匹配
+    * @param sText 给定文本
+    * @param bConvertToLowerCase 是否需要将这个术语转小写
+    * @return 匹配则返回true，反之返回false
+    */
    public boolean matchesString(String sText, boolean bConvertToLowerCase) {
       if (sText.length() != this.sgTranslatedWord.length()) {
          return false;
@@ -292,6 +417,12 @@ public class Term {
       }
    }
 
+   /**
+    * 判断给定带通配符的文本是否与这个术语匹配
+    * @param sTextWithWildcard 给定带通配符的文本
+    * @param bConvertToLowerCase 是否需要将这个术语转小写
+    * @return 匹配则返回true，反之返回false
+    */
    public boolean matchesStringWithWildcard(String sTextWithWildcard, boolean bConvertToLowerCase) {
       int iStarPos = sTextWithWildcard.lastIndexOf("*");
       if (iStarPos >= 0 && iStarPos == sTextWithWildcard.length() - 1) {
@@ -332,6 +463,10 @@ public class Term {
       }
    }
 
+   /**
+    * 为给定给定文本编码成术语形式
+    * @param sWord 给定文本
+    */
    private void codeWord(String sWord) {
       String sWordNew = "";
       String sEm = "";
@@ -409,6 +544,9 @@ public class Term {
 
    }
 
+   /**
+    * 为术语的翻译词纠正拼写
+    */
    private void correctSpellingInTranslatedWord() {
       if (!this.resources.correctSpellings.correctSpelling(this.sgTranslatedWord.toLowerCase())) {
          int iLastChar = this.sgTranslatedWord.length() - 1;
@@ -441,6 +579,11 @@ public class Term {
       }
    }
 
+   /**
+    * 为给定可能表情符号编码成术语形式
+    * @param sPossibleEmoticon 给定的可能的表情符号
+    * @return 编码成功则返回true，反之返回false
+    */
    private boolean codeEmoticon(String sPossibleEmoticon) {
       int iEmoticonStrength = this.resources.emoticons.getEmoticon(sPossibleEmoticon);
       if (iEmoticonStrength != 999) {
@@ -453,6 +596,10 @@ public class Term {
       }
    }
 
+   /**
+    * 为给定标点符号编码成术语形式
+    * @param sPunctuation 给定标点符号
+    */
    private void codePunctuation(String sPunctuation) {
       if (sPunctuation.length() > 1) {
          this.sgPunctuation = sPunctuation.substring(0, 1);

@@ -10,23 +10,51 @@ import java.io.*;
 
 import uk.ac.wlv.utilities.FileOps;
 
-// Referenced classes of package uk.ac.wlv.sentistrength:
-//            ClassificationOptions
-
+/**
+ * 该类表示习语列表，提供了用于初始化、添加额外习语以及将习语字符串转换为单词列表的方法
+ */
 public class IdiomList
 {
-
+    /**
+     * 习语字符串数组
+     */
     public String sgIdioms[];
+
+    /**
+     * 习语强度数组
+     */
     public int igIdiomStrength[];
+
+    /**
+     * 列表中习语数量
+     */
     public int igIdiomCount;
+
+    /**
+     * 习语二维数组
+     */
     public String sgIdiomWords[][];
+
+    /**
+     * 每个习语中的单词数数组
+     */
     int igIdiomWordCount[];
 
+    /**
+     * 创建一个新习语列表
+     */
     public IdiomList()
     {
         igIdiomCount = 0;
     }
 
+    /**
+     * 使用输入的文件名、分类选项和额外空白数组条目数量，初始化习语列表
+     * @param sFilename 习语列表文件的文件名
+     * @param options 一个ClassificationOptions类型的分类选项
+     * @param iExtraBlankArrayEntriesToInclude 要包括的额外空白数组条目的数量
+     * @return 如果初始化成功，则为 true，否则为 false。
+     */
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude)
     {
         int iLinesInFile = 0;
@@ -109,6 +137,13 @@ public class IdiomList
         return true;
     }
 
+    /**
+     * 在习语列表中添加一个额外的习语
+     * @param sIdiom 要添加的习语
+     * @param iIdiomStrength 习语的强度（有正负）
+     * @param bConvertIdiomStringsToWordListsAfterAddingIdiom 添加习语后是否将习语字符串转换为单词列表
+     * @return 如果习语添加成功，则为 true，否则为 false。
+     */
     public boolean addExtraIdiom(String sIdiom, int iIdiomStrength, boolean bConvertIdiomStringsToWordListsAfterAddingIdiom)
     {
         try
@@ -133,6 +168,9 @@ public class IdiomList
         return true;
     }
 
+    /**
+     * 将习语列表中的习语字符串转换为单词列表
+     */
     public void convertIdiomStringsToWordLists()
     {
         sgIdiomWords = new String[igIdiomCount + 1][10];
@@ -154,6 +192,10 @@ public class IdiomList
 
     }
 
+    /**
+     * @deprecated 输入需要获取强度的习语，返回其强度。此方法不使用，并标记为旧且无用
+     * @param sPhrase 需要获取强度的习语
+     */
     public int getIdiomStrength_oldNotUseful(String sPhrase)
     {
         sPhrase = sPhrase.toLowerCase();
@@ -164,6 +206,10 @@ public class IdiomList
         return 999;
     }
 
+    /**
+     * 通过输入习语id标识获取习语
+     * @param iIdiomID 习语id标识
+     */
     public String getIdiom(int iIdiomID)
     {
         if(iIdiomID > 0 && iIdiomID < igIdiomCount)
