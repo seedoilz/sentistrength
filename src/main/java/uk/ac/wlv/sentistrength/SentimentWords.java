@@ -16,21 +16,37 @@ import uk.ac.wlv.utilities.Sort;
 
 public class SentimentWords
 {
-
+    /** 有标准情感强度的情感词 **/
     private String sgSentimentWords[];
+    /** 对于有标准情感强度的情感词，使用take1的强度值 **/
     private int igSentimentWordsStrengthTake1[];
+    /** 有标准情感强度的情感词的个数 **/
     private int igSentimentWordsCount;
+    /** 以星号开头的情感词 **/
     private String sgSentimentWordsWithStarAtStart[];
+    /** 对于以星号开头的情感词，使用take1的强度值 **/
     private int igSentimentWordsWithStarAtStartStrengthTake1[];
+    /** 以星号开头的情感词的个数 **/
     private int igSentimentWordsWithStarAtStartCount;
+    /** 标志一个以星号开头的情感词是否以星号结尾 **/
     private boolean bgSentimentWordsWithStarAtStartHasStarAtEnd[];
 
+    /**
+     * SentimentWords类的构造方法，初始化情感词个数和以星号开头的情感词个数为0
+     * @author DaiXuezheng
+     */
     public SentimentWords()
     {
         igSentimentWordsCount = 0;
         igSentimentWordsWithStarAtStartCount = 0;
     }
 
+    /**
+     * 获取情感词汇表中指定ID的情感词
+     * @param iWordID 情感词ID
+     * @return 指定ID的情感词，如果ID超出范围则返回空字符串
+     * @author DaiXuezheng
+     */
     public String getSentimentWord(int iWordID)
     {
         if(iWordID > 0)
@@ -43,6 +59,13 @@ public class SentimentWords
         return "";
     }
 
+
+    /**
+     * 获取给定单词的情感值
+     * @param sWord 给定的单词
+     * @return 给定单词的情感值
+     * @author DaiXuezheng
+     */
     public int getSentiment(String sWord)
     {
         int iWordID = Sort.i_FindStringPositionInSortedArrayWithWildcardsInArray(sWord.toLowerCase(), sgSentimentWords, 1, igSentimentWordsCount);
@@ -55,17 +78,27 @@ public class SentimentWords
             return 999;
     }
 
+    /**
+     * 将指定单词的情感值设置为给定的值。
+     * @param sWord 要设置情感值的单词
+     * @param iNewSentiment 新的情感值，正数表示正面情感，负数表示负面情感，0表示中性情感
+     * @return 如果设置成功，则返回true；否则返回false
+     * @author DaiXuezheng
+     */
     public boolean setSentiment(String sWord, int iNewSentiment)
     {
+        // 搜索单词在情感词数组中的位置
         int iWordID = Sort.i_FindStringPositionInSortedArrayWithWildcardsInArray(sWord.toLowerCase(), sgSentimentWords, 1, igSentimentWordsCount);
         if(iWordID >= 0)
         {
+            // 如果单词在情感词数组中，则更新其情感值
             if(iNewSentiment > 0)
                 setSentiment(iWordID, iNewSentiment - 1);
             else
                 setSentiment(iWordID, iNewSentiment + 1);
             return true;
         }
+        // 如果单词不在情感词数组中，则检查是否有通配符，如果有，则匹配相应的单词
         if(sWord.indexOf("*") == 0)
         {
             sWord = sWord.substring(1);
@@ -77,6 +110,7 @@ public class SentimentWords
             for(int i = 1; i <= igSentimentWordsWithStarAtStartCount; i++)
                 if(sWord == sgSentimentWordsWithStarAtStart[i])
                 {
+                    // 如果找到匹配的单词，则更新其情感值
                     if(iNewSentiment > 0)
                         setSentiment(igSentimentWordsCount + i, iNewSentiment - 1);
                     else
@@ -85,14 +119,25 @@ public class SentimentWords
                 }
 
         }
+        // 如果单词不存在或无法匹配，则返回false
         return false;
     }
 
+
+    /**
+     * 保存情感词典
+     * @param sFilename 文件名
+     * @param c 语料库对象
+     * @return 保存成功返回true，保存失败返回false
+     * @author DaiXuezheng
+     */
     public boolean saveSentimentList(String sFilename, Corpus c)
     {
         try
         {
+            //创建一个缓冲输出流写入指定文件中
             BufferedWriter wWriter = new BufferedWriter(new FileWriter(sFilename));
+            //遍历情感词典中的每一个情感词
             for(int i = 1; i <= igSentimentWordsCount; i++)
             {
                 int iSentimentStrength = igSentimentWordsStrengthTake1[i];
@@ -100,7 +145,9 @@ public class SentimentWords
                     iSentimentStrength--;
                 else
                     iSentimentStrength++;
+                //构建输出字符串，格式为“情感词\t情感强度\n”
                 String sOutput = (new StringBuilder(String.valueOf(sgSentimentWords[i]))).append("\t").append(iSentimentStrength).append("\n").toString();
+                //如果需要强制使用UTF-8编码，对输出字符串进行转换
                 if(c.options.bgForceUTF8)
                     try
                     {
@@ -111,6 +158,7 @@ public class SentimentWords
                         System.out.println("UTF-8 not found on your system!");
                         e.printStackTrace();
                     }
+                //将构建好的输出字符串写入文件中
                 wWriter.write(sOutput);
             }
 
@@ -140,14 +188,22 @@ public class SentimentWords
 
             wWriter.close();
         }
+        //如果发生IO异常，则打印异常信息并返回false
         catch(IOException e)
         {
             e.printStackTrace();
             return false;
         }
+        // 成功保存情感词典后返回true
         return true;
     }
 
+    /**
+     * 以单行输出情感值
+     * @param wWriter 输出流
+     * @return 打印成功返回true，打印失败返回false
+     * @author DaiXuezheng
+     */
     public boolean printSentimentValuesInSingleRow(BufferedWriter wWriter)
     {
         try
@@ -174,6 +230,12 @@ public class SentimentWords
         return true;
     }
 
+    /**
+     * 以单行输出情感词汇表的词语
+     * @param wWriter 输出流
+     * @return 打印成功返回true，打印失败返回false
+     * @author DaiXuezheng
+     */
     public boolean printSentimentTermsInSingleHeaderRow(BufferedWriter wWriter)
     {
         try
@@ -198,6 +260,12 @@ public class SentimentWords
         return true;
     }
 
+    /**
+     * 获取单词对应的情感词
+     * @param iWordID 单词id
+     * @return 单词id对应的情感词，id不合法则返回999
+     * @author DaiXuezheng
+     */
     public int getSentiment(int iWordID)
     {
         if(iWordID > 0)
@@ -212,6 +280,12 @@ public class SentimentWords
         }
     }
 
+    /**
+     * 设置单词的情感值
+     * @param iWordID 单词id
+     * @param iNewSentiment 要设置的情感值
+     * @author DaiXuezheng
+     */
     public void setSentiment(int iWordID, int iNewSentiment)
     {
         if(iWordID <= igSentimentWordsCount)
@@ -220,6 +294,12 @@ public class SentimentWords
             igSentimentWordsWithStarAtStartStrengthTake1[iWordID - igSentimentWordsCount] = iNewSentiment;
     }
 
+    /**
+     * 获得单词情感值id
+     * @param sWord 单词
+     * @return 单词情感值对应的id，不匹配返回-1
+     * @author DaiXuezheng
+     */
     public int getSentimentID(String sWord)
     {
         int iWordID = Sort.i_FindStringPositionInSortedArrayWithWildcardsInArray(sWord.toLowerCase(), sgSentimentWords, 1, igSentimentWordsCount);
@@ -232,6 +312,12 @@ public class SentimentWords
             return -1;
     }
 
+    /**
+     * 查找在情感词汇表中，是否存在一个以星号开头的单词，与给定的单词的开头匹配
+     * @param sWord 给定的单词
+     * @return 存在则返回词汇表的索引，不存在返回-1
+     * @author DaiXuezheng
+     */
     private int getMatchingStarAtStartRawWordID(String sWord)
     {
         int iSubStringPos = 0;
@@ -248,6 +334,10 @@ public class SentimentWords
         return -1;
     }
 
+    /**
+     * 获取情感词个数
+     * @return 情感词个数
+     */
     public int getSentimentWordCount()
     {
         return igSentimentWordsCount;
@@ -344,6 +434,14 @@ public class SentimentWords
             return true;
     }
 
+    /**
+     * 初始化情感词汇表，从指定的文件中读取情感词以及其情感极性值
+     * @param sFilename 情感词典文件路径
+     * @param options 编码选项
+     * @param iExtraBlankArrayEntriesToInclude 额外包含的空白数组条目数量
+     * @return 初始化是否成功
+     * @author DaiXuezheng
+     */
     public boolean initialiseWordsWithStarAtStart(String sFilename, ClassificationOptions options, int iWordsWithStarAtStart, int iExtraBlankArrayEntriesToInclude)
     {
         int iWordStrength = 0;
@@ -429,6 +527,14 @@ public class SentimentWords
         return true;
     }
 
+    /**
+     * 添加或修改情感词汇，同时根据需要对情感词汇进行排序
+     * @param sTerm 添加或修改的词汇
+     * @param iTermStrength 情感词强度
+     * @param bSortSentimentListAfterAddingTerm 是否排序
+     * @return 成功添加或修改情感词汇返回true，否则返回false
+     * @author DaiXuezheng
+     */
     public boolean addOrModifySentimentTerm(String sTerm, int iTermStrength, boolean bSortSentimentListAfterAddingTerm)
     {
         int iTermPosition = getSentimentID(sTerm);
@@ -464,6 +570,9 @@ public class SentimentWords
         return true;
     }
 
+    /**
+     * 排序情感词
+     */
     public void sortSentimentList()
     {
         Sort.quickSortStringsWithInt(sgSentimentWords, igSentimentWordsStrengthTake1, 1, igSentimentWordsCount);
