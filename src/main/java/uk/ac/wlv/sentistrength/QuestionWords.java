@@ -13,19 +13,36 @@ import uk.ac.wlv.utilities.Sort;
 // Referenced classes of package uk.ac.wlv.sentistrength:
 //            ClassificationOptions
 
+/**
+ * 初始化和查询问题词
+ * @author DaiXuezheng
+ */
 public class QuestionWords
 {
-
+    /** 问题词数组 **/
     private String sgQuestionWord[];
+    /** 已读取问题词个数 **/
     private int igQuestionWordCount;
+    /** 问题词数组最大容量 **/
     private int igQuestionWordMax;
 
+    /**
+     * 构造函数，已读取和最大容量初始化为0
+     * @author DaiXuezheng
+     */
     public QuestionWords()
     {
         igQuestionWordCount = 0;
         igQuestionWordMax = 0;
     }
 
+    /**
+     * 初始化QuestionWords类的实例变量
+     * @param sFilename 要读取的文件名
+     * @param options 编码选项
+     * @return 成功初始化返回true，否则返回false
+     * @author DaiXuezheng
+     */
     public boolean initialise(String sFilename, ClassificationOptions options)
     {
         if(igQuestionWordMax > 0)
@@ -71,6 +88,12 @@ public class QuestionWords
         return true;
     }
 
+    /**
+     * 判断单词是否为问题词
+     * @param sWord 要判断的单词
+     * @return 是返回true，否则返回false
+     * @author DaiXuezheng
+     */
     public boolean questionWord(String sWord)
     {
         return Sort.i_FindStringPositionInSortedArray(sWord, sgQuestionWord, 1, igQuestionWordCount) >= 0;

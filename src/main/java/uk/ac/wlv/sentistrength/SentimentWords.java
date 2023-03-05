@@ -14,6 +14,10 @@ import uk.ac.wlv.utilities.Sort;
 // Referenced classes of package uk.ac.wlv.sentistrength:
 //            Corpus, ClassificationOptions
 
+/**
+ * 处理情感词汇
+ * @author DaiXuezheng
+ */
 public class SentimentWords
 {
     /** 有标准情感强度的情感词 **/
