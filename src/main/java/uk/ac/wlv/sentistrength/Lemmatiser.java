@@ -11,18 +11,35 @@ import java.io.*;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
+/**
+ * 将单词换原为其原形的工具类
+ * @author DaiXuezheng
+ */
 public class Lemmatiser
 {
 
+    /** 单词数组 **/
     private String sgWord[];
+    /** 单词对应的原形的数组 **/
     private String sgLemma[];
+    /** 存储数组中最后一个单词的位置 **/
     private int igWordLast;
 
+    /**
+     * 构造函数
+     */
     public Lemmatiser()
     {
         igWordLast = -1;
     }
 
+    /**
+     * 从文件中读取单词和它们对应的原形，并将它们存储在sgWord和sgLemma数组中。
+     * @param sFileName 文件名
+     * @param bForceUTF8 是否为UTF8编码
+     * @return 成功读取文件返回 true，否则返回false
+     * @author DaiXuezheng
+     */
     public boolean initialise(String sFileName, boolean bForceUTF8)
     {
         int iLinesInFile = 0;
@@ -90,6 +107,12 @@ public class Lemmatiser
         return true;
     }
 
+    /**
+     * 将单词转换为其原形
+     * @param sWord 要转换的单词
+     * @return 单词对应的原形
+     * @author DaiXuezheng
+     */
     public String lemmatise(String sWord)
     {
         int iLemmaID = Sort.i_FindStringPositionInSortedArray(sWord, sgWord, 0, igWordLast);
