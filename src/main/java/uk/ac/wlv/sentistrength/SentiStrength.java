@@ -14,7 +14,7 @@ import java.util.Locale;
 import uk.ac.wlv.utilities.FileOps;
 
 /**
- * SentiStrength类,主要目的是根据命令行参数初始化语料库，并提供情感分析方法
+ * SentiStrength类,主要目的是根据命令行参数初始化语料库，并提供情感分析方法。
  * @author ruohao.zhang
  **/
 public class SentiStrength {
