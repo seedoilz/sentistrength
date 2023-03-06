@@ -357,6 +357,7 @@ public class Corpus
         return true;
     }
 
+    
     /**
      * 资源是否初始化
 
