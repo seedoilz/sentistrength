@@ -374,7 +374,6 @@ public class SentiStrength {
    /**
     * 解析传递给程序的命令行参数。
     * 该方法贯穿args数组的所有元素，并试图将每个元素与一组预定义的选项匹配。如果找到匹配项，则执行相应的操作，并相应地更新bArgumentRecognized数组。
-    * 以下是此方法正在检查的选项的简要摘要：
     * @param args 命令行参数
     * @param bArgumentRecognised 判断参数是否被识别
     * @author ruohao.zhang
