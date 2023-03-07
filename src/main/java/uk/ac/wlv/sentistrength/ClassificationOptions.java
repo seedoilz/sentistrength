@@ -13,6 +13,7 @@ import java.io.IOException;
 
 /**
  * 分类选项类，用来存取与分类相关的选项和预处理代码
+ * UC-26
  * @author ruohao.zhang
  **/
 public class ClassificationOptions {

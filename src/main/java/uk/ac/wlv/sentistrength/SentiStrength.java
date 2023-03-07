@@ -60,6 +60,7 @@ public class SentiStrength {
 
    /**
     * 用于处理args，然后运行代码。
+    * UC-14,UC-15,UC-16
     * @param args 命令行参数
     * @author ruohao.zhang
     */
@@ -374,6 +375,7 @@ public class SentiStrength {
    /**
     * 解析传递给程序的命令行参数。
     * 该方法贯穿args数组的所有元素，并试图将每个元素与一组预定义的选项匹配。如果找到匹配项，则执行相应的操作，并相应地更新bArgumentRecognized数组。
+    * UC-16
     * @param args 命令行参数
     * @param bArgumentRecognised 判断参数是否被识别
     * @author ruohao.zhang
@@ -682,6 +684,7 @@ public class SentiStrength {
    /**
     * 对命令行参数进行解析和处理，以便初始化语料库
     * 没有被识别，则输出错误信息并调用showBriefHelp方法展示帮助信息。最后，如果初始化成功，则初始化语料库。
+    * UC-16
     * @param args 命令行参数
     * @return
     * @author ruohao.zhang
@@ -712,6 +715,7 @@ public class SentiStrength {
 
    /**
     * 用于计算情感分数
+    * UC-22,UC-23,UC-24
     * @param sentence 要进行计算的句子
     * @return String 
     * @author ruohao.zhang
@@ -745,6 +749,7 @@ public class SentiStrength {
 
    /**
     * 在文本语料库上运行机器学习算法，评估结果的准确性，并将结果写入文件。
+    * UC-29
     * @param c 语料库
     * @param sInputFile 输入文件
     * @param bDoAll 确定是否运行所有语料库中所有选项的迭代（即运行run10FoldCrossValidationForAllOptionVariations()方法）
@@ -790,6 +795,7 @@ public class SentiStrength {
    
    /**
     * 将给定的文本文件或文件夹中的文本进行分类，并将结果和文本ID保存在文件中
+    * UC-11,UC-12，UC-13,UC-19,UC-20
     * @param c 语料库
     * @param sInputFile 输入文件
     * @param sInputFolder 输入文件夹
@@ -929,6 +935,7 @@ public class SentiStrength {
     * 根据特定的输入字符串更改某些情感单词的术语权重。然后，该方法将情绪分析结果作为文本输出。
     * 输出文本包括积极情绪评分、负面情绪评分以及对分类原理的可选解释。
     * 该方法还处理不同的输出模式，具体取决于Corpus对象中设置的选项。
+    * UC-16
     * @param c 语料库对象
     * @param iTextCol 要分析的文本的输入文本中列的索引
     * @author ruohao.zhang
@@ -1008,6 +1015,7 @@ public class SentiStrength {
 
    /**
     * 命令行监听用户输入，并使用Corpus对象提供的情感分析功能分析每个输入的情绪。
+    * UC-15,UC-16
     * @param c 语料库对象
     * @author ruohao.zhang
     */
@@ -1071,6 +1079,7 @@ public class SentiStrength {
 
    /**
     * 在指定端口上监听并接受来自客户端的请求
+    * UC-14
     * @param c 要使用的Corpus对象
     * @param iListenPort 监听的端口号
     * @author ruohao.zhang
