@@ -53,7 +53,7 @@ public class UnusedTermsClassificationIndex
     }
 
     /**
-     * 将术语添加到新术语索引
+     * UC-17 将术语添加到新术语索引
      * <p>
      *     如果传入的字符串为空，直接返回。
      * </p>
@@ -267,7 +267,7 @@ public class UnusedTermsClassificationIndex
     }
 
     /**
-     * 打印积极情绪和消极情绪的检测结果
+     * UC-19 打印积极情绪和消极情绪的检测结果
      * @param sOutputFile               输出到的文件路径
      * @param iMinFreq                  最小频率
      * @return void
@@ -315,7 +315,7 @@ public class UnusedTermsClassificationIndex
     }
 
     /**
-     * 打印单尺度检测的结果
+     * UC-19 打印单尺度检测的结果
      * @param sOutputFile 输出到的文件路径
      * @param iMinFreq 最小频率
      * @return void
@@ -351,7 +351,7 @@ public class UnusedTermsClassificationIndex
     }
 
     /**
-     * 打印三位一体检测的结果
+     * UC-19 打印三位一体检测的结果
      * @param sOutputFile 输出到的文件路径
      * @param iMinFreq 最小频率
      * @return void
@@ -387,7 +387,7 @@ public class UnusedTermsClassificationIndex
     }
 
     /**
-     * 打印双精度二进制检测的结果
+     * UC-19 打印双精度二进制检测的结果
      * @param sOutputFile 输出到的文件路径
      * @param iMinFreq 最小频率
      * @return void

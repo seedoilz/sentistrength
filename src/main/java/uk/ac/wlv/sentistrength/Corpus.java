@@ -357,7 +357,6 @@ public class Corpus
         return true;
     }
 
-
     /**
      * 资源是否初始化
 
@@ -389,7 +388,7 @@ public class Corpus
     }
 
     /**
-     * 得到语料库某个成员积极情感分数
+     * UC-1 得到语料库某个成员积极情感分数
      * <p>
      *      计算paragraph[i]的积极情感分数
      * </p>
@@ -406,7 +405,7 @@ public class Corpus
     }
 
     /**
-     * 得到语料库某个成员消极情感分数
+     * UC-1 得到语料库某个成员消极情感分数
      * <p>
      *      计算paragraph[i]的消极情感分数
      * </p>
@@ -423,7 +422,7 @@ public class Corpus
     }
 
     /**
-     * 计算整个语料库情感分数
+     * UC-1 计算整个语料库情感分数
      * <p>
      *     首先检查语料库中是否有段落，如果没有直接返回。
      *     然后创建四种数组分别存储分数
@@ -546,7 +545,7 @@ public class Corpus
     }
 
     /**
-     * 计算语料库中正确分类的积极情绪的比例
+     * UC-24、12 计算语料库中正确分类的积极情绪的比例
      * <p>
      *     如果没有高级语料库成员返回0。
      *     如果有，将正确分类的积极情绪的数量 / 语料库中的段落总数
@@ -564,7 +563,7 @@ public class Corpus
     }
 
     /**
-     * 计算语料库中正确分类的消极情绪的比例
+     * UC-24、12 计算语料库中正确分类的消极情绪的比例
      * <p>
      *     如果没有高级语料库成员返回0。
      *     如果有，将正确分类的消极情绪的数量 / 语料库中的段落总数
@@ -582,7 +581,7 @@ public class Corpus
     }
 
     /**
-     * 预测消极情感的基线准确率比例
+     * UC-12 预测消极情感的基线准确率比例
 
      * @return double 基线负准确率
      * @author zhangsong
@@ -596,7 +595,7 @@ public class Corpus
     }
 
     /**
-     * 预测积极情感的基线准确率比例
+     * UC-12 预测积极情感的基线准确率比例
 
      * @return double 基线正准确率
      * @author zhangsong
@@ -1398,7 +1397,7 @@ public class Corpus
     }
 
     /**
-     * 将分类算法写入标题中
+     * UC-26 将分类算法写入标题中
      * @param w description
      * @return void
      * @author zhangsong
@@ -1415,7 +1414,7 @@ public class Corpus
     }
 
     /**
-     * 多个选项变体执行 10 折交叉验证（机器学习分类算法）
+     * UC-26 多个选项变体执行 10 折交叉验证（机器学习分类算法）
      * @param iMinImprovement description
      * @param bUseTotalDifference description
      * @param iReplications description
@@ -1547,7 +1546,7 @@ public class Corpus
     }
 
     /**
-     * 执行 10 折交叉验证的更大情绪分析系统的十次迭代
+     * UC-29 执行 10 折交叉验证的更大情绪分析系统的十次迭代
      * <p>
      *     运行 10 折交叉验证过程的一次迭代，循环运行十次之后重新计算整个预料的情感分数，最后打印
      * </p>
@@ -1718,7 +1717,7 @@ public class Corpus
     }
 
     /**
-     * 通过多次运行优化过程来优化语料库中情感词的权重
+     * UC-27 通过多次运行优化过程来优化语料库中情感词的权重
      * @param iMinImprovement 它确定继续优化权重所需的最小改进
      * @param bUseTotalDifference 决定是使用总差还是平均差来决定是否应该继续优化
      * @param iOptimisationTotal 用于确定优化过程应运行的次数
@@ -1761,7 +1760,7 @@ public class Corpus
     }
 
     /**
-     * 优化语料库中情感词的权重
+     * UC-27 优化语料库中情感词的权重
      * <p>
      *     根据三种模式选择不同的优化方法
      * </p>
@@ -1781,6 +1780,12 @@ public class Corpus
             optimiseDictionaryWeightingsForCorpusPosNeg(iMinImprovement, bUseTotalDifference);
     }
 
+    /**
+     * UC-27 针对语料库规模优化情感词典权重的方法
+     * @param iMinImprovement 用于确定继续调整权重所需的分类等级的最小改进
+     * @return void
+     * @author zhangsong
+     */
     public void optimiseDictionaryWeightingsForCorpusScale(int iMinImprovement)
     {
         boolean bFullListChanges = true;
@@ -1835,6 +1840,12 @@ public class Corpus
         }
     }
 
+    /**
+     * UC-27 该方法使用三元或二元分类方案来优化给定语料库的情感词词典权重
+     * @param iMinImprovement 用于确定继续调整权重所需的分类等级的最小改进
+     * @return void
+     * @author zhangsong
+     */
     public void optimiseDictionaryWeightingsForCorpusTrinaryOrBinary(int iMinImprovement)
     {
         boolean bFullListChanges = true;
@@ -1889,6 +1900,13 @@ public class Corpus
         }
     }
 
+    /**
+     * UC-27 可以针对给定的已分类为正面或负面的文本语料库优化情感分析词典中单词的权重
+     * @param iMinImprovement 指定要考虑的权重变化所需的最小改进
+     * @param bUseTotalDifference 指示是否在正负分类中使用总差 分数作为改进的指标或使用每个类别的正确分类数
+     * @return void
+     * @author zhangsong
+     */
     public void optimiseDictionaryWeightingsForCorpusPosNeg(int iMinImprovement, boolean bUseTotalDifference)
     {
         boolean bFullListChanges = true;
@@ -1978,6 +1996,13 @@ public class Corpus
         }
     }
 
+    /**
+     * 从指定文件中读取数据，总结计算后写入输出文件
+     * @param sInputFile 输入文件
+     * @param sOutputFile 输出文件
+     * @return void
+     * @author zhangsong
+     */
     public void SummariseMultiple10FoldValidations(String sInputFile, String sOutputFile)
     {
         int iDataRows = 28;

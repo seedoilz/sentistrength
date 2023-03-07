@@ -125,7 +125,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 设置为对象的当前段落
+	 * 设置对象为当前段落
 	 * <p>
 	 *		首先根据参数为对象设置分类资源和分类选项。然后计算感叹号、问号和句号出现的次数。
 	 *		通过查找来计算段落中句末的数量，同时识别句子边界，然后创建一个新的Sentence 对象，并将七设置为相应的句子文本。
@@ -238,7 +238,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 得到分类原理
+	 * UC-11 得到分类原理
 
 	 * @return java.lang.String
 	 * @author zhangsong
@@ -348,7 +348,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 重新计算段落中情感分数
+	 * UC-1 重新计算段落中情感分数
 	 * <p>
 	 *     遍历整个段落，调用recalculateSentenceSentimentScore重新计算句子的情感分数，最后计算段落的情感分数
 	 * </p>
@@ -399,7 +399,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 得到段落的积极情绪分数
+	 * UC-1、21 得到段落的积极情绪分数
 	 * <p>
 	 *     如果积极情绪==0，则调用calculateParagraphSentimentScores计算段落分数。
 	 *     然后使用igPositiveSentiment返回段落的积极情绪分数
@@ -417,7 +417,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 得到段落的消极情绪分数
+	 * UC-1、21 得到段落的消极情绪分数
 	 * <p>
 	 *     如果消极情绪==0，则调用calculateParagraphSentimentScores计算段落分数。
 	 *     然后使用igNegativeSentiment返回段落的消极情绪分数
@@ -435,7 +435,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 得到段落的三位一体情绪分数
+	 * UC-1、22 得到段落的三位一体情绪分数
 	 * <p>
 	 *     如果消极情绪==0，则调用calculateParagraphSentimentScores计算段落分数。
 	 *     然后使用igTrinarySentiment返回段落的消极情绪分数
@@ -453,7 +453,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 得到段落的单范围情绪分数
+	 * UC-1、24 得到段落的单范围情绪分数
 	 * <p>
 	 *     如果消极情绪==0，则调用calculateParagraphSentimentScores计算段落分数。
 	 *     然后使用igScaleSentiment返回段落的消极情绪分数
@@ -471,7 +471,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 判断句尾标点符号
+	 * UC-8 判断句尾标点符号
 	 * @param sChar 句子字符串
 	 * @return boolean 句尾是否有./!/?，有为false
 	 * @author zhangsong
@@ -491,7 +491,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * 计算段落文本情感
+	 * UC-1 计算段落文本情感
 	 * <p>
 	 *     情感分数是根据段落中每个句子的正面和负面情感计算的。
 	 *     循环遍历段落中的每个句子，检索每个句子的正面和负面情绪分数。
