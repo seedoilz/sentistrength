@@ -18,5 +18,5 @@ sentistrength.Lemmatiser,X,,X,,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.UnusedTermsClassificationIndex,,,,,,,,,,,,,,,,,X,,X,,,,,,,,,,
 sentistrength.Corpus,X,,,,,,,,,,,X,,,,,,,,,,,,X,,X,X,,X
 sentistrength.Paragraph,X,,,,,,,X,,X,X,,,,,,,,,,X,X,X,,,,,,
-sentistrength.Sentence,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+sentistrength.Sentence,X,X,,X,X,X,,,X,,X,,,,,,,,,,,,,X,,,,,
 sentistrength.Term,X,,X,X,,,,,,,X,,,,,,,,,,,,,,X,,X,,
