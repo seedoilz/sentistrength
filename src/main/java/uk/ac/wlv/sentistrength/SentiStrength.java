@@ -39,7 +39,7 @@ public class SentiStrength {
    }
    
    /**
-    * main方法
+    * main方法，来运行initialiseAndRun
     * @param args 命令行参数
     * @author ruohao.zhang
     */
