@@ -29,7 +29,7 @@ public class SentiStrength {
    }
 
    /**
-    * SentiStrength构造方法，利用args参数调用了initialiseAndRun方法
+    * SentiStrength构造方法，利用args参数调用了initialiseAndRun方法。
     * @param args 命令行参数
     * @author ruohao.zhang
     */
@@ -65,14 +65,14 @@ public class SentiStrength {
     */
    public void initialiseAndRun(String[] args) {
       Corpus c = this.c;
-      String sInputFile = "";//输入文件路径
-      String sInputFolder = "";//输入目录路径
+      String sInputFile = ""; //输入文件路径
+      String sInputFolder = ""; //输入目录路径
       String sTextToParse = "";
       String sOptimalTermStrengths = "";
       String sFileSubString = "\t";
-      String sResultsFolder = "";//输出目录路径
+      String sResultsFolder = ""; //输出目录路径
       String sResultsFileExtension = "_out.txt";
-      boolean[] bArgumentRecognised = new boolean[args.length];//用于判断args中的参数有没有判断正确
+      boolean[] bArgumentRecognised = new boolean[args.length]; //用于判断args中的参数有没有判断正确
       int iIterations = 1;
       int iMinImprovement = 2;
       int iMultiOptimisations = 1;
