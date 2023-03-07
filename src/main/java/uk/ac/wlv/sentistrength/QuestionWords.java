@@ -38,6 +38,7 @@ public class QuestionWords
 
     /**
      * 初始化QuestionWords类的实例变量
+     * 实现UC11
      * @param sFilename 要读取的文件名
      * @param options 编码选项
      * @return 成功初始化返回true，否则返回false
@@ -90,6 +91,7 @@ public class QuestionWords
 
     /**
      * 判断单词是否为问题词
+     * 实现UC10
      * @param sWord 要判断的单词
      * @return 是返回true，否则返回false
      * @author DaiXuezheng

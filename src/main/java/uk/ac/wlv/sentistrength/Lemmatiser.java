@@ -109,6 +109,7 @@ public class Lemmatiser
 
     /**
      * 将单词转换为其原形
+     * 实现UC1、UC3（用于Term类）
      * @param sWord 要转换的单词
      * @return 单词对应的原形
      * @author DaiXuezheng

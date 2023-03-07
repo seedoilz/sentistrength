@@ -286,6 +286,7 @@ public class SentimentWords
 
     /**
      * 设置单词的情感值
+     * 实现UC27
      * @param iWordID 单词id
      * @param iNewSentiment 要设置的情感值
      * @author DaiXuezheng
@@ -349,6 +350,7 @@ public class SentimentWords
 
     /**
      * 从情感词典文件中初始化情感词列表、情感强度值列表并排序
+     * 实现UC1、UC2、UC6、UC7、UC11
      * @param sFilename 情感词典文件
      * @param options 编码选项
      * @param iExtraBlankArrayEntriesToInclude 额外包含的空白数组数量
@@ -449,6 +451,7 @@ public class SentimentWords
 
     /**
      * 从指定的文件初始化带星号开头的词语，并存储在类的实例变量中
+     * 实现UC1、UC2、UC6、UC7、UC11
      * @param sFilename 情感词典文件路径
      * @param options 编码选项
      * @param iWordsWithStarAtStart 带星号开头的词语的数组的长度
@@ -543,6 +546,7 @@ public class SentimentWords
 
     /**
      * 添加或修改情感词汇，同时根据需要对情感词汇进行排序
+     * 实现UC27
      * @param sTerm 添加或修改的词汇
      * @param iTermStrength 情感词强度
      * @param bSortSentimentListAfterAddingTerm 是否排序
