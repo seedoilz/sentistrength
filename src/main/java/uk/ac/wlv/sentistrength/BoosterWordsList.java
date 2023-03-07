@@ -20,9 +20,9 @@ import uk.ac.wlv.utilities.Sort;
 public class BoosterWordsList
 {
 
-    private String sgBoosterWords[];
-    private int igBoosterWordStrength[];
-    private int igBoosterWordsCount;
+    private String sgBoosterWords[];//加强情绪表达的词汇
+    private int igBoosterWordStrength[];//词汇所对应的情绪值
+    private int igBoosterWordsCount;//词汇个数
 
     /**
      * 构造函数
@@ -34,6 +34,7 @@ public class BoosterWordsList
     }
 
     /**
+     * UC-
      * @param sFilename 存放booster words文件的文件名。
      * @param options 由ClassficationOptions类确定，分类选项。
      * @param iExtraBlankArrayEntriesToInclude 额外开辟的用于存放新的booster words的空间大小。
