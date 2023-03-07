@@ -2,6 +2,8 @@ package uk.ac.wlv.sentistrength;
 
 /**
  * 该类（术语）表示文本中的单个单词、标点符号或表情符号，提供了从文本中提取下一个术语的方法，以及各种判断形式是否规范，与文本是否匹配等方法
+ * UC1,UC3,UC11,UC25,UC27
+ *
  */
 public class Term {
    private final int igContentTypeWord = 1;
