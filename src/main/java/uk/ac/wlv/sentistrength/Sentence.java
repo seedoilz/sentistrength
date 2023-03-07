@@ -60,7 +60,7 @@ public class Sentence {
      * 将sentence中的term加入到index中
      * @param unusedTermClassificationIndex 未使用术语的分类索引对象
      * @author haofeng.Yu
-     */ 
+     */
     public void addSentenceToIndex(UnusedTermsClassificationIndex unusedTermClassificationIndex) {
         for(int i = 1; i <= this.igTermCount; ++i) {
             unusedTermClassificationIndex.addTermToNewTermIndex(this.term[i].getText());
@@ -76,7 +76,7 @@ public class Sentence {
      * @param bArffIndex 是否应创建索引以用于 Weka 机器学习库的 ARFF 文件格式
      * @return 检查的term数
      * @author haofeng.Yu
-     */ 
+     */
     public int addToStringIndex(StringIndex stringIndex, TextParsingOptions textParsingOptions, boolean bRecordCount, boolean bArffIndex) {
         String sEncoded = "";
         int iStringPos =1;
@@ -136,13 +136,14 @@ public class Sentence {
     }
 
     /**
+     * UC-11 Classify a single text
      * 设置分类器处理的sentence以及分类资源和选项
      * @param sSentence 要处理的sentence字符串
      * @param classResources 分类资源的实例（词典、情感词字典、idiomList等）
      * @param newClassificationOptions 分类选项的实例
      * @return void
      * @author haofeng.Yu
-     */ 
+     */
     public void setSentence(String sSentence, ClassificationResources classResources, ClassificationOptions newClassificationOptions) {
         this.resources = classResources;
         this.options = newClassificationOptions;
@@ -179,7 +180,7 @@ public class Sentence {
      * 返回sentence中情感 ID 数组
      * @return int[] sentence中情感 ID 数组
      * @author haofeng.Yu
-     */ 
+     */
     public int[] getSentimentIDList() {
         if (!this.bSentimentIDListMade) {
             this.makeSentimentIDList();
@@ -189,10 +190,11 @@ public class Sentence {
     }
 
     /**
+     * UC-2 Assigning Sentiment Scores for Phrases
      * 在sentence中创建情感 ID 数组
      * @return void
      * @author haofeng.Yu
-     */ 
+     */
     public void makeSentimentIDList() {
         int iSentimentIDTemp = 0;
         this.igSentimentIDListCount = 0;
@@ -234,7 +236,7 @@ public class Sentence {
      * 返回标记sentence的字符串，其中每个term都用其相应的词性标记进行注释
      * @return java.lang.String 标记后的字符串
      * @author haofeng.Yu
-     */ 
+     */
     public String getTaggedSentence() {
         String sTagged = "";
 
@@ -253,7 +255,7 @@ public class Sentence {
      * 获取分类原理实例
      * @return java.lang.String 分类原理实例
      * @author haofeng.Yu
-     */ 
+     */
     public String getClassificationRationale() {
         return this.sgClassificationRationale;
     }
@@ -262,7 +264,7 @@ public class Sentence {
      * 返回翻译后sentence的字符串，其中每个单词都被其翻译替换
      * @return java.lang.String
      * @author haofeng.Yu
-     */ 
+     */
     public String getTranslatedSentence() {
         String sTranslated = "";
 
@@ -286,16 +288,17 @@ public class Sentence {
     /**
      * 重新计算sentence的情感得分
      * @author haofeng.Yu
-     */ 
+     */
     public void recalculateSentenceSentimentScore() {
         this.calculateSentenceSentimentScore();
     }
 
     /**
+     * UC-24 Use a single positive-negative scale classification
      * 重新分类sentence的情感变化
      * @param iSentimentWordID 情感词id，如果这个词出现在sentence中，则重新计算情感分数
      * @author haofeng.Yu
-     */ 
+     */
     public void reClassifyClassifiedSentenceForSentimentChange(int iSentimentWordID) {
         if (this.igNegativeSentiment == 0) {
             this.calculateSentenceSentimentScore();
@@ -314,10 +317,11 @@ public class Sentence {
     }
 
     /**
+     * UC-24 Use a single positive-negative scale classification
      * 返回sentence的积极情感得分
      * @return int
      * @author haofeng.Yu
-     */ 
+     */
     public int getSentencePositiveSentiment() {
         if (this.igPositiveSentiment == 0) {
             this.calculateSentenceSentimentScore();
@@ -327,6 +331,7 @@ public class Sentence {
     }
 
     /**
+     * UC-24 Use a single positive-negative scale classification
      * 返回sentence的消极情感得分
      * @return int
      * @author haofeng.Yu
@@ -340,9 +345,10 @@ public class Sentence {
     }
 
     /**
+     * UC-1Assigning Sentiment Scores for Words
      * 标记sentence中的有效term数
      * @author haofeng.Yu
-     */ 
+     */
     private void markTermsValidToClassify() {
         this.bgIncludeTerm = new boolean[this.igTermCount + 1];
         int iTermsSinceValid;
@@ -400,9 +406,15 @@ public class Sentence {
     }
 
     /**
+     * UC-4 Booster Word Rule
+     * UC-5 Negating Word Rule
+     * UC-6 Repeated Letter Rule
+     * UC-9 Repeated Punctuation Rule
+     * UC-11 Classify a single text
+     *
      * 计算sentence的情感得分的核心函数
      * @author haofeng.Yu
-     */ 
+     */
     private void calculateSentenceSentimentScore() {
         if (this.options.bgExplainClassification && this.sgClassificationRationale.length() > 0) {
             this.sgClassificationRationale = "";
@@ -468,7 +480,7 @@ public class Sentence {
                             ++iWordTotal;
                             if (iTerm == 1 || !this.term[iTerm].isProperNoun() || this.term[iTerm - 1].getOriginalText().equals(":") || this.term[iTerm - 1].getOriginalText().length() > 3 && this.term[iTerm - 1].getOriginalText().substring(0, 1).equals("@")) {
                                 fSentiment[iWordTotal] = (float)this.term[iTerm].getSentimentValue();
-                                
+
                                 if (this.options.bgExplainClassification) {
                                     iTemp = this.term[iTerm].getSentimentValue();
                                     if (iTemp < 0) {
@@ -625,7 +637,7 @@ public class Sentence {
                                     this.sgClassificationRationale = this.sgClassificationRationale + "[+1 consecutive positive words] ";
                                 }
                             }
-                            
+
                         }
                     }
                 }
@@ -787,9 +799,10 @@ public class Sentence {
     }
 
     /**
+     * UC-11 Classify a single text
      * 根据反讽调整sentence的情感得分
      * @author haofeng.Yu
-     */ 
+     */
     private void adjustSentimentForIrony() {
         int iTerm;
         if (this.igPositiveSentiment >= this.options.igMinSentencePosForQuotesIrony) {
@@ -837,10 +850,11 @@ public class Sentence {
     }
 
     /**
+     * UC-1Assigning Sentiment Scores for Words
      * 用相应对象评估的强度覆盖sentence中每个term的强度
      * @param recalculateIfAlreadyDone 是否重新计算情绪得分
      * @author haofeng.Yu
-     */ 
+     */
     public void overrideTermStrengthsWithObjectEvaluationStrengths(boolean recalculateIfAlreadyDone) {
         boolean bMatchingObject = false;
         boolean bMatchingEvaluation = false;
@@ -881,6 +895,7 @@ public class Sentence {
     }
 
     /**
+     * UC-1Assigning Sentiment Scores for Words
      * 用idiom的强度覆盖sentence中每个term的强度
      * @param recalculateIfAlreadyDone 是否重新计算情绪得分
      * @author haofeng.Yu
