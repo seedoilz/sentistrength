@@ -13,6 +13,8 @@ import uk.ac.wlv.utilities.Sort;
 
 /**
  * 该类表示否定词列表
+ * UC5,UC11
+ *
  */
 public class NegatingWordList
 {
