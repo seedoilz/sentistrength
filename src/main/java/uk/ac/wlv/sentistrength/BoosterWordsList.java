@@ -37,7 +37,7 @@ public class BoosterWordsList
      * @param sFilename 存放booster words文件的文件名。
      * @param options 由ClassficationOptions类确定，分类选项。
      * @param iExtraBlankArrayEntriesToInclude 额外开辟的用于存放新的booster words的空间大小。
-     * @return true(当成功初始化时返回) 或者false(当初始化失败时返回，通常情况为找不到对应的sFilename、文件为空或无法读文件)
+     * @return true(当成功初始化时返回) 或者false(当初始化失败时返回，通常情况为找不到对应的sFilename、文件为空或无法读文件)。
      * @author zhengjie
      */
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude)
