@@ -347,6 +347,15 @@ public class SentimentWords
         return igSentimentWordsCount;
     }
 
+    /**
+     * 从情感词典文件中初始化情感词列表、情感强度值列表并排序
+     * @param sFilename 情感词典文件
+     * @param options 编码选项
+     * @param iExtraBlankArrayEntriesToInclude 额外包含的空白数组数量
+     * @return 初始化成功返回true，否则false
+     * @author DaiXuezheng
+     */
+
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude)
     {
         int iWordStrength = 0;
@@ -439,9 +448,10 @@ public class SentimentWords
     }
 
     /**
-     * 初始化情感词汇表，从指定的文件中读取情感词以及其情感极性值
+     * 从指定的文件初始化带星号开头的词语，并存储在类的实例变量中
      * @param sFilename 情感词典文件路径
      * @param options 编码选项
+     * @param iWordsWithStarAtStart 带星号开头的词语的数组的长度
      * @param iExtraBlankArrayEntriesToInclude 额外包含的空白数组条目数量
      * @return 初始化是否成功
      * @author DaiXuezheng
