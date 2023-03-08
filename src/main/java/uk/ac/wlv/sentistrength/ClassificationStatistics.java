@@ -8,6 +8,7 @@ package uk.ac.wlv.sentistrength;
 import java.io.PrintStream;
 
 /**
+ * 本类进行计算的基础规则由UC-1 - UC10决定。此外，该类也可以作为机器学习(UC-29)的判断标准。
  * 用于进行数据统计相关的类，基本用于计算准确率
  * 该类中的iCorrect为正确的情绪值，由人手动计算
  * 该类中的iPredicted为程序预测的每一行情绪值
@@ -24,6 +25,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12
      * 用于计算绝对值关联性
      * @param iCorrect 每一行正确的情感标签
      * @param iPredicted 每一行的预测
@@ -58,6 +60,7 @@ public class ClassificationStatistics
     }
 
     /**
+     *
      * 用于计算关联性（含正负）
      * @param iCorrect 每一行正确的情感标签
      * @param iPredicted 每一行的预测
@@ -91,6 +94,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-22;UC-23
      * binary包含positive和negative词汇，而trinary除此之外还包含neural类型词汇
      * @param iTrinaryEstimate 估计情绪值
      * @param iTrinaryCorrect 正确的情绪值
@@ -117,6 +121,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12;UC-13;
      * @param iCorrect 每一行正确的情感标签
      * @param iPredicted 每一行的预测
      * @param bSelected 是否选中，被选中才会参与运算
@@ -155,6 +160,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12
      * 该方法用于统计预测情绪值百分百精确的行数
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的情绪值
@@ -183,6 +189,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12;UC-13
      * 该方法用于统计预测情绪值百分百精确的行数
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 原本预测的每一行的情绪值
@@ -203,6 +210,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12;UC-13
      * 该方法用于统计预测情绪值正确的行数，每一行允许+-1的偏差
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的每一行情绪值
@@ -223,6 +231,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12
      * 该方法用于统计预测情绪值正确的行数，每一行允许+-1的偏差
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的每一行情绪值
@@ -252,6 +261,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12;UC-13
      * 该方法统计了整个文本的情绪值偏差，并返回了平均每一行的情绪值偏差
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的每一行情绪值
@@ -276,6 +286,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12;UC-13
      * 该方法统计了整个文本的情绪值偏差，并返回了平均每一行的偏差比例
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的每一行情绪值
@@ -300,6 +311,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12
      * 该方法统计了整个文本的情绪值偏差，并返回了平均每一行的情绪值偏差
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的每一行情绪值
@@ -326,6 +338,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12;UC-13
      * 该方法用于计算情绪值与最小值差值出现最多的行数（，用于计算离散情况？）
      * @param iCorrect 每一行正确的情绪值
      * @param iCount 文本行数
@@ -366,6 +379,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12
      * @param iCorrect 正确的每一行情绪值
      * @param iPredict 预测的情绪值
      * @param iCount 文本总行数
@@ -418,6 +432,7 @@ public class ClassificationStatistics
     }
 
     /**
+     * UC-12
      * @param iCorrect 正确的情绪值
      * @param iPredicted 预测的每一行情绪值
      * @param iCount 文本总行数

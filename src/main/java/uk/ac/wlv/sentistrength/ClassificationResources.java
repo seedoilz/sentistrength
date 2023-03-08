@@ -81,6 +81,7 @@ public class ClassificationResources
     }
 
     /**
+     * UC-1;UC-2;UC-3;UC-4;UC5;UC-11;UC12;UC-13;UC-17;UC-18;UC-25;UC-26
      * @param options 由ClassificationOptions类确认，是用于initialise初始化时的分类相关的选项。
      * @return 创建成功则返回true，失败则返回flase。
      * @author zhengjie

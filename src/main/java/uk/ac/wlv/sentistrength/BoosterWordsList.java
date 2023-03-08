@@ -34,7 +34,7 @@ public class BoosterWordsList
     }
 
     /**
-     * UC-
+     * UC-1;UC-4
      * @param sFilename 存放booster words文件的文件名。
      * @param options 由ClassficationOptions类确定，分类选项。
      * @param iExtraBlankArrayEntriesToInclude 额外开辟的用于存放新的booster words的空间大小。
