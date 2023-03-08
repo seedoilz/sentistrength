@@ -34,7 +34,6 @@ public class Paragraph {
 	 * @return void
 	 * @author zhangsong
 	 */
-
 	public void addParagraphToIndexWithPosNegValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectPosClass, int iEstPosClass, int iCorrectNegClass, int iEstNegClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
@@ -54,7 +53,6 @@ public class Paragraph {
 	 * @return void
 	 * @author zhangsong
 	 */
-
 	public void addParagraphToIndexWithScaleValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectScaleClass, int iEstScaleClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
@@ -74,7 +72,6 @@ public class Paragraph {
 	 * @return void
 	 * @author zhangsong
 	 */
-
 	public void addParagraphToIndexWithBinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectBinaryClass, int iEstBinaryClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
@@ -238,7 +235,7 @@ public class Paragraph {
 	}
 
 	/**
-	 * UC-11 得到分类原理
+	 * UC-11、25 得到分类原理
 
 	 * @return java.lang.String
 	 * @author zhangsong
