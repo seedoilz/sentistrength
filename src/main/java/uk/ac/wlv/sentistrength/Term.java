@@ -2,7 +2,7 @@ package uk.ac.wlv.sentistrength;
 
 /**
  * 该类（术语）表示文本中的单个单词、标点符号或表情符号，提供了从文本中提取下一个术语的方法，以及各种判断形式是否规范，与文本是否匹配等方法
- * UC1,UC3,UC11,UC25,UC27
+ * UC1,UC3,UC4,UC11
  *
  */
 public class Term {
@@ -139,6 +139,7 @@ public class Term {
    }
 
    /**
+    * UC1，UC11
     * 获取这个术语的情绪值
     * 如果设置了情绪覆盖标志，则返回其覆盖值；
     * 如果情绪值为正，则根据情绪id返回情绪值；如果为负数或为零，则返回0
@@ -242,6 +243,7 @@ public class Term {
    }
 
    /**
+    * UC4
     * 为这个术语设置这个术语的加强语气词数值
     */
    public void setBoosterWordScore() {
@@ -547,6 +549,7 @@ public class Term {
    }
 
    /**
+    * UC3
     * 为术语的翻译词纠正拼写
     */
    private void correctSpellingInTranslatedWord() {

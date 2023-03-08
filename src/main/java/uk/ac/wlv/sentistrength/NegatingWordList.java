@@ -13,7 +13,7 @@ import uk.ac.wlv.utilities.Sort;
 
 /**
  * 该类表示否定词列表
- * UC5,UC11
+ * UC5
  *
  */
 public class NegatingWordList
@@ -44,6 +44,7 @@ public class NegatingWordList
     }
 
     /**
+     * UC5
      * 使用输入的文件名、分类选项，初始化否定词列表
      * @param sFilename 文件名
      * @param options 一个ClassificationOptions类型的分类选项

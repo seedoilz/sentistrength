@@ -13,7 +13,6 @@ import uk.ac.wlv.utilities.Sort;
 
 /**
  * 该类表示讽刺语列表，提供初始化列表，和判断术语是否讽刺语的方法
- * UC5,UC11,UC12
  *
  */
 public class IronyList
