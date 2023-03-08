@@ -1,6 +1,6 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) fieldsfirst 
+// Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   EvaluativeTerms.java
 
 package uk.ac.wlv.sentistrength;
@@ -38,6 +38,9 @@ public class EvaluativeTerms
     }
 
     /**
+     * UC-1 Assigning Sentiment Scores for Words
+     * UC-27 Optimise sentiment strengths of existing sentiment terms
+     * UC-28 Suggest new sentiment terms (from terms in misclassified texts)
      * 初始化评价词，并且为对应的对象添加额外的SentimentWord和idiom
      * @param sSourceFile 包含情感词的源文件名称
     * @param options ClassificationOptions对象
@@ -45,7 +48,7 @@ public class EvaluativeTerms
     * @param sentimentWords 情感词SentimentWords对象
      * @return boolean 指示初始化是否成功
      * @author haofeng.Yu
-     */ 
+     */
     public boolean initialise(String sSourceFile, ClassificationOptions options, IdiomList idiomList, SentimentWords sentimentWords)
     {
         if(igObjectEvaluationCount > 0)
@@ -72,7 +75,7 @@ public class EvaluativeTerms
             else
                 rReader = new BufferedReader(new FileReader(sSourceFile));
             String sLine;
-            while((sLine = rReader.readLine()) != null) 
+            while((sLine = rReader.readLine()) != null)
                 if(sLine != "" && sLine.indexOf("##") != 0 && sLine.indexOf("\t") > 0)
                 {
                     String sData[] = sLine.split("\t");
