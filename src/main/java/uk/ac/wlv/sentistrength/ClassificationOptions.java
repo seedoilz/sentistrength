@@ -19,287 +19,230 @@ import java.io.IOException;
 public class ClassificationOptions {
     /**
      * 一个布尔值，指示是否使用背景Tensi强度的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgTensiStrength = false;
     /**
      * 一个字符串，情绪分类程序的名称。
-     * @author ruohao.zhang
      **/
     public String sgProgramName = "SentiStrength";
     /**
      * 一个字符串，情绪分类的测量类型。
-     * @author ruohao.zhang
      **/
     public String sgProgramMeasuring = "sentiment";
     /**
      * 一个字符串，积极情绪的字符串表示。
-     * @author ruohao.zhang
      **/
     public String sgProgramPos = "positive sentiment";
     /**
      * 一个字符串，消极情绪的字符串表示。
-     * @author ruohao.zhang
      **/
     public String sgProgramNeg = "negative sentiment";
     /**
      * 一个布尔值，指示是否使用缩放模式的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgScaleMode = false;
     /**
      * 一个布尔值，指示是否使用trinary模式的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgTrinaryMode = false;
     /**
      * 一个布尔值，指示是否使用三元模式的。
-     * @author ruohao.zhang
      **/
     public boolean bgBinaryVersionOfTrinaryMode = false;
     /**
      * 一个整数，默认二进制分类。
-     * @author ruohao.zhang
      **/
     public int igDefaultBinaryClassification = 1;
     /**
      * 一个整数，用于在段落中组合情感的方法。
-     * @author ruohao.zhang
      **/
     public int igEmotionParagraphCombineMethod = 0;
     /**
      * 未使用，在段落中组合情感的最大价值。
-     * @author ruohao.zhang
      **/
     final int igCombineMax = 0;
     /**
      * 未使用，一个整数，在段落中组合情绪的平均值。
-     * @author ruohao.zhang
      **/
     final int igCombineAverage = 1;
     /**
      * 未使用，一个整数，在段落中组合情感的总价值。
-     * @author ruohao.zhang
      **/
     final int igCombineTotal = 2;
     /**
      * 一个整数，用于在句子中组合情感的方法。
-     * @author ruohao.zhang
      **/
     public int igEmotionSentenceCombineMethod = 0;
     /**
      * 一个浮点数，负面情绪的乘数。
-     * @author ruohao.zhang
      **/
     public float fgNegativeSentimentMultiplier = 1.5F;
     /**
      * 一个布尔值，指示是否在有问题的句子中减少负面情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgReduceNegativeEmotionInQuestionSentences = false;
     /**
      * 一个布尔值，指示是否将错过的分类算作加2。
-     * @author ruohao.zhang
      **/
     public boolean bgMissCountsAsPlus2 = true;
     /**
      * 一个布尔值，表示在句子中使用“你”还是“你的”表示积极的情绪，除非句子是否定的。
-     * @author ruohao.zhang
      **/
     public boolean bgYouOrYourIsPlus2UnlessSentenceNegative = false;
     /**
      * 一个布尔值，指示中性句子中的感叹号是否算作加2。
-     * @author ruohao.zhang
      **/
     public boolean bgExclamationInNeutralSentenceCountsAsPlus2 = false;
     /**
      * 一个整数，感叹号后改变句子情绪所需的最小标点符号。
-     * @author ruohao.zhang
      **/
     public int igMinPunctuationWithExclamationToChangeSentenceSentiment = 0;
     /**
      * 一个布尔值，指示是否使用成语查找表的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgUseIdiomLookupTable = true;
     /**
      * 一个布尔值，指示是否使用对象评估表的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgUseObjectEvaluationTable = false;
     /**
      * 未使用，一个布尔值，表示是否将中性情绪视为积极的强调1。
-     * @author ruohao.zhang
      **/
     public boolean bgCountNeutralEmotionsAsPositiveForEmphasis1 = true;
     /**
      * 一个整数，强调中性情绪的值。
-     * @author ruohao.zhang
      **/
     public int igMoodToInterpretNeutralEmphasis = 1;
     /**
      * 一个布尔值，指示是否允许多个积极的单词来增加积极的情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgAllowMultiplePositiveWordsToIncreasePositiveEmotion = true;
     /**
      * 一个布尔值，指示是否允许多个负面单词来增加负面情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgAllowMultipleNegativeWordsToIncreaseNegativeEmotion = true;
     /**
      * 一个布尔值，指示是否在否定词后忽略助推器词。
-     * @author ruohao.zhang
      **/
     public boolean bgIgnoreBoosterWordsAfterNegatives = true;
     /**
      * 一个布尔值，指示是否使用字典更正拼写的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgCorrectSpellingsUsingDictionary = true;
     /**
      * 一个布尔值，指示是否要更正额外的字母拼写错误。
-     * @author ruohao.zhang
      **/
     public boolean bgCorrectExtraLetterSpellingErrors = true;
     /**
      * 一个字符串，在单词中间表示非法双字母的字符串。
-     * @author ruohao.zhang
      **/
     public String sgIllegalDoubleLettersInWordMiddle = "ahijkquvxyz";
     /**
      * 一个字符串，在单词末尾表示非法双字母的字符串。
-     * @author ruohao.zhang
      **/
     public String sgIllegalDoubleLettersAtWordEnd = "achijkmnpqruvwxyz";
     /**
      * 一个布尔值，指示多个字母是否提升情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgMultipleLettersBoostSentiment = true;
     /**
      * 一个布尔值，表示助推器词是否会改变情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgBoosterWordsChangeEmotion = true;
     /**
      * 一个布尔值，指示是否总是在撇号上拆分单词。
-     * @author ruohao.zhang
      **/
     public boolean bgAlwaysSplitWordsAtApostrophes = false;
     /**
      * 一个布尔值，表示否定词是否出现在情绪之前。
-     * @author ruohao.zhang
      **/
     public boolean bgNegatingWordsOccurBeforeSentiment = true;
     /**
      * 一个整数，表示要否定的情绪之前的最大单词数。
-     * @author ruohao.zhang
      **/
     public int igMaxWordsBeforeSentimentToNegate = 0;
     /**
      * 一个布尔值，表示否定词是否出现在情绪之后。
-     * @author ruohao.zhang
      **/
     public boolean bgNegatingWordsOccurAfterSentiment = false;
     /**
      * 一个整数，表示情绪后要否定的最大单词数。
-     * @author ruohao.zhang
      **/
     public int igMaxWordsAfterSentimentToNegate = 0;
     /**
      * 一个布尔值，表示否定积极翻转情绪是否。
-     * @author ruohao.zhang
      **/
     public boolean bgNegatingPositiveFlipsEmotion = true;
     /**
      * 一个布尔值，表示否定否定是否中和了情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgNegatingNegativeNeutralisesEmotion = true;
     /**
      * 一个布尔值，表示否定单词是否翻转情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgNegatingWordsFlipEmotion = false;
     /**
      * 一个浮点数，表示否定单词的强度乘数。
-     * @author ruohao.zhang
      **/
     public float fgStrengthMultiplierForNegatedWords = 0.5F;
     /**
      * 一个布尔值，指示是否用重复的字母纠正拼写。
-     * @author ruohao.zhang
      **/
     public boolean bgCorrectSpellingsWithRepeatedLetter = true;
     /**
      * 一个布尔值，指示是否使用表情符号的布尔值。
-     * @author ruohao.zhang
      **/
     public boolean bgUseEmoticons = true;
     /**
      * 一个布尔值，表示资本是否提升了术语情绪。
-     * @author ruohao.zhang
      **/
     public boolean bgCapitalsBoostTermSentiment = false;
     /**
      * 一个整数，表示提升情绪的最小重复字符数。
-     * @author ruohao.zhang
      **/
     public int igMinRepeatedLettersForBoost = 2;
     /**
      * 一个字符串数组，当出现在句子中时，可能会影响情绪分类的关键字数组。
-     * @author ruohao.zhang
      **/
     public String[] sgSentimentKeyWords = null;
     /**
      * 一个布尔值，是否忽略不包含sgSentimentKeyWords中指定的任何关键字的句子。
-     * @author ruohao.zhang
      **/
     public boolean bgIgnoreSentencesWithoutKeywords = false;
     /**
      * 一个整数，在处理情感分析时，句子中要包含在关键字之前的单词数。
-     * @author ruohao.zhang
      **/
     public int igWordsToIncludeBeforeKeyword = 4;
     /**
      * 一个整数，处理情绪分析时，句子中关键字后要包含的单词数。
-     * @author ruohao.zhang
      **/
     public int igWordsToIncludeAfterKeyword = 4;
     /**
      * 一个布尔值，是否提供情绪分类的解释。
-     * @author ruohao.zhang
      **/
     public boolean bgExplainClassification = false;
     /**
      * 一个布尔值，是否将输入文本作为输出的重复。
-     * @author ruohao.zhang
      **/
     public boolean bgEchoText = false;
     /**
      * 一个布尔值，是否强制使用UTF-8编码。
-     * @author ruohao.zhang
      **/
     public boolean bgForceUTF8 = false;
     /**
      * 一个布尔值，是否使用lemmatisation来提高情绪分析的准确性。
-     * @author ruohao.zhang
      **/
     public boolean bgUseLemmatisation = false;
     /**
      * 一个整数，将引号视为讽刺的最小句子位置。
-     * @author ruohao.zhang
      **/
     public int igMinSentencePosForQuotesIrony = 10;
     /**
      * 一个整数，将标点符号视为讽刺的最低句子位置。
-     * @author ruohao.zhang
      **/
     public int igMinSentencePosForPunctuationIrony = 10;
     /**
      * 一个整数，将特定术语视为表示讽刺的最低句子位置。
-     * @author ruohao.zhang
      **/
     public int igMinSentencePosForTermsIrony = 10;
     
