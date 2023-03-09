@@ -94,8 +94,9 @@ public class ClassificationStatistics
     }
 
     /**
-     * UC-22;UC-23
-     * binary包含positive和negative词汇，而trinary除此之外还包含neural类型词汇
+     * UC-22;UC-23;UC-29
+     * binary包含positive和negative词汇，而trinary除此之外还包含neural类型词汇。
+     * 该类计算了混淆矩阵（confusion matrix），可用于机器学习中总结分类模型预测结果
      * @param iTrinaryEstimate 估计情绪值
      * @param iTrinaryCorrect 正确的情绪值
      * @param iDataCount 计数
@@ -165,7 +166,7 @@ public class ClassificationStatistics
      * @param iCorrect 正确的每一行情绪值
      * @param iPredicted 预测的情绪值
      * @param iCount 行数
-     * @param bChangeSignOfOneArray 是否有转换符，如：not，有的话值的正负号需转换
+     * @param bChangeSignOfOneArray 是否有转换符
      * @return 正确的情绪值行数
      * @author zhengjie
      */

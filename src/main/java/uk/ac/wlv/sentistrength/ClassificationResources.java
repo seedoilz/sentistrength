@@ -100,7 +100,7 @@ public class ClassificationResources
      */
     public String sgBoosterListFile;
     /**
-     *俚语词汇表的文件名
+     *习语词汇表的文件名
      */
     public String sgIdiomLookupTableFile;
     /**
