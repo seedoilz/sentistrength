@@ -15,8 +15,8 @@ sentistrength.NegatingWordList,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.SentimentWords,X,X,,,,X,X,,,,X,,,,,,,,,,,,,,,,X,,
 sentistrength.QuestionWords,,,,,,,,,,X,X,,,,,,,,,,,,,,,,,,
 sentistrength.Lemmatiser,X,,X,,,,,,,,,,,,,,,,,,,,,,,,,,
-sentistrength.UnusedTermsClassificationIndex,,,,,,,,,,,,,,,,,X,,X,,,,,,,,,,
-sentistrength.Corpus,X,,,,,,,,,,,X,,,,,,,,,,,,X,,X,X,,X
-sentistrength.Paragraph,X,,,,,,,X,,X,X,,,,,,,,,,X,X,X,,,,,,
+sentistrength.UnusedTermsClassificationIndex,,,,,,,,,,,X,X,,,,,X,,X,X,X,X,,,,,,,
+sentistrength.Corpus,X,X,,,,,,,,,,X,,,,X,,,,X,,,X,X,,X,X,X,X
+sentistrength.Paragraph,X,,,,,,,X,,X,X,,,,,,,,,,X,X,X,X,X,X,X,,
 sentistrength.Sentence,X,X,,X,X,X,,,X,,X,,,,,,,,,,,,,X,,,,,
 sentistrength.Term,X,,X,X,,,,,,,X,,,,,,,,,,,,,,,,,,

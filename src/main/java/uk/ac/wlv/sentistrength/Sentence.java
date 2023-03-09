@@ -141,7 +141,6 @@ public class Sentence {
      * @param sSentence 要处理的sentence字符串
      * @param classResources 分类资源的实例（词典、情感词字典、idiomList等）
      * @param newClassificationOptions 分类选项的实例
-     * @return void
      * @author haofeng.Yu
      */
     public void setSentence(String sSentence, ClassificationResources classResources, ClassificationOptions newClassificationOptions) {
@@ -192,7 +191,6 @@ public class Sentence {
     /**
      * UC-2 Assigning Sentiment Scores for Phrases
      * 在sentence中创建情感 ID 数组
-     * @return void
      * @author haofeng.Yu
      */
     public void makeSentimentIDList() {
@@ -411,7 +409,6 @@ public class Sentence {
      * UC-6 Repeated Letter Rule
      * UC-9 Repeated Punctuation Rule
      * UC-11 Classify a single text
-     *
      * 计算sentence的情感得分的核心函数
      * @author haofeng.Yu
      */

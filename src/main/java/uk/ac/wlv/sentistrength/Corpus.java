@@ -15,11 +15,18 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions, ClassificationResources, UnusedTermsClassificationIndex, Paragraph, 
 //            ClassificationStatistics, SentimentWords
 
-/*Corpus 语料库*/
+/**
+ * 语料库
+ */
 public class Corpus
 {
-
+    /**
+     * 分类选项
+     */
     public ClassificationOptions options;
+    /**
+     * 分类资源
+     */
     public ClassificationResources resources;
     private Paragraph[] paragraph;
     private int igParagraphCount;
@@ -38,12 +45,13 @@ public class Corpus
     private boolean bSentimentIDListMade;
     UnusedTermsClassificationIndex unusedTermsClassificationIndex;
     private boolean[] bgSupcorpusMember;
+    /**
+     * 子语料库成员数量
+     */
     int igSupcorpusMemberCount;
 
     /**
      * 语料库构造函数
-
-     * @return
      * @author zhangsong
      */
     public Corpus()
@@ -64,8 +72,6 @@ public class Corpus
      *     （四种模式：单尺度、双精度二进制、三元值、正负情绪值）
      *     如果单尺度模式==true，则对于单尺度模式进行术语分类，然后将段落添加到具有单尺度的索引中
      * </p>
-
-     * @return void
      * @author zhangsong
      */
     public void indexClassifiedCorpus()
@@ -111,7 +117,6 @@ public class Corpus
      * </p>
      * @param saveFile 文件名
      * @param iMinFreq 最小频率
-     * @return void
      * @author zhangsong
      */
     public void printCorpusUnusedTermsClassificationIndex(String saveFile, int iMinFreq)
@@ -139,7 +144,6 @@ public class Corpus
      *     如果bSubcorpusMember==ture（属于子语料库），则将bgSupcorpusMember[i]==true，同时用igSupcorpusMemberCount记录段落数
      * </p>
      * @param bSubcorpusMember 子语料库成员
-     * @return void
      * @author zhangsong
      */
     public void setSubcorpus(boolean[] bSubcorpusMember)
@@ -162,8 +166,6 @@ public class Corpus
      * <p>
      *     将整个段落中的bgSupcorpusMember=true，igSupcorpusMemberCount反映了段落中枢
      * </p>
-
-     * @return void
      * @author zhangsong
      */
     public void useWholeCorpusNotSubcorpus()
@@ -359,7 +361,6 @@ public class Corpus
 
     /**
      * 资源是否初始化
-
      * @return boolean 如果资源初始化返回true
      * @author zhangsong
      */
@@ -374,8 +375,6 @@ public class Corpus
      *    首先循环遍历语料库中的所有段落，并检查当前段落是否是子语料库的成员，
      *    如果是，则重新计算情感分数
      * </p>
-
-     * @return void
      * @author zhangsong
      */
     public void reCalculateCorpusSentimentScores()
@@ -434,8 +433,6 @@ public class Corpus
      * <p>
      *     最后用一个bgCorpusClassified来指示语料库情感分数已被计算
      * </p>
-
-     * @return void
      * @author zhangsong
      */
     public void calculateCorpusSentimentScores()
@@ -477,7 +474,6 @@ public class Corpus
      * </p>
      * @param iSentimentWordID 指定情感词的ID
      * @param iMinParasToContainWord 包含情感词的最少段落数（条件）
-     * @return void
      * @author zhangsong
      */
     public void reClassifyClassifiedCorpusForSentimentChange(int iSentimentWordID, int iMinParasToContainWord)
@@ -909,7 +905,6 @@ public class Corpus
      *     bSentimentIDListMade=true，指示已创建情绪 ID 列表
      * </p>
 
-     * @return void
      * @author zhangsong
      */
     public void makeSentimentIDListForCompleteCorpusIgnoringSubcorpus()
@@ -964,7 +959,6 @@ public class Corpus
      * @param iMultiOptimisations description
      * @param sWriter description
      * @param wTermStrengthWriter description
-     * @return void
      * @author zhangsong
      */
     private void run10FoldCrossValidationMultipleTimes(int iMinImprovement, boolean bUseTotalDifference, int iReplications, int iMultiOptimisations, BufferedWriter sWriter, BufferedWriter wTermStrengthWriter)
@@ -982,7 +976,6 @@ public class Corpus
      * @param iReplications description
      * @param iMultiOptimisations description
      * @param sOutFileName description
-     * @return void
      * @author zhangsong
      */
     public void run10FoldCrossValidationMultipleTimes(int iMinImprovement, boolean bUseTotalDifference, int iReplications, int iMultiOptimisations, String sOutFileName)
@@ -1016,7 +1009,6 @@ public class Corpus
      * @param iTextCol description
      * @param iIDCol description
      * @param sOutputFile 输出文件路径
-     * @return void
      * @author zhangsong
      */
     public void classifyAllLinesAndRecordWithID(String sInputFile, int iTextCol, int iIDCol, String sOutputFile)
@@ -1094,7 +1086,6 @@ public class Corpus
      * </p>
      * @param sInputFile 输入文件路径
      * @param iTextCol 要分析的文本索引
-     * @return void
      * @author zhangsong
      */
     public void annotateAllLinesInInputFile(String sInputFile, int iTextCol)
@@ -1173,7 +1164,6 @@ public class Corpus
      * @param sInputFile 输入文件名
      * @param iTextCol 文件索引
      * @param sOutputFile 输出文件名
-     * @return void
      * @author zhangsong
      */
     public void classifyAllLinesInInputFile(String sInputFile, int iTextCol, String sOutputFile)
@@ -1399,7 +1389,6 @@ public class Corpus
     /**
      * UC-26 将分类算法写入标题中
      * @param w description
-     * @return void
      * @author zhangsong
      */
     private void writeClassificationStatsHeadings(BufferedWriter w)
@@ -1420,7 +1409,6 @@ public class Corpus
      * @param iReplications description
      * @param iMultiOptimisations description
      * @param sOutFileName description
-     * @return void
      * @author zhangsong
      */
     public void run10FoldCrossValidationForAllOptionVariations(int iMinImprovement, boolean bUseTotalDifference, int iReplications, int iMultiOptimisations, String sOutFileName)
@@ -1555,7 +1543,6 @@ public class Corpus
      * @param iMultiOptimisations description
      * @param wWriter description
      * @param wTermStrengthWriter description
-     * @return void
      * @author zhangsong
      */
     private void run10FoldCrossValidationOnce(int iMinImprovement, boolean bUseTotalDifference, int iMultiOptimisations, BufferedWriter wWriter, BufferedWriter wTermStrengthWriter)
@@ -1687,7 +1674,6 @@ public class Corpus
      * @param iParagraphRand description
      * @param iDecile description
      * @param bInvert 用于确定是选择指定十分位数内的段落还是排除它们
-     * @return void
      * @author zhangsong
      */
     private void selectDecileAsSubcorpus(int iParagraphRand[], int iDecile, boolean bInvert)
@@ -1721,7 +1707,6 @@ public class Corpus
      * @param iMinImprovement 它确定继续优化权重所需的最小改进
      * @param bUseTotalDifference 决定是使用总差还是平均差来决定是否应该继续优化
      * @param iOptimisationTotal 用于确定优化过程应运行的次数
-     * @return void
      * @author zhangsong
      */
     public void optimiseDictionaryWeightingsForCorpusMultipleTimes(int iMinImprovement, boolean bUseTotalDifference, int iOptimisationTotal)
@@ -1766,7 +1751,6 @@ public class Corpus
      * </p>
      * @param iMinImprovement 更新单词所需的最小改进
      * @param bUseTotalDifference 在更新单词权重时是否使用正面和负面情感词之间的总差
-     * @return void
      * @author zhangsong
      */
     public void optimiseDictionaryWeightingsForCorpus(int iMinImprovement, boolean bUseTotalDifference)
@@ -1783,7 +1767,6 @@ public class Corpus
     /**
      * UC-27 针对语料库规模优化情感词典权重的方法
      * @param iMinImprovement 用于确定继续调整权重所需的分类等级的最小改进
-     * @return void
      * @author zhangsong
      */
     public void optimiseDictionaryWeightingsForCorpusScale(int iMinImprovement)
@@ -1843,7 +1826,6 @@ public class Corpus
     /**
      * UC-27 该方法使用三元或二元分类方案来优化给定语料库的情感词词典权重
      * @param iMinImprovement 用于确定继续调整权重所需的分类等级的最小改进
-     * @return void
      * @author zhangsong
      */
     public void optimiseDictionaryWeightingsForCorpusTrinaryOrBinary(int iMinImprovement)
@@ -1904,7 +1886,6 @@ public class Corpus
      * UC-27 可以针对给定的已分类为正面或负面的文本语料库优化情感分析词典中单词的权重
      * @param iMinImprovement 指定要考虑的权重变化所需的最小改进
      * @param bUseTotalDifference 指示是否在正负分类中使用总差 分数作为改进的指标或使用每个类别的正确分类数
-     * @return void
      * @author zhangsong
      */
     public void optimiseDictionaryWeightingsForCorpusPosNeg(int iMinImprovement, boolean bUseTotalDifference)
@@ -2000,7 +1981,6 @@ public class Corpus
      * 从指定文件中读取数据，总结计算后写入输出文件
      * @param sInputFile 输入文件
      * @param sOutputFile 输出文件
-     * @return void
      * @author zhangsong
      */
     public void SummariseMultiple10FoldValidations(String sInputFile, String sOutputFile)
