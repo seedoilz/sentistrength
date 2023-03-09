@@ -197,6 +197,7 @@ public class IdiomList
     /**
      * UC-1,UC-2
      * @deprecated 输入需要获取强度的习语，返回其强度。此方法不使用，并标记为旧且无用
+     * @return 999
      * @param sPhrase 需要获取强度的习语
      */
     public int getIdiomStrength_oldNotUseful(String sPhrase)
@@ -212,6 +213,7 @@ public class IdiomList
     /**
      * 通过输入习语id标识获取习语
      * @param iIdiomID 习语id标识
+     * @return ""
      */
     public String getIdiom(int iIdiomID)
     {
