@@ -16,9 +16,19 @@ public class Sentence {
     private boolean[] bgSpaceAfterTerm;
     /** 表示sentence中的term数 **/
     private int igTermCount = 0;
+    /**
+     * 返回igTermCount，sentence中的term数。
+     * @return igTermCount sentence中的term数
+     * @author ruohao.zhang
+     */
     public int getIgTermCount() {
 		return igTermCount;
 	}
+    /**
+     * 返回igSentiCount，sentence中情感词的数量。
+     * @return igSentiCount sentence中情感词的数量
+     * @author ruohao.zhang
+     */
     public int getIgSentiCount() {
 		return igSentiCount;
 	}

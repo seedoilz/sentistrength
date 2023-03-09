@@ -143,7 +143,6 @@ public class Term {
     * 获取这个术语的情绪值
     * 如果设置了情绪覆盖标志，则返回其覆盖值；
     * 如果情绪值为正，则根据情绪id返回情绪值；如果为负数或为零，则返回0
-    *
     * @return 术语情绪值
     */
    public int getSentimentValue() {
