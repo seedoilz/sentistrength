@@ -11,16 +11,26 @@ package uk.ac.wlv.sentistrength;
  **/
 public class TextParsingOptions
 {
-
+    /**
+     * 一个布尔值，表示是否包括标点符号。
+     **/
     public boolean bgIncludePunctuation;
+    /**
+     * 一个整数，表示N-Gram模型中的N值。
+     **/
     public int igNgramSize;
+    /**
+     * 一个布尔值，表示是否使用翻译。
+     **/
     public boolean bgUseTranslations;
+    /**
+     * 一个布尔值，表示是否使用强调代码。
+     **/
     public boolean bgAddEmphasisCode;
 
     /**
      * TextParsingOptions（文本转化选项）的构造器
      * 分别有包括分隔，N-Gram模型中的N值，使用翻译，强调代码
-     * @author ruohao.zhang
      */
     public TextParsingOptions()
     {
