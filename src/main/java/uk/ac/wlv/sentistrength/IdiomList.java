@@ -12,7 +12,7 @@ import uk.ac.wlv.utilities.FileOps;
 
 /**
  * 该类表示习语列表，提供了用于初始化、添加额外习语以及将习语字符串转换为单词列表的方法
- * UC1,UC1
+ * UC1,UC2
  *
  */
 public class IdiomList
@@ -195,6 +195,7 @@ public class IdiomList
     }
 
     /**
+     * UC-1,UC-2
      * @deprecated 输入需要获取强度的习语，返回其强度。此方法不使用，并标记为旧且无用
      * @param sPhrase 需要获取强度的习语
      */

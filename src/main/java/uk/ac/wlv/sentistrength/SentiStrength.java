@@ -686,7 +686,6 @@ public class SentiStrength {
     * 没有被识别，则输出错误信息并调用showBriefHelp方法展示帮助信息。最后，如果初始化成功，则初始化语料库。
     * UC-16
     * @param args 命令行参数
-    * @return
     * @author ruohao.zhang
     */
    public void initialise(String[] args) {

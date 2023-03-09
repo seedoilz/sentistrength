@@ -31,7 +31,6 @@ public class Paragraph {
 	 * @param iEstPosClass 正例的估计数
 	 * @param iCorrectNegClass 正确分类的负例数
 	 * @param iEstNegClass 负实例的估计数量
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void addParagraphToIndexWithPosNegValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectPosClass, int iEstPosClass, int iCorrectNegClass, int iEstNegClass) {
@@ -50,7 +49,6 @@ public class Paragraph {
 	 * @param unusedTermsClassificationIndex 对象，表示段落将被添加到的索引
 	 * @param iCorrectScaleClass 正确的单尺度值
 	 * @param iEstScaleClass 预估的单尺度值
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void addParagraphToIndexWithScaleValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectScaleClass, int iEstScaleClass) {
@@ -69,7 +67,6 @@ public class Paragraph {
 	 * @param unusedTermsClassificationIndex 对象，表示段落将被添加到的索引
 	 * @param iCorrectBinaryClass 正确的二进制值
 	 * @param iEstBinaryClass 估计的二进制值
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void addParagraphToIndexWithBinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectBinaryClass, int iEstBinaryClass) {
@@ -110,7 +107,6 @@ public class Paragraph {
 	 * @param unusedTermsClassificationIndex 对象，表示段落将被添加到的索引
 	 * @param iCorrectTrinaryClass 正确的三位一体值
 	 * @param iEstTrinaryClass 估计的三位一体值
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void addParagraphToIndexWithTrinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectTrinaryClass, int iEstTrinaryClass) {
@@ -131,7 +127,6 @@ public class Paragraph {
 	 * @param sParagraph 段落字符串
 	 * @param classResources 分类资源
 	 * @param newClassificationOptions 新的分类选项
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void setParagraph(String sParagraph, ClassificationResources classResources, ClassificationOptions newClassificationOptions) {
@@ -260,7 +255,6 @@ public class Paragraph {
 	 *     最后使用快速排序对igSentimentIDList数组进行排序，并且将bSentimentIDListMade设置为true，表示已生成情感ID列表。
 	 * </p>
 
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void makeSentimentIDList() {
@@ -350,7 +344,6 @@ public class Paragraph {
 	 *     遍历整个段落，调用recalculateSentenceSentimentScore重新计算句子的情感分数，最后计算段落的情感分数
 	 * </p>
 
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void recalculateParagraphSentimentScores() {
@@ -371,7 +364,6 @@ public class Paragraph {
 	 *     如果存在，则继续对段落中的分类句子进行重新分类，并重新计算情感分数
 	 * </p>
 	 * @param iSentimentWordID 给定的情感词ID
-	 * @return void
 	 * @author zhangsong
 	 */
 	public void reClassifyClassifiedParagraphForSentimentChange(int iSentimentWordID) {
@@ -509,7 +501,6 @@ public class Paragraph {
 	 *     在该方法的最后，根据段落的情感分数的计算方式，将最终分类原理附加到 sgClassificationRationale。
 	 * </p>
 
-	 * @return void
 	 * @author zhangsong
 	 */
 	private void calculateParagraphSentimentScores() {

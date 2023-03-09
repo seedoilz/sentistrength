@@ -1,6 +1,6 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) fieldsfirst 
+// Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   CorrectSpellingsList.java
 
 package uk.ac.wlv.sentistrength;
@@ -29,6 +29,7 @@ public class CorrectSpellingsList
     }
 
     /**
+     * UC-3 Spelling Correction
      * 该方法从指定的文本文件初始化拼写检查字典SpellingList
      * 该方法然后返回 true 以指示字典已成功初始化。
      * 如果在读取文件或初始化字典时出现错误，该方法将返回 false。
@@ -61,7 +62,7 @@ public class CorrectSpellingsList
             else
                 rReader = new BufferedReader(new FileReader(sFilename));
             String sLine;
-            while((sLine = rReader.readLine()) != null) 
+            while((sLine = rReader.readLine()) != null)
                 if(sLine != "")
                 {
                     igCorrectWordCount++;
@@ -86,6 +87,7 @@ public class CorrectSpellingsList
     }
 
     /**
+     * UC-3 Spelling Correction
      * 检查一个字符串是否拼写正确
      * @param sWord 待检查字符串
      * @return boolean

@@ -1,6 +1,6 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) fieldsfirst 
+// Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   EmoticonsList.java
 
 package uk.ac.wlv.sentistrength;
@@ -17,7 +17,7 @@ import uk.ac.wlv.utilities.Sort;
 /**
  * 情感符号表极其对应强度的实现类
  * @author haofeng.Yu
- */ 
+ */
 public class EmoticonsList
 {
 
@@ -37,11 +37,12 @@ public class EmoticonsList
     }
 
     /**
+     * UC-1 Assigning Sentiment Scores for Words
      * 接受一个情感符号并且返回一个表示情感强度的整数，如果无法找到该情感符号，则返回999
      * @param emoticon 情感符号
      * @return int 情感强度
      * @author haofeng.Yu
-     */ 
+     */
     public int getEmoticon(String emoticon)
     {
         int iEmoticon = Sort.i_FindStringPositionInSortedArray(emoticon, sgEmoticon, 1, igEmoticonCount);
@@ -57,7 +58,7 @@ public class EmoticonsList
      * @param options 分类选项
      * @return boolean 若无异常，则返回true，否则返回false
      * @author haofeng.Yu
-     */ 
+     */
     public boolean initialise(String sSourceFile, ClassificationOptions options)
     {
         if(igEmoticonCount > 0)
@@ -82,7 +83,7 @@ public class EmoticonsList
             else
                 rReader = new BufferedReader(new FileReader(sSourceFile));
             String sLine;
-            while((sLine = rReader.readLine()) != null) 
+            while((sLine = rReader.readLine()) != null)
                 if(sLine != "")
                 {
                     String sData[] = sLine.split("\t");
