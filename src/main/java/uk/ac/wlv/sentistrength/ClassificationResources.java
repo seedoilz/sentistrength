@@ -96,7 +96,7 @@ public class ClassificationResources
      */
     public String sgNegatingWordListFile;
     /**
-     *情绪强化词汇表的文件名
+     *情绪强化/减弱词汇表的文件名
      */
     public String sgBoosterListFile;
     /**
