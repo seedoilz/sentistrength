@@ -27,8 +27,8 @@ public class ClassificationStatistics
     /**
      * UC-12
      * 用于计算绝对值关联性
-     * @param iCorrect 每一行正确的情感标签
-     * @param iPredicted 每一行的预测
+     * @param iCorrect 每一行正确的情绪值
+     * @param iPredicted 每一行预测的情绪值
      * @param iCount 文本总行数
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
      * @author zhengjie
@@ -62,8 +62,8 @@ public class ClassificationStatistics
     /**
      *
      * 用于计算关联性（含正负）
-     * @param iCorrect 每一行正确的情感标签
-     * @param iPredicted 每一行的预测
+     * @param iCorrect 每一行正确的情绪值
+     * @param iPredicted 每一行的预测情绪值
      * @param iCount 行数
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
      * @author zhengjie

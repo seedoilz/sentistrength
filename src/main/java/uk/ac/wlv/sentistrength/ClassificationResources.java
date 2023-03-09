@@ -23,29 +23,101 @@ import uk.ac.wlv.utilities.FileOps;
 public class ClassificationResources
 {
 
+    /**
+     * 表情符号
+     */
     public EmoticonsList emoticons;
+    /**
+     * 正确拼写
+     */
     public CorrectSpellingsList correctSpellings;
+    /**
+     * 情感词汇表
+     */
     public SentimentWords sentimentWords;
+    /**
+     * 否定词列表
+     */
     public NegatingWordList negatingWords;
+    /**
+     *疑问词列表
+     */
     public QuestionWords questionWords;
+    /**
+     *情绪加强词汇表
+     */
     public BoosterWordsList boosterWords;
+    /**
+     * 俚语列表
+     */
     public IdiomList idiomList;
+    /**
+     *情感分析评价
+     */
     public EvaluativeTerms evaluativeTerms;
+    /**
+     *讽刺词汇列表
+     */
     public IronyList ironyList;
+    /**
+     *词形还原
+     */
     public Lemmatiser lemmatiser;
+    /**
+     *项目data对应的目录文件夹
+     */
     public String sgSentiStrengthFolder;
+    /**
+     *情绪词汇表，初始命名为EmotionLookupTable.txt
+     */
     public String sgSentimentWordsFile;
+    /**
+     *情绪词汇表，需要自己创建，文件名命名为SentimentLookupTable.txt，用于替换EmotionLookupTable.txt
+     */
     public String sgSentimentWordsFile2;
+    /**
+     *EmoticonLookupTable.txt
+     */
     public String sgEmoticonLookupTable;
+    /**
+     *词典文件名，需要自己创建，初始命名为Dictionary.txt，用于替换EnglishWordList.txt
+     */
     public String sgCorrectSpellingFileName;
+    /**
+     *英语单词词典文件名，初始化为EnglishWordList.txt
+     */
     public String sgCorrectSpellingFileName2;
+    /**
+     *缩写词汇表对应文件名，初始化为SlangLookupTable_NOT_USED.txt
+     */
     public String sgSlangLookupTable;
+    /**
+     *否定词词汇表的文件名
+     */
     public String sgNegatingWordListFile;
+    /**
+     *情绪强化词汇表的文件名
+     */
     public String sgBoosterListFile;
+    /**
+     *俚语词汇表的文件名
+     */
     public String sgIdiomLookupTableFile;
+    /**
+     *疑问词汇表的文件名
+     */
     public String sgQuestionWordListFile;
+    /**
+     *讽刺词汇表的文件名
+     */
     public String sgIronyWordListFile;
+    /**
+     *额外文件的文件名，需要自己创建
+     */
     public String sgAdditionalFile;
+    /**
+     *词形还原的文件名，需要自己创建
+     */
     public String sgLemmaFile;
 
     /**
