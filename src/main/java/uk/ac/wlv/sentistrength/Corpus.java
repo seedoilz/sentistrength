@@ -15,11 +15,18 @@ import uk.ac.wlv.utilities.Sort;
 //            ClassificationOptions, ClassificationResources, UnusedTermsClassificationIndex, Paragraph, 
 //            ClassificationStatistics, SentimentWords
 
-/*Corpus 语料库*/
+/**
+ * 语料库
+ */
 public class Corpus
 {
-
+    /**
+     * 分类选项
+     */
     public ClassificationOptions options;
+    /**
+     * 分类资源
+     */
     public ClassificationResources resources;
     private Paragraph[] paragraph;
     private int igParagraphCount;
@@ -38,6 +45,9 @@ public class Corpus
     private boolean bSentimentIDListMade;
     UnusedTermsClassificationIndex unusedTermsClassificationIndex;
     private boolean[] bgSupcorpusMember;
+    /**
+     * 子语料库成员数量
+     */
     int igSupcorpusMemberCount;
 
     /**

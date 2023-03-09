@@ -141,7 +141,6 @@ public class Sentence {
      * @param sSentence 要处理的sentence字符串
      * @param classResources 分类资源的实例（词典、情感词字典、idiomList等）
      * @param newClassificationOptions 分类选项的实例
-     * @return void
      * @author haofeng.Yu
      */
     public void setSentence(String sSentence, ClassificationResources classResources, ClassificationOptions newClassificationOptions) {

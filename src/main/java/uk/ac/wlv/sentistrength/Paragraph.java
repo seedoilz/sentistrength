@@ -5,7 +5,9 @@ import java.util.Random;
 import uk.ac.wlv.utilities.Sort;
 import uk.ac.wlv.utilities.StringIndex;
 
-/*Paragraph 段*/
+/**
+ * 段落
+ */
 public class Paragraph {
 	private Sentence[] sentence;
 	private int igSentenceCount = 0;
@@ -248,7 +250,7 @@ public class Paragraph {
 	 *     然后遍历数组中的每个句子，如果句子有情感ID列表，则统计情感ID的数量。
 	 * </p>
 	 * <p>
-	 *     如果情感ID数量>0（即存在情感ID），则再次遍历每一个句子并检查是否该句子有情感ID列表，
+	 *     如果情感ID数量大于0（即存在情感ID），则再次遍历每一个句子并检查是否该句子有情感ID列表，
 	 *     如果该句子有一个情感ID列表，则遍历列表中的每个情感ID，检查该ID是否已在igSentimentIDList列表中，如果不在，则将其添加到igSentimentIDList中。
 	 * </p>
 	 * <p>

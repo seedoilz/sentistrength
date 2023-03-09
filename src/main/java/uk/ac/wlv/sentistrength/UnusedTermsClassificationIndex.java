@@ -9,6 +9,9 @@ import java.io.*;
 
 import uk.ac.wlv.utilities.Trie;
 
+/**
+ * 未使用的术语分类索引
+ */
 public class UnusedTermsClassificationIndex
 {
 
@@ -60,7 +63,7 @@ public class UnusedTermsClassificationIndex
      *     bDontAddMoreElements用于判断是否还能往术语数组中添加元素。如果为true，则表明需要数组已满，无法添加新的元素。
      * </p>
      * <p>
-     *     通过Trie中的方法查找到sTerm的ID，当ID>0时表示sTerm存在，并将ID添加到术语添加数组（iTermsAddedIDTemp）中。并且在术语频率数组（igTermListFreqTemp）中记录频率。如果超出数组长度，则扩展数组。
+     *     通过Trie中的方法查找到sTerm的ID，当ID大于0时表示sTerm存在，并将ID添加到术语添加数组（iTermsAddedIDTemp）中。并且在术语频率数组（igTermListFreqTemp）中记录频率。如果超出数组长度，则扩展数组。
      * </p>
      * @param sTerm                 新术语的字符串
      * @author zhangsong
@@ -155,9 +158,6 @@ public class UnusedTermsClassificationIndex
     
     /**
      * 将新索引添加到主索引中，并记录新索引的三位一体值和强度
-     * <p>
-     *
-     * </p>
      * @param iCorrectTrinaryClass              三位一体的值
      * @param iEstTrinaryClass                  估计的三位一体
      * @author zhangsong
