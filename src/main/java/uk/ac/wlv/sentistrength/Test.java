@@ -30,6 +30,7 @@ public class Test
      * asciiEncoder.canEncode()方法测试字符串是否为纯ASCII编码
      * 如果字符串不是纯ASCII编码，程序将打印出所有非ASCII字符的值。
      * 最后进行URL编码，并将其打印到控制台上。
+     * @param args 命令行参数
      * @author ruohao.zhang
      */
     public static void main(String args[])
