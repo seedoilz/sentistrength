@@ -232,8 +232,8 @@ public class Paragraph {
 	}
 
 	/**
-	 * UC-11、25 得到分类原理
-
+	 * UC-11、25
+	 * 得到分类原理
 	 * @return java.lang.String
 	 * @author zhangsong
 	 */

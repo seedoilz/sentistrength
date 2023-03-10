@@ -60,7 +60,7 @@ public class SentiStrength {
 
    /**
     * 用于处理args，然后运行代码。
-    * UC-14,UC-15,UC-16
+    * UC-11 -> UC-28
     * @param args 命令行参数
     * @author ruohao.zhang
     */

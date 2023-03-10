@@ -378,6 +378,7 @@ public class Term {
    }
 
    /**
+    * UC-5
     * 判断该术语是否是否定词
     * @return 是否定词则返回true，反之返回false
     */
@@ -467,6 +468,7 @@ public class Term {
    }
 
    /**
+    * UC-6
     * 为给定给定文本编码成术语形式
     * @param sWord 给定文本
     */
@@ -584,6 +586,7 @@ public class Term {
    }
 
    /**
+    * UC-7
     * 为给定可能表情符号编码成术语形式
     * @param sPossibleEmoticon 给定的可能的表情符号
     * @return 编码成功则返回true，反之返回false
