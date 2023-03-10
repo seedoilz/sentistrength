@@ -4,7 +4,7 @@ sentistrength.Test,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.ClassificationOptions ,,,,,,,,,,,,,,,,,,,,,,,,,,X,,,
 sentistrength.TextParsingOptions,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.ClassificationResources,X,X,X,X,X,,,,,,X,X,X,,,,X,X,,,,,,,X,X,,,
-sentistrength.ClassificationStatistics,X,X,,X,X,,,,,,,X,X,,,,,,,,,X,X,,,,,,X
+sentistrength.ClassificationStatistics,X,X,,X,X,,,,,,,X,X,,,,,,,,,X,X,,,,X,,X
 sentistrength.BoosterWordsList,X,,,X,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.CorrectSpellingsList,,,X,,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.EmoticonsList,X,,,,,,,,,,,,,,,,,,,,,,,,,,,,
