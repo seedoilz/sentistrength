@@ -38,6 +38,7 @@ public class EmoticonsList
 
     /**
      * UC-1 Assigning Sentiment Scores for Words
+     * UC-7 Emoji Rule
      * 接受一个情感符号并且返回一个表示情感强度的整数，如果无法找到该情感符号，则返回999
      * @param emoticon 情感符号
      * @return int 情感强度

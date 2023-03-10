@@ -8,7 +8,7 @@ package uk.ac.wlv.sentistrength;
 import java.io.PrintStream;
 
 /**
- * 本类进行计算的基础规则由UC-1 - UC10决定。此外，该类也可以作为机器学习(UC-29)的判断标准。
+ * 本类进行计算的基础规则由UC-1 - UC10决定。此外，该类也为UC-29,UC-27服务。
  * 用于进行数据统计相关的类，基本用于计算准确率
  * 该类中的iCorrect为正确的情绪值，由人手动计算
  * 该类中的iPredicted为程序预测的每一行情绪值

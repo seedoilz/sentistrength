@@ -7,7 +7,7 @@ sentistrength.ClassificationResources,X,X,X,X,X,,,,,,X,X,X,,,,X,X,,,,,,,X,X,,,
 sentistrength.ClassificationStatistics,X,X,,X,X,,,,,,,X,X,,,,,,,,,X,X,,,,X,,X
 sentistrength.BoosterWordsList,X,,,X,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.CorrectSpellingsList,,,X,,,,,,,,,,,,,,,,,,,,,,,,,,
-sentistrength.EmoticonsList,X,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+sentistrength.EmoticonsList,X,,,,,,X,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.EvaluativeTerms,X,,,,,,,,,,,,,,,,,,,,,,,,,,X,X,
 sentistrength.IdiomList,X,X,,,,,,,,,,,,,,,,,,,,,,,,,,,
 sentistrength.IronyList,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
