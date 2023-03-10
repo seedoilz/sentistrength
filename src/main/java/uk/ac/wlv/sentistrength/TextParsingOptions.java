@@ -6,6 +6,7 @@
 package uk.ac.wlv.sentistrength;
 
 /**
+ * UC-11
  * 文本转化选项类，用来存取与文本相关的选项
  * @author ruohao.zhang
  **/
