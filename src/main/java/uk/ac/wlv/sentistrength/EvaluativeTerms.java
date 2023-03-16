@@ -28,7 +28,7 @@ public class EvaluativeTerms
     public int igObjectEvaluationCount;
 
     /**
-     * 默认构造函数，将igObjectEvaluationMax,igObjectEvaluationCount初始化为0
+     * 默认构造函数，将igObjectEvaluationMax,igObjectEvaluationCount初始化为0。
      * @author haofeng.Yu
      */
     public EvaluativeTerms()
