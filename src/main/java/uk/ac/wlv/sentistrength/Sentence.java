@@ -911,7 +911,7 @@ public class Sentence {
         if (!this.bgIdiomsApplied || recalculateIfAlreadyDone) {
             for(int iTerm = 1; iTerm <= this.igTermCount; ++iTerm) {
                 if (this.term[iTerm].isWord()) {
-                    for(int iIdiom = 1; iIdiom <= this.resources.idiomList.getIgIdiomCount(); ++iIdiom) {
+                    for(int iIdiom = 1; iIdiom <= this.resources.idiomList.igIdiomCount; ++iIdiom) {
                         if (iTerm + this.resources.idiomList.igIdiomWordCount[iIdiom] - 1 <= this.igTermCount) {
                             boolean bMatchingIdiom = true;
 
