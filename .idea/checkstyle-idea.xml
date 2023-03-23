@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CheckStyle-IDEA" serialisationVersion="2">
-    <checkstyleVersion>10.7.0</checkstyleVersion>
+    <checkstyleVersion>8.23</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
+    <suppressErrors>true</suppressErrors>
     <option name="thirdPartyClasspath" />
-    <option name="activeLocationIds" />
+    <option name="activeLocationIds">
+      <option value="62e491fc-c038-4d96-9e01-8b952fd10ae3" />
+    </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="62e491fc-c038-4d96-9e01-8b952fd10ae3" type="LOCAL_FILE" scope="All" description="Alibaba">$PROJECT_DIR$/alibabaSimple.xml</ConfigurationLocation>
       </list>
     </option>
   </component>
