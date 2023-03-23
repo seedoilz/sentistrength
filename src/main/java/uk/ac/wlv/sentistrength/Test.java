@@ -5,7 +5,6 @@
 
 package uk.ac.wlv.sentistrength;
 
-import java.io.PrintStream;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
@@ -14,15 +13,13 @@ import java.nio.charset.CharsetEncoder;
  * Test类，test字符串是否为纯ASCII编码
  * @author ruohao.zhang
  **/
-public class Test
-{
+public class Test {
 
     /**
      * Test构造器
      * @author ruohao.zhang
      */
-    public Test()
-    {
+    public Test() {
     }
 
     /**
@@ -33,23 +30,27 @@ public class Test
      * @param args 命令行参数
      * @author ruohao.zhang
      */
-    public static void main(String args[])
-    {
+    public static void main(String[] args) {
         CharsetEncoder asciiEncoder = Charset.forName("US-ASCII").newEncoder();
         String test = "R\351al";
-        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ").append(asciiEncoder.canEncode(test)).toString());
-        for(int i = 0; i < test.length(); i++)
-            if(!asciiEncoder.canEncode(test.charAt(i)))
+        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
+                .append(asciiEncoder.canEncode(test)).toString());
+        for (int i = 0; i < test.length(); i++) {
+            if (!asciiEncoder.canEncode(test.charAt(i))) {
                 System.out.println((new StringBuilder(String.valueOf(test.charAt(i)))).append(" isn't Ascii() : ").toString());
-
+            }
+        }
         test = "Real";
-        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ").append(asciiEncoder.canEncode(test)).toString());
+        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
+                .append(asciiEncoder.canEncode(test)).toString());
         test = "a\u2665c";
-        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ").append(asciiEncoder.canEncode(test)).toString());
-        for(int i = 0; i < test.length(); i++)
-            if(!asciiEncoder.canEncode(test.charAt(i)))
+        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
+                .append(asciiEncoder.canEncode(test)).toString());
+        for (int i = 0; i < test.length(); i++) {
+            if (!asciiEncoder.canEncode(test.charAt(i))) {
                 System.out.println((new StringBuilder(String.valueOf(test.charAt(i)))).append(" isn't Ascii() : ").toString());
-
+            }
+        }
         System.out.println((new StringBuilder("Encoded Word = ")).append(URLEncoder.encode(test)).toString());
     }
 }

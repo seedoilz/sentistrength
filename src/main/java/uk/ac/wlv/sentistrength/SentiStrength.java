@@ -18,14 +18,14 @@ import uk.ac.wlv.utilities.FileOps;
  * @author ruohao.zhang
  **/
 public class SentiStrength {
-   Corpus c = new Corpus();
+   Corpus corpus = new Corpus();
    
    /**
     * SentiStrength的构造方法，在其中一同初始化了语料库Corpus
     * @author ruohao.zhang
     */
    public SentiStrength() {
-      this.c = new Corpus();
+      this.corpus = new Corpus();
    }
 
    /**
@@ -34,7 +34,7 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    public SentiStrength(String[] args) {
-      this.c = new Corpus();
+      this.corpus = new Corpus();
       this.initialiseAndRun(args);
    }
    
@@ -45,7 +45,6 @@ public class SentiStrength {
     */
    public static void main(String[] args) {
       SentiStrength classifier = new SentiStrength();
-      
       classifier.initialiseAndRun(args);
    }
    
@@ -54,7 +53,7 @@ public class SentiStrength {
     * @return null
     * @author ruohao.zhang
     */
-   public String[] getinput(){
+   public String[] getinput() {
 	return null;
    }
 
@@ -65,7 +64,7 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    public void initialiseAndRun(String[] args) {
-      Corpus c = this.c;
+      Corpus c = this.corpus;
       String sInputFile = ""; //输入文件路径
       String sInputFolder = ""; //输入目录路径
       String sTextToParse = "";
@@ -93,11 +92,11 @@ public class SentiStrength {
       String sLanguage = "";
 
       int i;
-      for(i = 0; i < args.length; ++i) {
+      for (i = 0; i < args.length; ++i) {
          bArgumentRecognised[i] = false;
       }
       //String rooty="/Users/mac/Documents/workspace/SentiStrength/src/input/";
-      for(i = 0; i < args.length; ++i) {
+      for (i = 0; i < args.length; ++i) {
          try {
             /*
               input后面紧跟输入路径
@@ -112,7 +111,7 @@ public class SentiStrength {
               inputfolder后面跟输入文件夹路径
              */
             if (args[i].equalsIgnoreCase("inputfolder")) {
-               sInputFolder=args[i+1];
+               sInputFolder = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
@@ -200,7 +199,7 @@ public class SentiStrength {
             }
 
             if (args[i].equalsIgnoreCase("idcol")) {
-               iIdCol = Integer.parseInt(args[i+1]);
+               iIdCol = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
@@ -278,7 +277,7 @@ public class SentiStrength {
          Locale.setDefault(l);
       }
 
-      for(i = 0; i < args.length; ++i) {
+      for (i = 0; i < args.length; ++i) {
          if (!bArgumentRecognised[i]) {
             System.out.println("Unrecognised command - wrong spelling or case?: " + args[i]);
             this.showBriefHelp();
@@ -287,7 +286,7 @@ public class SentiStrength {
       }
 
       if (c.initialise()) {
-         if (sTextToParse != "") {
+         if (!sTextToParse.equals("")) {
             if (bURLEncoded) {
                try {
                   sTextToParse = URLDecoder.decode(sTextToParse, "UTF-8");
@@ -306,8 +305,8 @@ public class SentiStrength {
          } else if (bStdIn) {
             this.listenToStdIn(c, iTextCol);
          } else if (!bWait) {
-            if (sOptimalTermStrengths != "") {
-               if (sInputFile == "") {
+            if (!sOptimalTermStrengths.equals("")) {
+               if (sInputFile.equals("")) {
                   System.out.println("Input file must be specified to optimise term weights");
                   return;
                }
@@ -330,11 +329,11 @@ public class SentiStrength {
             } else if (iTextColForAnnotation > 0) {
                this.annotationTextCol(c, sInputFile, sInputFolder, sFileSubString, iTextColForAnnotation, bOkToOverwrite);
             } else {
-               if (sInputFolder != "") {
+               if (!sInputFolder.equals("")) {
                   System.out.println("Input folder specified but textCol and IDcol or annotateCol needed");
                }
 
-               if (sInputFile == "") {
+               if (!sInputFile.equals("")) {
                   System.out.println("No action taken because no input file nor text specified");
                   this.showBriefHelp();
                   return;
@@ -346,7 +345,8 @@ public class SentiStrength {
                }
 
                if (bTrain) {
-                  this.runMachineLearning(c, sInputFile, bDoAll, iMinImprovement, bUseTotalDifference, iIterations, iMultiOptimisations, sOutputFile);
+                  this.runMachineLearning(c, sInputFile, bDoAll, iMinImprovement, bUseTotalDifference,
+                          iIterations, iMultiOptimisations, sOutputFile);
                } else {
                   --iTextCol;
                   c.classifyAllLinesInInputFile(sInputFile, iTextCol, sOutputFile);
@@ -381,13 +381,13 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    private void parseParametersForCorpusOptions(String[] args, boolean[] bArgumentRecognised) {
-      for(int i = 0; i < args.length; ++i) {
+      for (int i = 0; i < args.length; ++i) {
          try {
             /*
               包含情感文件的文件夹路径
              */
             if (args[i].equalsIgnoreCase("sentidata")) {
-               this.c.resources.sgSentiStrengthFolder = args[i + 1];
+               this.corpus.resources.sgSentiStrengthFolder = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
@@ -396,60 +396,60 @@ public class SentiStrength {
               包含情绪查找表的文件路径
              */
             if (args[i].equalsIgnoreCase("emotionlookuptable")) {
-               this.c.resources.sgSentimentWordsFile = args[i + 1];
+               this.corpus.resources.sgSentimentWordsFile = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("additionalfile")) {
-               this.c.resources.sgAdditionalFile = args[i + 1];
+               this.corpus.resources.sgAdditionalFile = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("keywords")) {
-               this.c.options.parseKeywordList(args[i + 1].toLowerCase());
+               this.corpus.options.parseKeywordList(args[i + 1].toLowerCase());
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("wordsBeforeKeywords")) {
-               this.c.options.igWordsToIncludeBeforeKeyword = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igWordsToIncludeBeforeKeyword = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("wordsAfterKeywords")) {
-               this.c.options.igWordsToIncludeAfterKeyword = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igWordsToIncludeAfterKeyword = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("sentiment")) {
-               this.c.options.nameProgram(false);
+               this.corpus.options.nameProgram(false);
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("stress")) {
-               this.c.options.nameProgram(true);
+               this.corpus.options.nameProgram(true);
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("trinary")) {
-               this.c.options.bgTrinaryMode = true;
+               this.corpus.options.bgTrinaryMode = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("binary")) {
-               this.c.options.bgBinaryVersionOfTrinaryMode = true;
-               this.c.options.bgTrinaryMode = true;
+               this.corpus.options.bgBinaryVersionOfTrinaryMode = true;
+               this.corpus.options.bgTrinaryMode = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("scale")) {
-               this.c.options.bgScaleMode = true;
+               this.corpus.options.bgScaleMode = true;
                bArgumentRecognised[i] = true;
-               if (this.c.options.bgTrinaryMode) {
+               if (this.corpus.options.bgTrinaryMode) {
                   System.out.println("Must choose binary/trinary OR scale mode");
                   return;
                }
@@ -457,216 +457,216 @@ public class SentiStrength {
 
             ClassificationOptions var10000;
             if (args[i].equalsIgnoreCase("sentenceCombineAv")) {
-               var10000 = this.c.options;
-               this.c.options.getClass();
+               var10000 = this.corpus.options;
+               this.corpus.options.getClass();
                var10000.igEmotionSentenceCombineMethod = 1;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("sentenceCombineTot")) {
-               var10000 = this.c.options;
-               this.c.options.getClass();
+               var10000 = this.corpus.options;
+               this.corpus.options.getClass();
                var10000.igEmotionSentenceCombineMethod = 2;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("paragraphCombineAv")) {
-               var10000 = this.c.options;
-               this.c.options.getClass();
+               var10000 = this.corpus.options;
+               this.corpus.options.getClass();
                var10000.igEmotionParagraphCombineMethod = 1;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("paragraphCombineTot")) {
-               var10000 = this.c.options;
-               this.c.options.getClass();
+               var10000 = this.corpus.options;
+               this.corpus.options.getClass();
                var10000.igEmotionParagraphCombineMethod = 2;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("negativeMultiplier")) {
-               this.c.options.fgNegativeSentimentMultiplier = Float.parseFloat(args[i + 1]);
+               this.corpus.options.fgNegativeSentimentMultiplier = Float.parseFloat(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("noBoosters")) {
-               this.c.options.bgBoosterWordsChangeEmotion = false;
+               this.corpus.options.bgBoosterWordsChangeEmotion = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noNegatingPositiveFlipsEmotion")) {
-               this.c.options.bgNegatingPositiveFlipsEmotion = false;
+               this.corpus.options.bgNegatingPositiveFlipsEmotion = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noNegatingNegativeNeutralisesEmotion")) {
-               this.c.options.bgNegatingNegativeNeutralisesEmotion = false;
+               this.corpus.options.bgNegatingNegativeNeutralisesEmotion = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noNegators")) {
-               this.c.options.bgNegatingWordsFlipEmotion = false;
+               this.corpus.options.bgNegatingWordsFlipEmotion = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noIdioms")) {
-               this.c.options.bgUseIdiomLookupTable = false;
+               this.corpus.options.bgUseIdiomLookupTable = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("questionsReduceNeg")) {
-               this.c.options.bgReduceNegativeEmotionInQuestionSentences = true;
+               this.corpus.options.bgReduceNegativeEmotionInQuestionSentences = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noEmoticons")) {
-               this.c.options.bgUseEmoticons = false;
+               this.corpus.options.bgUseEmoticons = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("exclamations2")) {
-               this.c.options.bgExclamationInNeutralSentenceCountsAsPlus2 = true;
+               this.corpus.options.bgExclamationInNeutralSentenceCountsAsPlus2 = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("minPunctuationWithExclamation")) {
-               this.c.options.igMinPunctuationWithExclamationToChangeSentenceSentiment = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMinPunctuationWithExclamationToChangeSentenceSentiment = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("mood")) {
-               this.c.options.igMoodToInterpretNeutralEmphasis = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMoodToInterpretNeutralEmphasis = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("noMultiplePosWords")) {
-               this.c.options.bgAllowMultiplePositiveWordsToIncreasePositiveEmotion = false;
+               this.corpus.options.bgAllowMultiplePositiveWordsToIncreasePositiveEmotion = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noMultipleNegWords")) {
-               this.c.options.bgAllowMultipleNegativeWordsToIncreaseNegativeEmotion = false;
+               this.corpus.options.bgAllowMultipleNegativeWordsToIncreaseNegativeEmotion = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noIgnoreBoosterWordsAfterNegatives")) {
-               this.c.options.bgIgnoreBoosterWordsAfterNegatives = false;
+               this.corpus.options.bgIgnoreBoosterWordsAfterNegatives = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noDictionary")) {
-               this.c.options.bgCorrectSpellingsUsingDictionary = false;
+               this.corpus.options.bgCorrectSpellingsUsingDictionary = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("noDeleteExtraDuplicateLetters")) {
-               this.c.options.bgCorrectExtraLetterSpellingErrors = false;
+               this.corpus.options.bgCorrectExtraLetterSpellingErrors = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("illegalDoubleLettersInWordMiddle")) {
-               this.c.options.sgIllegalDoubleLettersInWordMiddle = args[i + 1].toLowerCase();
+               this.corpus.options.sgIllegalDoubleLettersInWordMiddle = args[i + 1].toLowerCase();
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("illegalDoubleLettersAtWordEnd")) {
-               this.c.options.sgIllegalDoubleLettersAtWordEnd = args[i + 1].toLowerCase();
+               this.corpus.options.sgIllegalDoubleLettersAtWordEnd = args[i + 1].toLowerCase();
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("noMultipleLetters")) {
-               this.c.options.bgMultipleLettersBoostSentiment = false;
+               this.corpus.options.bgMultipleLettersBoostSentiment = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("negatedWordStrengthMultiplier")) {
-               this.c.options.fgStrengthMultiplierForNegatedWords = Float.parseFloat(args[i + 1]);
+               this.corpus.options.fgStrengthMultiplierForNegatedWords = Float.parseFloat(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("maxWordsBeforeSentimentToNegate")) {
-               this.c.options.igMaxWordsBeforeSentimentToNegate = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMaxWordsBeforeSentimentToNegate = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("negatingWordsDontOccurBeforeSentiment")) {
-               this.c.options.bgNegatingWordsOccurBeforeSentiment = false;
+               this.corpus.options.bgNegatingWordsOccurBeforeSentiment = false;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("maxWordsAfterSentimentToNegate")) {
-               this.c.options.igMaxWordsAfterSentimentToNegate = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMaxWordsAfterSentimentToNegate = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("negatingWordsOccurAfterSentiment")) {
-               this.c.options.bgNegatingWordsOccurAfterSentiment = true;
+               this.corpus.options.bgNegatingWordsOccurAfterSentiment = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("alwaysSplitWordsAtApostrophes")) {
-               this.c.options.bgAlwaysSplitWordsAtApostrophes = true;
+               this.corpus.options.bgAlwaysSplitWordsAtApostrophes = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("capitalsBoostTermSentiment")) {
-               this.c.options.bgCapitalsBoostTermSentiment = true;
+               this.corpus.options.bgCapitalsBoostTermSentiment = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("lemmaFile")) {
-               this.c.options.bgUseLemmatisation = true;
-               this.c.resources.sgLemmaFile = args[i + 1];
+               this.corpus.options.bgUseLemmatisation = true;
+               this.corpus.resources.sgLemmaFile = args[i + 1];
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("MinSentencePosForQuotesIrony")) {
-               this.c.options.igMinSentencePosForQuotesIrony = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMinSentencePosForQuotesIrony = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("MinSentencePosForPunctuationIrony")) {
-               this.c.options.igMinSentencePosForPunctuationIrony = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMinSentencePosForPunctuationIrony = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("MinSentencePosForTermsIrony")) {
-               this.c.options.igMinSentencePosForTermsIrony = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMinSentencePosForTermsIrony = Integer.parseInt(args[i + 1]);
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("MinSentencePosForAllIrony")) {
-               this.c.options.igMinSentencePosForTermsIrony = Integer.parseInt(args[i + 1]);
-               this.c.options.igMinSentencePosForPunctuationIrony = this.c.options.igMinSentencePosForTermsIrony;
-               this.c.options.igMinSentencePosForQuotesIrony = this.c.options.igMinSentencePosForTermsIrony;
+               this.corpus.options.igMinSentencePosForTermsIrony = Integer.parseInt(args[i + 1]);
+               this.corpus.options.igMinSentencePosForPunctuationIrony = this.corpus.options.igMinSentencePosForTermsIrony;
+               this.corpus.options.igMinSentencePosForQuotesIrony = this.corpus.options.igMinSentencePosForTermsIrony;
                bArgumentRecognised[i] = true;
                bArgumentRecognised[i + 1] = true;
             }
 
             if (args[i].equalsIgnoreCase("explain")) {
-               this.c.options.bgExplainClassification = true;
+               this.corpus.options.bgExplainClassification = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("echo")) {
-               this.c.options.bgEchoText = true;
+               this.corpus.options.bgEchoText = true;
                bArgumentRecognised[i] = true;
             }
 
             if (args[i].equalsIgnoreCase("UTF8")) {
-               this.c.options.bgForceUTF8 = true;
+               this.corpus.options.bgForceUTF8 = true;
                bArgumentRecognised[i] = true;
             }
             
@@ -692,13 +692,13 @@ public class SentiStrength {
       boolean[] bArgumentRecognised = new boolean[args.length];
 
       int i;
-      for(i = 0; i < args.length; ++i) {
+      for (i = 0; i < args.length; ++i) {
          bArgumentRecognised[i] = false;
       }
 
       this.parseParametersForCorpusOptions(args, bArgumentRecognised);
 
-      for(i = 0; i < args.length; ++i) {
+      for (i = 0; i < args.length; ++i) {
          if (!bArgumentRecognised[i]) {
             System.out.println("Unrecognised command - wrong spelling or case?: " + args[i]);
             this.showBriefHelp();
@@ -706,7 +706,7 @@ public class SentiStrength {
          }
       }
 
-      if (!this.c.initialise()) {
+      if (!this.corpus.initialise()) {
          System.out.println("Failed to initialise!");
       }
 
@@ -720,29 +720,29 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    public String computeSentimentScores(String sentence) {
-      int iPos =1;
-      int iNeg =1;
-      int iTrinary =0;
-      int iScale =0;
+      int iPos = 1;
+      int iNeg = 1;
+      int iTrinary = 0;
+      int iScale = 0;
       Paragraph paragraph = new Paragraph();
-      paragraph.setParagraph(sentence, this.c.resources, this.c.options);
+      paragraph.setParagraph(sentence, this.corpus.resources, this.corpus.options);
       iNeg = paragraph.getParagraphNegativeSentiment();
       iPos = paragraph.getParagraphPositiveSentiment();
       iTrinary = paragraph.getParagraphTrinarySentiment();
       iScale = paragraph.getParagraphScaleSentiment();
       String sRationale = "";
-      if (this.c.options.bgEchoText) {
+      if (this.corpus.options.bgEchoText) {
          sRationale = " " + sentence;
       }
 
-      if (this.c.options.bgExplainClassification) {
+      if (this.corpus.options.bgExplainClassification) {
          sRationale = " " + paragraph.getClassificationRationale();
       }
 
-      if (this.c.options.bgTrinaryMode) {
+      if (this.corpus.options.bgTrinaryMode) {
          return iPos + " " + iNeg + " " + iTrinary + sRationale;
       } else {
-         return this.c.options.bgScaleMode ? iPos + " " + iNeg + " " + iScale + sRationale : iPos + " " + iNeg + sRationale;
+         return this.corpus.options.bgScaleMode ? iPos + " " + iNeg + " " + iScale + sRationale : iPos + " " + iNeg + sRationale;
       }
    }
 
@@ -759,7 +759,8 @@ public class SentiStrength {
     * @param sOutputFile 输出文件名
     * @author ruohao.zhang
     */
-   private void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement, boolean bUseTotalDifference, int iIterations, int iMultiOptimisations, String sOutputFile) {
+   private void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement,
+                                   boolean bUseTotalDifference, int iIterations, int iMultiOptimisations, String sOutputFile) {
       if (iMinImprovement < 1) {
          System.out.println("No action taken because min improvement < 1");
          this.showBriefHelp();
@@ -769,24 +770,36 @@ public class SentiStrength {
          int corpusSize = c.getCorpusSize();
          if (c.options.bgTrinaryMode) {
             if (c.options.bgBinaryVersionOfTrinaryMode) {
-               System.out.print("Before training, binary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " " + (float)c.getClassificationTrinaryNumberCorrect() / (float)corpusSize * 100.0F + "%");
+               System.out.print("Before training, binary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " "
+                       + (float) c.getClassificationTrinaryNumberCorrect() / (float) corpusSize * 100.0F + "%");
             } else {
-               System.out.print("Before training, trinary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " " + (float)c.getClassificationTrinaryNumberCorrect() / (float)corpusSize * 100.0F + "%");
+               System.out.print("Before training, trinary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " "
+                       + (float) c.getClassificationTrinaryNumberCorrect() / (float) corpusSize * 100.0F + "%");
             }
          } else if (c.options.bgScaleMode) {
-            System.out.print("Before training, scale accuracy: " + c.getClassificationScaleNumberCorrect() + " " + (float)c.getClassificationScaleNumberCorrect() * 100.0F / (float)corpusSize + "% corr " + c.getClassificationScaleCorrelationWholeCorpus());
+            System.out.print("Before training, scale accuracy: " + c.getClassificationScaleNumberCorrect() + " "
+                    + (float) c.getClassificationScaleNumberCorrect() * 100.0F / (float) corpusSize + "% corr "
+                    + c.getClassificationScaleCorrelationWholeCorpus());
          } else {
-            System.out.print("Before training, positive: " + c.getClassificationPositiveNumberCorrect() + " " + c.getClassificationPositiveAccuracyProportion() * 100.0F + "% negative " + c.getClassificationNegativeNumberCorrect() + " " + c.getClassificationNegativeAccuracyProportion() * 100.0F + "% ");
-            System.out.print("   Positive corr: " + c.getClassificationPosCorrelationWholeCorpus() + " negative " + c.getClassificationNegCorrelationWholeCorpus());
+            System.out.print("Before training, positive: " + c.getClassificationPositiveNumberCorrect() + " "
+                    + c.getClassificationPositiveAccuracyProportion() * 100.0F + "% negative "
+                    + c.getClassificationNegativeNumberCorrect() + " "
+                    + c.getClassificationNegativeAccuracyProportion() * 100.0F + "% ");
+            System.out.print("   Positive corr: " + c.getClassificationPosCorrelationWholeCorpus() + " negative "
+                    + c.getClassificationNegCorrelationWholeCorpus());
          }
 
          System.out.println(" out of " + c.getCorpusSize());
          if (bDoAll) {
-            System.out.println("Running " + iIterations + " iteration(s) of all options on file " + sInputFile + "; results in " + sOutputFile);
-            c.run10FoldCrossValidationForAllOptionVariations(iMinImprovement, bUseTotalDifference, iIterations, iMultiOptimisations, sOutputFile);
+            System.out.println("Running " + iIterations + " iteration(s) of all options on file "
+                    + sInputFile + "; results in " + sOutputFile);
+            c.run10FoldCrossValidationForAllOptionVariations(iMinImprovement, bUseTotalDifference,
+                    iIterations, iMultiOptimisations, sOutputFile);
          } else {
-            System.out.println("Running " + iIterations + " iteration(s) for standard or selected options on file " + sInputFile + "; results in " + sOutputFile);
-            c.run10FoldCrossValidationMultipleTimes(iMinImprovement, bUseTotalDifference, iIterations, iMultiOptimisations, sOutputFile);
+            System.out.println("Running " + iIterations + " iteration(s) for standard or selected options on file "
+                    + sInputFile + "; results in " + sOutputFile);
+            c.run10FoldCrossValidationMultipleTimes(iMinImprovement, bUseTotalDifference,
+                    iIterations, iMultiOptimisations, sOutputFile);
          }
 
       }
@@ -804,7 +817,8 @@ public class SentiStrength {
     */
    private void classifyAndSaveWithID(Corpus c, String sInputFile, String sInputFolder, int iTextCol, int iIdCol) {
       if (!sInputFile.equals("")) {
-         c.classifyAllLinesAndRecordWithID(sInputFile, iTextCol - 1, iIdCol - 1, FileOps.s_ChopFileNameExtension(sInputFile) + "_classID.txt");
+         c.classifyAllLinesAndRecordWithID(sInputFile, iTextCol - 1, iIdCol - 1,
+                 FileOps.s_ChopFileNameExtension(sInputFile) + "_classID.txt");
       } else {
          if (sInputFolder.equals("")) {
             System.out.println("No annotations done because no input file or folder specfied");
@@ -820,7 +834,7 @@ public class SentiStrength {
             return;
          }
 
-         for(int i = 0; i < listOfFiles.length; ++i) {
+         for (int i = 0; i < listOfFiles.length; ++i) {
             if (listOfFiles[i].isFile()) {
                System.out.println("Classify + save with ID: " + listOfFiles[i].getName());
                c.classifyAllLinesAndRecordWithID(sInputFolder + "/" + listOfFiles[i].getName(), iTextCol - 1, iIdCol - 1, sInputFolder + "/" + FileOps.s_ChopFileNameExtension(listOfFiles[i].getName()) + "_classID.txt");
@@ -859,7 +873,7 @@ public class SentiStrength {
             }
             File folder = new File(sInputFolder);
             File[] listOfFiles = folder.listFiles();
-            for(int i = 0; i < listOfFiles.length; ++i) {
+            for (int i = 0; i < listOfFiles.length; ++i) {
                if (listOfFiles[i].isFile()) {
                   if (!sFileSubString.equals("") && listOfFiles[i].getName().indexOf(sFileSubString) <= 0) {
                      System.out.println("  Ignoring " + listOfFiles[i].getName());
@@ -882,10 +896,10 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    private void parseOneText(Corpus c, String sTextToParse, boolean bURLEncodedOutput) {
-      int iPos =1;
-      int iNeg =1;
-      int iTrinary =0;
-      int iScale =0;
+      int iPos = 1;
+      int iNeg = 1;
+      int iTrinary = 0;
+      int iScale = 0;
       Paragraph paragraph = new Paragraph();
       paragraph.setParagraph(sTextToParse, c.resources, c.options);
       iNeg = paragraph.getParagraphNegativeSentiment();
@@ -946,7 +960,7 @@ public class SentiStrength {
 
       String sTextToParse;
       try {
-         while((sTextToParse = stdin.readLine()) != null) {
+         while ((sTextToParse = stdin.readLine()) != null) {
             boolean bSuccess;
             if (sTextToParse.indexOf("#Change_TermWeight") >= 0) {
                String[] sData = sTextToParse.split("\t");
@@ -957,10 +971,10 @@ public class SentiStrength {
                   System.out.println("0");
                }
             } else {
-               int iPos =1;
-               bSuccess =false;
-               int iTrinary =0;
-               int iScale =0;
+               int iPos = 1;
+               bSuccess = false;
+               int iTrinary = 0;
+               int iScale = 0;
                Paragraph paragraph = new Paragraph();
                if (iTextCol > -1) {
                   String[] sData = sTextToParse.split("\t");
@@ -1023,19 +1037,19 @@ public class SentiStrength {
    private void listenForCmdInput(Corpus c) {
       BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 
-      while(true) {
-         while(true) {
+      while (true) {
+         while (true) {
             try {
-               while(true) {
+               while (true) {
                   String sTextToParse = stdin.readLine();
                   if (sTextToParse.toLowerCase().equals("@end")) {
                      return;
                   }
 
-                  int iPos =1;
-                  int iNeg =1;
-                  int iTrinary =0;
-                  int iScale =0;
+                  int iPos = 1;
+                  int iNeg = 1;
+                  int iTrinary = 0;
+                  int iScale = 0;
                   Paragraph paragraph = new Paragraph();
                   paragraph.setParagraph(sTextToParse, c.resources, c.options);
                   iNeg = paragraph.getParagraphNegativeSentiment();
@@ -1099,7 +1113,7 @@ public class SentiStrength {
 
       System.out.println("Listening on port: " + iListenPort + " IP: " + serverSocket.getInetAddress());
 
-      while(true) {
+      while (true) {
          Socket clientSocket = null;
 
          try {
@@ -1129,7 +1143,7 @@ public class SentiStrength {
 
          String inputLine;
          try {
-            while((inputLine = in.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null) {
                if (inputLine.indexOf("GET /") == 0) {
                   int lastSpacePos = inputLine.lastIndexOf(" ");
                   if (lastSpacePos < 5) {
@@ -1154,10 +1168,10 @@ public class SentiStrength {
             decodedText = "";
          }
 
-         int iPos =1;
-         int iNeg =1;
-         int iTrinary =0;
-         int iScale =0;
+         int iPos = 1;
+         int iNeg = 1;
+         int iTrinary = 0;
+         int iScale = 0;
          Paragraph paragraph = new Paragraph();
          paragraph.setParagraph(decodedText, c.resources, c.options);
          iNeg = paragraph.getParagraphNegativeSentiment();
@@ -1210,12 +1224,12 @@ public class SentiStrength {
     */
    private void showBriefHelp() {
       System.out.println();
-      System.out.println("====" + this.c.options.sgProgramName + "Brief Help====");
+      System.out.println("====" + this.corpus.options.sgProgramName + "Brief Help====");
       System.out.println("For most operations, a minimum of two parameters must be set");
       System.out.println("1) folder location for the linguistic files");
       System.out.println("   e.g., on Windows: C:/mike/Lexical_Data/");
       System.out.println("   e.g., on Mac/Linux/Unix: /usr/Lexical_Data/");
-      if (this.c.options.bgTensiStrength) {
+      if (this.corpus.options.bgTensiStrength) {
          System.out.println("TensiiStrength_Data can be downloaded from...[not completed yet]");
       } else {
          System.out.println("SentiStrength_Data can be downloaded with the Windows version of SentiStrength from sentistrength.wlv.ac.uk");
@@ -1227,14 +1241,14 @@ public class SentiStrength {
       System.out.println("   e.g., To classify a file of texts: input /bob/data.txt");
       System.out.println();
       System.out.println("Here is an example complete command:");
-      if (this.c.options.bgTensiStrength) {
+      if (this.corpus.options.bgTensiStrength) {
          System.out.println("java -jar TensiStrength.jar sentidata C:/a/Stress_Data/ text am+stressed");
       } else {
          System.out.println("java -jar SentiStrength.jar sentidata C:/a/SentStrength_Data/ text love+u");
       }
 
       System.out.println();
-      if (!this.c.options.bgTensiStrength) {
+      if (!this.corpus.options.bgTensiStrength) {
          System.out.println("To list all commands: java -jar SentiStrength.jar help");
       }
 
@@ -1245,7 +1259,7 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    private void printCommandLineOptions() {
-      System.out.println("====" + this.c.options.sgProgramName + " Command Line Options====");
+      System.out.println("====" + this.corpus.options.sgProgramName + " Command Line Options====");
       System.out.println("=Source of data to be classified=");
       System.out.println(" text [text to process] OR");
       System.out.println(" input [filename] (each line of the file is classified SEPARATELY");
@@ -1262,9 +1276,10 @@ public class SentiStrength {
       System.out.println(" stdin (read from stdin input, write to stdout, terminate when stdin finished)");
       System.out.println(" wait (just initialise; allow calls to public String computeSentimentScores)");
       System.out.println("=Linguistic data source=");
-      System.out.println(" sentidata [folder for " + this.c.options.sgProgramName + " data (end in slash, no spaces)]");
+      System.out.println(" sentidata [folder for " + this.corpus.options.sgProgramName + " data (end in slash, no spaces)]");
       System.out.println("=Options=");
-      System.out.println(" keywords [comma-separated list - " + this.c.options.sgProgramMeasuring + " only classified close to these]");
+      System.out.println(" keywords [comma-separated list - " + this.corpus.options.sgProgramMeasuring
+              + " only classified close to these]");
       System.out.println("   wordsBeforeKeywords [words to classify before keyword (default 4)]");
       System.out.println("   wordsAfterKeywords [words to classify after keyword (default 4)]");
       System.out.println(" trinary (report positive-negative-neutral classifcation instead)");
@@ -1279,33 +1294,45 @@ public class SentiStrength {
       System.out.println(" noNegatingPositiveFlipsEmotion (don't use negating words to flip +ve words)");
       System.out.println(" bgNegatingNegativeNeutralisesEmotion (negating words don't neuter -ve words)");
       System.out.println(" negatedWordStrengthMultiplier (strength multiplier when negated (default=0.5))");
-      System.out.println(" negatingWordsOccurAfterSentiment (negate " + this.c.options.sgProgramMeasuring + " occurring before negatives)");
-      System.out.println("  maxWordsAfterSentimentToNegate (max words " + this.c.options.sgProgramMeasuring + " to negator (default 0))");
-      System.out.println(" negatingWordsDontOccurBeforeSentiment (don't negate " + this.c.options.sgProgramMeasuring + " after negatives)");
-      System.out.println("   maxWordsBeforeSentimentToNegate (max from negator to " + this.c.options.sgProgramMeasuring + " (default 0))");
+      System.out.println(" negatingWordsOccurAfterSentiment (negate "
+              + this.corpus.options.sgProgramMeasuring + " occurring before negatives)");
+      System.out.println("  maxWordsAfterSentimentToNegate (max words "
+              + this.corpus.options.sgProgramMeasuring + " to negator (default 0))");
+      System.out.println(" negatingWordsDontOccurBeforeSentiment (don't negate "
+              + this.corpus.options.sgProgramMeasuring + " after negatives)");
+      System.out.println("   maxWordsBeforeSentimentToNegate (max from negator to "
+              + this.corpus.options.sgProgramMeasuring + " (default 0))");
       System.out.println(" noIdioms (ignore idiom list)");
       System.out.println(" questionsReduceNeg (-ve sentiment reduced in questions)");
       System.out.println(" noEmoticons (ignore emoticon list)");
       System.out.println(" exclamations2 (sentence with ! counts as +2 if otherwise neutral)");
-      System.out.println(" minPunctuationWithExclamation (min punctuation with ! to boost term " + this.c.options.sgProgramMeasuring + ")");
+      System.out.println(" minPunctuationWithExclamation (min punctuation with ! to boost term "
+              + this.corpus.options.sgProgramMeasuring + ")");
       System.out.println(" mood [-1,0,1] (default 1: -1 assume neutral emphasis is neg, 1, assume is pos");
-      System.out.println(" noMultiplePosWords (multiple +ve words don't increase " + this.c.options.sgProgramPos + ")");
-      System.out.println(" noMultipleNegWords (multiple -ve words don't increase " + this.c.options.sgProgramNeg + ")");
+      System.out.println(" noMultiplePosWords (multiple +ve words don't increase "
+              + this.corpus.options.sgProgramPos + ")");
+      System.out.println(" noMultipleNegWords (multiple -ve words don't increase "
+              + this.corpus.options.sgProgramNeg + ")");
       System.out.println(" noIgnoreBoosterWordsAfterNegatives (don't ignore boosters after negating words)");
       System.out.println(" noDictionary (don't try to correct spellings using the dictionary)");
-      System.out.println(" noMultipleLetters (don't use additional letters in a word to boost " + this.c.options.sgProgramMeasuring + ")");
+      System.out.println(" noMultipleLetters (don't use additional letters in a word to boost "
+              + this.corpus.options.sgProgramMeasuring + ")");
       System.out.println(" noDeleteExtraDuplicateLetters (don't delete extra duplicate letters in words)");
       System.out.println(" illegalDoubleLettersInWordMiddle [letters never duplicate in word middles]");
       System.out.println("    default for English: ahijkquvxyz (specify list without spaces)");
       System.out.println(" illegalDoubleLettersAtWordEnd [letters never duplicate at word ends]");
       System.out.println("    default for English: achijkmnpqruvwxyz (specify list without spaces)");
-      System.out.println(" sentenceCombineAv (average " + this.c.options.sgProgramMeasuring + " strength of terms in each sentence) OR");
-      System.out.println(" sentenceCombineTot (total the " + this.c.options.sgProgramMeasuring + " strength of terms in each sentence)");
-      System.out.println(" paragraphCombineAv (average " + this.c.options.sgProgramMeasuring + " strength of sentences in each text) OR");
-      System.out.println(" paragraphCombineTot (total the " + this.c.options.sgProgramMeasuring + " strength of sentences in each text)");
+      System.out.println(" sentenceCombineAv (average " + this.corpus.options.sgProgramMeasuring
+              + " strength of terms in each sentence) OR");
+      System.out.println(" sentenceCombineTot (total the " + this.corpus.options.sgProgramMeasuring
+              + " strength of terms in each sentence)");
+      System.out.println(" paragraphCombineAv (average " + this.corpus.options.sgProgramMeasuring
+              + " strength of sentences in each text) OR");
+      System.out.println(" paragraphCombineTot (total the " + this.corpus.options.sgProgramMeasuring
+              + " strength of sentences in each text)");
       System.out.println("  *the default for the above 4 options is the maximum, not the total or average");
       System.out.println(" negativeMultiplier [negative total strength polarity multiplier, default 1.5]");
-      System.out.println(" capitalsBoostTermSentiment (" + this.c.options.sgProgramMeasuring + " words in CAPITALS are stronger)");
+      System.out.println(" capitalsBoostTermSentiment (" + this.corpus.options.sgProgramMeasuring + " words in CAPITALS are stronger)");
       System.out.println(" alwaysSplitWordsAtApostrophes (e.g., t'aime -> t ' aime)");
       System.out.println(" MinSentencePosForQuotesIrony [integer] quotes in +ve sentences indicate irony");
       System.out.println(" MinSentencePosForPunctuationIrony [integer] +ve ending in !!+ indicates irony");
@@ -1320,12 +1347,14 @@ public class SentiStrength {
       System.out.println("=Advanced - machine learning [1st input line ignored]=");
       System.out.println(" termWeights (list terms in badly classified texts; must specify inputFile)");
       System.out.println(" optimise [Filename for optimal term strengths (eg. EmotionLookupTable2.txt)]");
-      System.out.println(" train (evaluate " + this.c.options.sgProgramName + " by training term strengths on results in file)");
+      System.out.println(" train (evaluate " + this.corpus.options.sgProgramName + " by training term strengths on results in file)");
       System.out.println("   all (test all option variations rather than use default)");
       System.out.println("   numCorrect (optimise by # correct - not total classification difference)");
       System.out.println("   iterations [number of 10-fold iterations] (default 1)");
-      System.out.println("   minImprovement [min. accuracy improvement to change " + this.c.options.sgProgramMeasuring + " weights (default 1)]");
-      System.out.println("   multi [# duplicate term strength optimisations to change " + this.c.options.sgProgramMeasuring + " weights (default 1)]");
+      System.out.println("   minImprovement [min. accuracy improvement to change "
+              + this.corpus.options.sgProgramMeasuring + " weights (default 1)]");
+      System.out.println("   multi [# duplicate term strength optimisations to change "
+              + this.corpus.options.sgProgramMeasuring + " weights (default 1)]");
    }
 
    /**
@@ -1334,6 +1363,6 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    public Corpus getCorpus() {
-      return this.c;
+      return this.corpus;
    }
 }

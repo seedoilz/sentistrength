@@ -272,7 +272,8 @@ public class ClassificationOptions {
      * @return boolean 指示选项是否已成功写入BufferedWriter。如果有IOException，它将打印堆栈跟踪并返回false。
      * @author ruohao.zhang
      */
-    public boolean printClassificationOptions(BufferedWriter wWriter, int iMinImprovement, boolean bUseTotalDifference, int iMultiOptimisations) {
+    public boolean printClassificationOptions(BufferedWriter wWriter, int iMinImprovement,
+                                              boolean bUseTotalDifference, int iMultiOptimisations) {
         try {
             if (this.igEmotionParagraphCombineMethod == 0) {
                 wWriter.write("Max");
@@ -349,12 +350,12 @@ public class ClassificationOptions {
         try {
             BufferedReader rReader = new BufferedReader(new FileReader(sFilename));
 
-            while(rReader.ready()) {
+            while (rReader.ready()) {
                 String sLine = rReader.readLine();
                 int iTabPos = sLine.indexOf("\t");
                 if (iTabPos > 0) {
                     String[] sData = sLine.split("\t");
-                    if (sData[0] == "EmotionParagraphCombineMethod") {
+                    if (sData[0].equals("EmotionParagraphCombineMethod")) {
                         if (sData[1].indexOf("Max") >= 0) {
                             this.igEmotionParagraphCombineMethod = 0;
                         }
@@ -366,7 +367,7 @@ public class ClassificationOptions {
                         if (sData[1].indexOf("Tot") >= 0) {
                             this.igEmotionParagraphCombineMethod = 2;
                         }
-                    } else if (sData[0] == "EmotionSentenceCombineMethod") {
+                    } else if (sData[0].equals("EmotionSentenceCombineMethod")) {
                         if (sData[1].indexOf("Max") >= 0) {
                             this.igEmotionSentenceCombineMethod = 0;
                         }
@@ -378,51 +379,51 @@ public class ClassificationOptions {
                         if (sData[1].indexOf("Tot") >= 0) {
                             this.igEmotionSentenceCombineMethod = 2;
                         }
-                    } else if (sData[0] == "IgnoreNegativeEmotionInQuestionSentences") {
+                    } else if (sData[0].equals("IgnoreNegativeEmotionInQuestionSentences")) {
                         this.bgReduceNegativeEmotionInQuestionSentences = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "MissCountsAsPlus2") {
+                    } else if (sData[0].equals("MissCountsAsPlus2")) {
                         this.bgMissCountsAsPlus2 = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "YouOrYourIsPlus2UnlessSentenceNegative") {
+                    } else if (sData[0].equals("YouOrYourIsPlus2UnlessSentenceNegative")) {
                         this.bgYouOrYourIsPlus2UnlessSentenceNegative = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "ExclamationCountsAsPlus2") {
+                    } else if (sData[0].equals("ExclamationCountsAsPlus2")) {
                         this.bgExclamationInNeutralSentenceCountsAsPlus2 = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "UseIdiomLookupTable") {
+                    } else if (sData[0].equals("UseIdiomLookupTable")) {
                         this.bgUseIdiomLookupTable = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "Mood") {
+                    } else if (sData[0].equals("Mood")) {
                         this.igMoodToInterpretNeutralEmphasis = Integer.parseInt(sData[1]);
-                    } else if (sData[0] == "AllowMultiplePositiveWordsToIncreasePositiveEmotion") {
+                    } else if (sData[0].equals("AllowMultiplePositiveWordsToIncreasePositiveEmotion")) {
                         this.bgAllowMultiplePositiveWordsToIncreasePositiveEmotion = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "AllowMultipleNegativeWordsToIncreaseNegativeEmotion") {
+                    } else if (sData[0].equals("AllowMultipleNegativeWordsToIncreaseNegativeEmotion")) {
                         this.bgAllowMultipleNegativeWordsToIncreaseNegativeEmotion = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "IgnoreBoosterWordsAfterNegatives") {
+                    } else if (sData[0].equals("IgnoreBoosterWordsAfterNegatives")) {
                         this.bgIgnoreBoosterWordsAfterNegatives = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "MultipleLettersBoostSentiment") {
+                    } else if (sData[0].equals("MultipleLettersBoostSentiment")) {
                         this.bgMultipleLettersBoostSentiment = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "BoosterWordsChangeEmotion") {
+                    } else if (sData[0].equals("BoosterWordsChangeEmotion")) {
                         this.bgBoosterWordsChangeEmotion = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "NegatingWordsFlipEmotion") {
+                    } else if (sData[0].equals("NegatingWordsFlipEmotion")) {
                         this.bgNegatingWordsFlipEmotion = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "NegatingWordsFlipEmotion") {
+                    } else if (sData[0].equals("NegatingWordsFlipEmotion")) {
                         this.bgNegatingPositiveFlipsEmotion = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "NegatingWordsFlipEmotion") {
+                    } else if (sData[0].equals("NegatingWordsFlipEmotion")) {
                         this.bgNegatingNegativeNeutralisesEmotion = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "CorrectSpellingsWithRepeatedLetter") {
+                    } else if (sData[0].equals("CorrectSpellingsWithRepeatedLetter")) {
                         this.bgCorrectSpellingsWithRepeatedLetter = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "UseEmoticons") {
+                    } else if (sData[0].equals("UseEmoticons")) {
                         this.bgUseEmoticons = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "CapitalsAreSentimentBoosters") {
+                    } else if (sData[0].equals("CapitalsAreSentimentBoosters")) {
                         this.bgCapitalsBoostTermSentiment = Boolean.parseBoolean(sData[1]);
-                    } else if (sData[0] == "MinRepeatedLettersForBoost") {
+                    } else if (sData[0].equals("MinRepeatedLettersForBoost")) {
                         this.igMinRepeatedLettersForBoost = Integer.parseInt(sData[1]);
-                    } else if (sData[0] == "WordsBeforeSentimentToNegate") {
+                    } else if (sData[0].equals("WordsBeforeSentimentToNegate")) {
                         this.igMaxWordsBeforeSentimentToNegate = Integer.parseInt(sData[1]);
-                    } else if (sData[0] == "Trinary") {
+                    } else if (sData[0].equals("Trinary")) {
                         this.bgTrinaryMode = true;
-                    } else if (sData[0] == "Binary") {
+                    } else if (sData[0].equals("Binary")) {
                         this.bgTrinaryMode = true;
                         this.bgBinaryVersionOfTrinaryMode = true;
                     } else {
-                        if (sData[0] != "Scale") {
+                        if (!sData[0].equals("Scale")) {
                             rReader.close();
                             return false;
                         }
