@@ -40,9 +40,10 @@ public class Term {
     * @param classOptions 分类选项
     * @return 文本中提取的术语结尾的位置，如果没有则返回-1
     */
-   public int extractNextWordOrPunctuationOrEmoticon(String sWordAndPunctuation, ClassificationResources classResources, ClassificationOptions classOptions) {
-      int iWordCharOrAppostrophe =1;
-      int iPunctuation =1;
+   public int extractNextWordOrPunctuationOrEmoticon(
+           String sWordAndPunctuation, ClassificationResources classResources, ClassificationOptions classOptions) {
+      int iWordCharOrAppostrophe = 1;
+      int iPunctuation = 1;
       int iPos = 0;
       int iLastCharType = 0;
       String sChar = "";
@@ -52,9 +53,14 @@ public class Term {
       if (this.codeEmoticon(sWordAndPunctuation)) {
          return -1;
       } else {
-         for(; iPos < iTextLength; ++iPos) {
+         for (; iPos < iTextLength; ++iPos) {
             sChar = sWordAndPunctuation.substring(iPos, iPos + 1);
-            if (!Character.isLetterOrDigit(sWordAndPunctuation.charAt(iPos)) && (this.options.bgAlwaysSplitWordsAtApostrophes || !sChar.equals("'") || iPos <= 0 || iPos >= iTextLength - 1 || !Character.isLetter(sWordAndPunctuation.charAt(iPos + 1))) && !sChar.equals("$") && !sChar.equals("£") && !sChar.equals("@") && !sChar.equals("_")) {
+            if (!Character.isLetterOrDigit(sWordAndPunctuation.charAt(iPos))
+                    && (this.options.bgAlwaysSplitWordsAtApostrophes
+                    || !sChar.equals("'") || iPos <= 0 || iPos >= iTextLength - 1
+                    || !Character.isLetter(sWordAndPunctuation.charAt(iPos + 1)))
+                    && !sChar.equals("$") && !sChar.equals("£") && !sChar.equals("@")
+                    && !sChar.equals("_")) {
                if (iLastCharType == 1) {
                   this.codeWord(sWordAndPunctuation.substring(0, iPos));
                   return iPos;
@@ -71,12 +77,14 @@ public class Term {
             }
          }
 
-         switch(iLastCharType) {
-         case 1:
-            this.codeWord(sWordAndPunctuation);
-            break;
-         case 2:
-            this.codePunctuation(sWordAndPunctuation);
+         switch (iLastCharType) {
+            case 1:
+               this.codeWord(sWordAndPunctuation);
+               break;
+            case 2:
+               this.codePunctuation(sWordAndPunctuation);
+            default:
+               break;
          }
 
          return -1;
@@ -88,16 +96,22 @@ public class Term {
     * @return 代表这个术语的HTML标签
     */
    public String getTag() {
-      switch(this.igContentType) {
+      switch (this.igContentType) {
       case 1:
-         if (this.sgWordEmphasis != "") {
+         if (!"".equals(this.sgWordEmphasis)) {
             return "<w equiv=\"" + this.sgTranslatedWord + "\" em=\"" + this.sgWordEmphasis + "\">" + this.sgOriginalWord + "</w>";
          }
 
          return "<w>" + this.sgOriginalWord + "</w>";
       case 2:
-         if (this.sgPunctuationEmphasis != "") {
-            return "<p equiv=\"" + this.sgPunctuation + "\" em=\"" + this.sgPunctuationEmphasis + "\">" + this.sgPunctuation + this.sgPunctuationEmphasis + "</p>";
+         if (!"".equals(this.sgPunctuationEmphasis)) {
+            return "<p equiv=\""
+                    + this.sgPunctuation
+                    + "\" em=\""
+                    + this.sgPunctuationEmphasis
+                    + "\">" + this.sgPunctuation
+                    + this.sgPunctuationEmphasis
+                    + "</p>";
          }
 
          return "<p>" + this.sgPunctuation + "</p>";
@@ -260,7 +274,7 @@ public class Term {
       } else if (this.sgPunctuation.indexOf(sPunctuation) > -1) {
          return true;
       } else {
-         return this.sgPunctuationEmphasis != "" && this.sgPunctuationEmphasis.indexOf(sPunctuation) > -1;
+         return !"".equals(this.sgPunctuationEmphasis) && this.sgPunctuationEmphasis.indexOf(sPunctuation) > -1;
       }
    }
 
@@ -324,7 +338,8 @@ public class Term {
          if (!this.bgProperNounCalculated) {
             if (this.sgOriginalWord.length() > 1) {
                String sFirstLetter = this.sgOriginalWord.substring(0, 1);
-               if (!sFirstLetter.toLowerCase().equals(sFirstLetter.toUpperCase()) && !this.sgOriginalWord.substring(0, 2).toUpperCase().equals("I'")) {
+               if (!sFirstLetter.toLowerCase().equals(sFirstLetter.toUpperCase())
+                       && !this.sgOriginalWord.substring(0, 2).toUpperCase().equals("I'")) {
                   String sWordRemainder = this.sgOriginalWord.substring(1);
                   if (sFirstLetter.equals(sFirstLetter.toUpperCase()) && sWordRemainder.equals(sWordRemainder.toLowerCase())) {
                      this.bgProperNoun = true;
@@ -481,7 +496,7 @@ public class Term {
          int iWordEnd = sWord.length() - 1;
 
          int iPos;
-         for(iPos = 1; iPos <= iWordEnd; ++iPos) {
+         for (iPos = 1; iPos <= iWordEnd; ++iPos) {
             if (sWord.substring(iPos, iPos + 1).compareToIgnoreCase(sWord.substring(iPos - 1, iPos)) == 0) {
                ++iSameCount;
             } else {
@@ -490,7 +505,7 @@ public class Term {
                }
 
                if (iSameCount > 1) {
-                  if (sEm == "") {
+                  if ("".equals(sEm)) {
                      sWordNew = sWord.substring(0, iPos - iSameCount + 1);
                      sEm = sWord.substring(iPos - iSameCount, iPos - 1);
                      iLastCopiedPos = iPos;
@@ -510,19 +525,19 @@ public class Term {
          }
 
          if (iSameCount > 1) {
-            if (sEm == "") {
+            if ("".equals(sEm)) {
                sWordNew = sWord.substring(0, iPos - iSameCount + 1);
                sEm = sWord.substring(iPos - iSameCount + 1);
             } else {
                sWordNew = sWordNew + sWord.substring(iLastCopiedPos, iPos - iSameCount + 1);
                sEm = sEm + sWord.substring(iPos - iSameCount + 1);
             }
-         } else if (sEm != "") {
+         } else if (!"".equals(sEm)) {
             sWordNew = sWordNew + sWord.substring(iLastCopiedPos);
          }
       }
 
-      if (sWordNew == "") {
+      if ("".equals(sWordNew)) {
          sWordNew = sWord;
       }
 
@@ -557,7 +572,7 @@ public class Term {
       if (!this.resources.correctSpellings.correctSpelling(this.sgTranslatedWord.toLowerCase())) {
          int iLastChar = this.sgTranslatedWord.length() - 1;
 
-         for(int iPos = 1; iPos <= iLastChar; ++iPos) {
+         for (int iPos = 1; iPos <= iLastChar; ++iPos) {
             if (this.sgTranslatedWord.substring(iPos, iPos + 1).compareTo(this.sgTranslatedWord.substring(iPos - 1, iPos)) == 0) {
                String sReplaceWord = this.sgTranslatedWord.substring(0, iPos) + this.sgTranslatedWord.substring(iPos + 1);
                if (this.resources.correctSpellings.correctSpelling(sReplaceWord.toLowerCase())) {

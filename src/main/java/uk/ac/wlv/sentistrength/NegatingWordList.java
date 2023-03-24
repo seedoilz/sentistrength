@@ -16,13 +16,11 @@ import uk.ac.wlv.utilities.Sort;
  * UC5
  *
  */
-public class NegatingWordList
-{
-
+public class NegatingWordList {
     /**
      * 否定词数组
      */
-    private String sgNegatingWord[];
+    private String[] sgNegatingWord;
 
     /**
      * 列表中否定词数量
@@ -37,8 +35,7 @@ public class NegatingWordList
     /**
      * 构造一个否定词列表
      */
-    public NegatingWordList()
-    {
+    public NegatingWordList() {
         igNegatingWordCount = 0;
         igNegatingWordMax = 0;
     }
@@ -50,44 +47,39 @@ public class NegatingWordList
      * @param options 一个ClassificationOptions类型的分类选项
      * @return 初始化成功返回true，反之返回false
      */
-    public boolean initialise(String sFilename, ClassificationOptions options)
-    {
-        if(igNegatingWordMax > 0)
+    public boolean initialise(String sFilename, ClassificationOptions options) {
+        if (igNegatingWordMax > 0) {
             return true;
+        }
         File f = new File(sFilename);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             System.out.println((new StringBuilder("Could not find the negating words file: ")).append(sFilename).toString());
             return false;
         }
         igNegatingWordMax = FileOps.i_CountLinesInTextFile(sFilename) + 2;
         sgNegatingWord = new String[igNegatingWordMax];
         igNegatingWordCount = 0;
-        try
-        {
+        try {
             BufferedReader rReader;
-            if(options.bgForceUTF8)
+            if (options.bgForceUTF8) {
                 rReader = new BufferedReader(new InputStreamReader(new FileInputStream(sFilename), "UTF8"));
-            else
+            } else {
                 rReader = new BufferedReader(new FileReader(sFilename));
+            }
             String sLine;
-            while((sLine = rReader.readLine()) != null) 
-                if(sLine != "")
-                {
+            while ((sLine = rReader.readLine()) != null) {
+                if (!"".equals(sLine)) {
                     igNegatingWordCount++;
                     sgNegatingWord[igNegatingWordCount] = sLine;
                 }
+            }
             rReader.close();
             Sort.quickSortStrings(sgNegatingWord, 1, igNegatingWordCount);
-        }
-        catch(FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             System.out.println((new StringBuilder("Could not find negating words file: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println((new StringBuilder("Found negating words file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
@@ -100,8 +92,7 @@ public class NegatingWordList
      * @param sWord 要判断的单词
      * @return 是否定词则返回true，反之返回false
      */
-    public boolean negatingWord(String sWord)
-    {
+    public boolean negatingWord(String sWord) {
         return Sort.i_FindStringPositionInSortedArray(sWord, sgNegatingWord, 1, igNegatingWordCount) >= 0;
     }
 }

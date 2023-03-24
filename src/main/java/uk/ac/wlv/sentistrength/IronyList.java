@@ -5,8 +5,9 @@
 
 package uk.ac.wlv.sentistrength;
 
+//import java.util.logging.Logger;
 import java.io.*;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
@@ -16,7 +17,6 @@ import uk.ac.wlv.utilities.Sort;
  *
  */
 public class IronyList {
-    private static Logger logger = Logger.getLogger(IronyList.class);
     /**
      * 讽刺语字符串数组
      */
@@ -57,13 +57,12 @@ public class IronyList {
      */
     public boolean initialise(String sSourceFile, ClassificationOptions options) {
 
-        boolean initSuccess = true;
         if (igIronyTermCount > 0) {
-            initSuccess = true;
+            return true;
         }
         File f = new File(sSourceFile);
         if (!f.exists()) {
-            initSuccess = true;
+            return true;
         }
         try {
             igIronyTermMax = FileOps.i_CountLinesInTextFile(sSourceFile) + 2;
@@ -87,15 +86,15 @@ public class IronyList {
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            logger.info((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
+            System.out.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
             e.printStackTrace();
-            initSuccess = false;
+            return false;
         } catch (IOException e) {
-            logger.info((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
+            System.out.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
             e.printStackTrace();
-            initSuccess = false;
+            return false;
         }
         Sort.quickSortStrings(sgIronyTerm, 1, igIronyTermCount);
-        return initSuccess;
+        return true;
     }
 }
