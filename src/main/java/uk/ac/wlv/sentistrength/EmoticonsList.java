@@ -18,11 +18,10 @@ import uk.ac.wlv.utilities.Sort;
  * 情感符号表极其对应强度的实现类
  * @author haofeng.Yu
  */
-public class EmoticonsList
-{
+public class EmoticonsList {
 
-    private String sgEmoticon[];
-    private int igEmoticonStrength[];
+    private String[] sgEmoticon;
+    private int[] igEmoticonStrength;
     private int igEmoticonCount;
     private int igEmoticonMax;
 
@@ -30,8 +29,7 @@ public class EmoticonsList
      * 默认构造函数，将igEmoticonCount和igEmoticonMax初始化为0
      * @author haofeng.Yu
      */
-    public EmoticonsList()
-    {
+    public EmoticonsList() {
         igEmoticonCount = 0;
         igEmoticonMax = 0;
     }
@@ -44,13 +42,13 @@ public class EmoticonsList
      * @return int 情感强度
      * @author haofeng.Yu
      */
-    public int getEmoticon(String emoticon)
-    {
+    public int getEmoticon(String emoticon) {
         int iEmoticon = Sort.i_FindStringPositionInSortedArray(emoticon, sgEmoticon, 1, igEmoticonCount);
-        if(iEmoticon >= 0)
+        if (iEmoticon >= 0) {
             return igEmoticonStrength[iEmoticon];
-        else
+        } else {
             return 999;
+        }
     }
 
     /**
@@ -60,66 +58,58 @@ public class EmoticonsList
      * @return boolean 若无异常，则返回true，否则返回false
      * @author haofeng.Yu
      */
-    public boolean initialise(String sSourceFile, ClassificationOptions options)
-    {
-        if(igEmoticonCount > 0)
+    public boolean initialise(String sSourceFile, ClassificationOptions options) {
+        if (igEmoticonCount > 0) {
             return true;
+        }
         File f = new File(sSourceFile);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             System.out.println((new StringBuilder("Could not find file: ")).append(sSourceFile).toString());
             return false;
         }
-        try
-        {
+        try {
             igEmoticonMax = FileOps.i_CountLinesInTextFile(sSourceFile) + 2;
             igEmoticonCount = 0;
-            String sEmoticonTemp[] = new String[igEmoticonMax];
+            String[] sEmoticonTemp = new String[igEmoticonMax];
             sgEmoticon = sEmoticonTemp;
-            int iEmoticonStrengthTemp[] = new int[igEmoticonMax];
+            int[] iEmoticonStrengthTemp = new int[igEmoticonMax];
             igEmoticonStrength = iEmoticonStrengthTemp;
             BufferedReader rReader;
-            if(options.bgForceUTF8)
+            if (options.bgForceUTF8) {
                 rReader = new BufferedReader(new InputStreamReader(new FileInputStream(sSourceFile), "UTF8"));
-            else
+            } else {
                 rReader = new BufferedReader(new FileReader(sSourceFile));
+            }
             String sLine;
-            while((sLine = rReader.readLine()) != null)
-                if(sLine != "")
-                {
-                    String sData[] = sLine.split("\t");
-                    if(sData.length > 1)
-                    {
+            while ((sLine = rReader.readLine()) != null) {
+                if (!sLine.equals("")) {
+                    String[] sData = sLine.split("\t");
+                    if (sData.length > 1) {
                         igEmoticonCount++;
                         sgEmoticon[igEmoticonCount] = sData[0];
-                        try
-                        {
+                        try {
                             igEmoticonStrength[igEmoticonCount] = Integer.parseInt(sData[1].trim());
-                        }
-                        catch(NumberFormatException e)
-                        {
+                        } catch (NumberFormatException e) {
                             System.out.println("Failed to identify integer weight for emoticon! Ignoring emoticon");
                             System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
                             igEmoticonCount--;
                         }
                     }
                 }
+            }
             rReader.close();
-        }
-        catch(FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             System.out.println((new StringBuilder("Could not find emoticon file: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println((new StringBuilder("Found emoticon file but could not read from it: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         }
-        if(igEmoticonCount > 1)
+        if (igEmoticonCount > 1) {
             Sort.quickSortStringsWithInt(sgEmoticon, igEmoticonStrength, 1, igEmoticonCount);
+        }
         return true;
     }
 }
