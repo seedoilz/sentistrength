@@ -11,6 +11,8 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Locale;
+import java.util.logging.Logger;
+
 import uk.ac.wlv.utilities.FileOps;
 
 /**
@@ -19,6 +21,7 @@ import uk.ac.wlv.utilities.FileOps;
  **/
 public class SentiStrength {
    Corpus corpus = new Corpus();
+
    
    /**
     * SentiStrength的构造方法，在其中一同初始化了语料库Corpus
