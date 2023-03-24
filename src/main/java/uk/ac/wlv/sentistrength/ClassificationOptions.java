@@ -297,7 +297,19 @@ public class ClassificationOptions {
                 wWriter.write("\tExactCount");
             }
 
-            wWriter.write("\t" + iMultiOptimisations + "\t" + this.bgReduceNegativeEmotionInQuestionSentences + "\t" + this.bgMissCountsAsPlus2 + "\t" + this.bgYouOrYourIsPlus2UnlessSentenceNegative + "\t" + this.bgExclamationInNeutralSentenceCountsAsPlus2 + "\t" + this.bgUseIdiomLookupTable + "\t" + this.igMoodToInterpretNeutralEmphasis + "\t" + this.bgAllowMultiplePositiveWordsToIncreasePositiveEmotion + "\t" + this.bgAllowMultipleNegativeWordsToIncreaseNegativeEmotion + "\t" + this.bgIgnoreBoosterWordsAfterNegatives + "\t" + this.bgMultipleLettersBoostSentiment + "\t" + this.bgBoosterWordsChangeEmotion + "\t" + this.bgNegatingWordsFlipEmotion + "\t" + this.bgNegatingPositiveFlipsEmotion + "\t" + this.bgNegatingNegativeNeutralisesEmotion + "\t" + this.bgCorrectSpellingsWithRepeatedLetter + "\t" + this.bgUseEmoticons + "\t" + this.bgCapitalsBoostTermSentiment + "\t" + this.igMinRepeatedLettersForBoost + "\t" + this.igMaxWordsBeforeSentimentToNegate + "\t" + iMinImprovement);
+            wWriter.write("\t" + iMultiOptimisations + "\t" + this.bgReduceNegativeEmotionInQuestionSentences
+                    + "\t" + this.bgMissCountsAsPlus2 + "\t" + this.bgYouOrYourIsPlus2UnlessSentenceNegative + "\t"
+                    + this.bgExclamationInNeutralSentenceCountsAsPlus2 + "\t" + this.bgUseIdiomLookupTable + "\t"
+                    + this.igMoodToInterpretNeutralEmphasis + "\t"
+                    + this.bgAllowMultiplePositiveWordsToIncreasePositiveEmotion
+                    + "\t" + this.bgAllowMultipleNegativeWordsToIncreaseNegativeEmotion + "\t"
+                    + this.bgIgnoreBoosterWordsAfterNegatives
+                    + "\t" + this.bgMultipleLettersBoostSentiment + "\t" + this.bgBoosterWordsChangeEmotion + "\t"
+                    + this.bgNegatingWordsFlipEmotion + "\t" + this.bgNegatingPositiveFlipsEmotion + "\t"
+                    + this.bgNegatingNegativeNeutralisesEmotion + "\t" + this.bgCorrectSpellingsWithRepeatedLetter
+                    + "\t" + this.bgUseEmoticons + "\t" + this.bgCapitalsBoostTermSentiment + "\t"
+                    + this.igMinRepeatedLettersForBoost + "\t" + this.igMaxWordsBeforeSentimentToNegate
+                    + "\t" + iMinImprovement);
             return true;
         } catch (IOException var6) {
             var6.printStackTrace();
@@ -332,7 +344,17 @@ public class ClassificationOptions {
      */
     public boolean printClassificationOptionsHeadings(BufferedWriter wWriter) {
         try {
-            wWriter.write("EmotionParagraphCombineMethod\tEmotionSentenceCombineMethod\tDifferenceCalculationMethodForTermWeightAdjustments\tMultiOptimisations\tReduceNegativeEmotionInQuestionSentences\tMissCountsAsPlus2\tYouOrYourIsPlus2UnlessSentenceNegative\tExclamationCountsAsPlus2\tUseIdiomLookupTable\tMoodToInterpretNeutralEmphasis\tAllowMultiplePositiveWordsToIncreasePositiveEmotion\tAllowMultipleNegativeWordsToIncreaseNegativeEmotion\tIgnoreBoosterWordsAfterNegatives\tMultipleLettersBoostSentiment\tBoosterWordsChangeEmotion\tNegatingWordsFlipEmotion\tNegatingPositiveFlipsEmotion\tNegatingNegativeNeutralisesEmotion\tCorrectSpellingsWithRepeatedLetter\tUseEmoticons\tCapitalsBoostTermSentiment\tMinRepeatedLettersForBoost\tWordsBeforeSentimentToNegate\tMinImprovement");
+            wWriter.write("EmotionParagraphCombineMethod\tEmotionSentenceCombineMethod\t"
+                    + "DifferenceCalculationMethodForTermWeightAdjustments\tMultiOptimisations\t"
+                    + "ReduceNegativeEmotionInQuestionSentences\tMissCountsAsPlus2\t"
+                    + "YouOrYourIsPlus2UnlessSentenceNegative\tExclamationCountsAsPlus2\t"
+                    + "UseIdiomLookupTable\tMoodToInterpretNeutralEmphasis\t"
+                    + "AllowMultiplePositiveWordsToIncreasePositiveEmotion\t"
+                    + "AllowMultipleNegativeWordsToIncreaseNegativeEmotion\tIgnoreBoosterWordsAfterNegatives\t"
+                    + "MultipleLettersBoostSentiment\tBoosterWordsChangeEmotion\tNegatingWordsFlipEmotion\t"
+                    + "NegatingPositiveFlipsEmotion\tNegatingNegativeNeutralisesEmotion\t"
+                    + "CorrectSpellingsWithRepeatedLetter\tUseEmoticons\tCapitalsBoostTermSentiment\t"
+                    + "MinRepeatedLettersForBoost\tWordsBeforeSentimentToNegate\tMinImprovement");
             return true;
         } catch (IOException var3) {
             var3.printStackTrace();
