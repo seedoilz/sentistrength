@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 import uk.ac.wlv.utilities.FileOps;
 
@@ -840,7 +839,9 @@ public class SentiStrength {
          for (int i = 0; i < listOfFiles.length; ++i) {
             if (listOfFiles[i].isFile()) {
                System.out.println("Classify + save with ID: " + listOfFiles[i].getName());
-               c.classifyAllLinesAndRecordWithID(sInputFolder + "/" + listOfFiles[i].getName(), iTextCol - 1, iIdCol - 1, sInputFolder + "/" + FileOps.s_ChopFileNameExtension(listOfFiles[i].getName()) + "_classID.txt");
+               c.classifyAllLinesAndRecordWithID(sInputFolder + "/" + listOfFiles[i].getName(),
+                       iTextCol - 1, iIdCol - 1, sInputFolder + "/"
+                               + FileOps.s_ChopFileNameExtension(listOfFiles[i].getName()) + "_classID.txt");
             }
          }
       }
@@ -862,7 +863,8 @@ public class SentiStrength {
     * @param bOkToOverwrite 是否允许覆盖已有的注释
     * @author ruohao.zhang
     */
-   private void annotationTextCol(Corpus c, String sInputFile, String sInputFolder, String sFileSubString, int iTextColForAnnotation, boolean bOkToOverwrite) {
+   private void annotationTextCol(Corpus c, String sInputFile, String sInputFolder, String sFileSubString,
+                                  int iTextColForAnnotation, boolean bOkToOverwrite) {
       if (!bOkToOverwrite) {
          System.out.println("Must include parameter overwrite to annotate");
       } else {
@@ -947,6 +949,53 @@ public class SentiStrength {
    }
 
    /**
+    * 由listenToStdIn剥离出来的方法.
+    * @param c Corpus
+    * @param sOutput 输出
+    * @param sTextToParse 处理文本
+    * @param iTextCol 文本列
+    * @param bSuccess 表明成功的布尔值
+    */
+   private void setupOutput(Corpus c, String sOutput, String sTextToParse, int iTextCol, boolean bSuccess) {
+      int iPos = 1;
+      bSuccess = false;
+      int iTrinary = 0;
+      int iScale = 0;
+      Paragraph paragraph = new Paragraph();
+      if (iTextCol > -1) {
+         String[] sData = sTextToParse.split("\t");
+         if (sData.length >= iTextCol) {
+            paragraph.setParagraph(sData[iTextCol], c.resources, c.options);
+         }
+      } else {
+         paragraph.setParagraph(sTextToParse, c.resources, c.options);
+      }
+
+      int iNeg = paragraph.getParagraphNegativeSentiment();
+      iPos = paragraph.getParagraphPositiveSentiment();
+      iTrinary = paragraph.getParagraphTrinarySentiment();
+      iScale = paragraph.getParagraphScaleSentiment();
+      String sRationale = "";
+      if (c.options.bgEchoText) {
+         sOutput = sTextToParse + "\t";
+      } else {
+         sOutput = "";
+      }
+
+      if (c.options.bgExplainClassification) {
+         sRationale = paragraph.getClassificationRationale();
+      }
+
+      if (c.options.bgTrinaryMode) {
+         sOutput = sOutput + iPos + "\t" + iNeg + "\t" + iTrinary + "\t" + sRationale;
+      } else if (c.options.bgScaleMode) {
+         sOutput = sOutput + iPos + "\t" + iNeg + "\t" + iScale + "\t" + sRationale;
+      } else {
+         sOutput = sOutput + iPos + "\t" + iNeg + "\t" + sRationale;
+      }
+   }
+
+   /**
     * 监听标准输入，利用语料库对通过它提供的文本进行情感分析。
     * <p>
     * 根据特定的输入字符串更改某些情感单词的术语权重。然后，该方法将情绪分析结果作为文本输出。
@@ -964,7 +1013,7 @@ public class SentiStrength {
       String sTextToParse;
       try {
          while ((sTextToParse = stdin.readLine()) != null) {
-            boolean bSuccess;
+            boolean bSuccess = false;
             if (sTextToParse.indexOf("#Change_TermWeight") >= 0) {
                String[] sData = sTextToParse.split("\t");
                bSuccess = c.resources.sentimentWords.setSentiment(sData[1], Integer.parseInt(sData[2]));
@@ -974,43 +1023,8 @@ public class SentiStrength {
                   System.out.println("0");
                }
             } else {
-               int iPos = 1;
-               bSuccess = false;
-               int iTrinary = 0;
-               int iScale = 0;
-               Paragraph paragraph = new Paragraph();
-               if (iTextCol > -1) {
-                  String[] sData = sTextToParse.split("\t");
-                  if (sData.length >= iTextCol) {
-                     paragraph.setParagraph(sData[iTextCol], c.resources, c.options);
-                  }
-               } else {
-                  paragraph.setParagraph(sTextToParse, c.resources, c.options);
-               }
-
-               int iNeg = paragraph.getParagraphNegativeSentiment();
-               iPos = paragraph.getParagraphPositiveSentiment();
-               iTrinary = paragraph.getParagraphTrinarySentiment();
-               iScale = paragraph.getParagraphScaleSentiment();
-               String sRationale = "";
-               String sOutput;
-               if (c.options.bgEchoText) {
-                  sOutput = sTextToParse + "\t";
-               } else {
-                  sOutput = "";
-               }
-
-               if (c.options.bgExplainClassification) {
-                  sRationale = paragraph.getClassificationRationale();
-               }
-
-               if (c.options.bgTrinaryMode) {
-                  sOutput = sOutput + iPos + "\t" + iNeg + "\t" + iTrinary + "\t" + sRationale;
-               } else if (c.options.bgScaleMode) {
-                  sOutput = sOutput + iPos + "\t" + iNeg + "\t" + iScale + "\t" + sRationale;
-               } else {
-                  sOutput = sOutput + iPos + "\t" + iNeg + "\t" + sRationale;
-               }
+               String sOutput = "";
+               setupOutput(c, sOutput, sTextToParse, iTextCol, bSuccess);
 
                if (c.options.bgForceUTF8) {
                   try {
@@ -1039,7 +1053,6 @@ public class SentiStrength {
     */
    private void listenForCmdInput(Corpus c) {
       BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-
       while (true) {
          while (true) {
             try {
@@ -1048,11 +1061,8 @@ public class SentiStrength {
                   if (sTextToParse.toLowerCase().equals("@end")) {
                      return;
                   }
-
-                  int iPos = 1;
-                  int iNeg = 1;
-                  int iTrinary = 0;
-                  int iScale = 0;
+                  int iPos = 1, iNeg = 1;
+                  int iTrinary = 0, iScale = 0;
                   Paragraph paragraph = new Paragraph();
                   paragraph.setParagraph(sTextToParse, c.resources, c.options);
                   iNeg = paragraph.getParagraphNegativeSentiment();
@@ -1063,11 +1073,9 @@ public class SentiStrength {
                   if (c.options.bgEchoText) {
                      sRationale = " " + sTextToParse;
                   }
-
                   if (c.options.bgExplainClassification) {
                      sRationale = " " + paragraph.getClassificationRationale();
                   }
-
                   String sOutput;
                   if (c.options.bgTrinaryMode) {
                      sOutput = iPos + " " + iNeg + " " + iTrinary + sRationale;
@@ -1076,7 +1084,6 @@ public class SentiStrength {
                   } else {
                      sOutput = iPos + " " + iNeg + sRationale;
                   }
-
                   if (!c.options.bgForceUTF8) {
                      System.out.println(sOutput);
                   } else {
@@ -1096,6 +1103,101 @@ public class SentiStrength {
    }
 
    /**
+    * 由listenAtPort中细化出来的方法.
+    * @param iListenPort 监听端口
+    * @return
+    */
+   private ServerSocket setupSocket(int iListenPort) {
+      ServerSocket serverSocket = null;
+      boolean var6 = false;
+
+      try {
+         serverSocket = new ServerSocket(iListenPort);
+      } catch (IOException var23) {
+         System.out.println("Could not listen on port " + iListenPort + " because\n" + var23.getMessage());
+         return null;
+      }
+
+      System.out.println("Listening on port: " + iListenPort + " IP: " + serverSocket.getInetAddress());
+      return serverSocket;
+   }
+
+   /**
+    * 由listenAtPort剥离出来的方法.
+    * @param decodedText
+    * @param in
+    */
+   private void setupDecodedText(String decodedText, BufferedReader in) {
+      String inputLine;
+      try {
+         while ((inputLine = in.readLine()) != null) {
+            if (inputLine.indexOf("GET /") == 0) {
+               int lastSpacePos = inputLine.lastIndexOf(" ");
+               if (lastSpacePos < 5) {
+                  lastSpacePos = inputLine.length();
+               }
+
+               decodedText = URLDecoder.decode(inputLine.substring(5, lastSpacePos), "UTF-8");
+               System.out.println("Analysis of text: " + decodedText);
+               break;
+            }
+
+            if (inputLine.equals("MikeSpecialMessageToEnd.")) {
+               break;
+            }
+         }
+      } catch (IOException var24) {
+         System.out.println("IOException " + var24.getMessage());
+         var24.printStackTrace();
+         decodedText = "";
+      } catch (Exception var25) {
+         System.out.println("Non-IOException " + var25.getMessage());
+         decodedText = "";
+      }
+   }
+
+   private void printOutput(Corpus c, String decodedText, PrintWriter out){
+      int iPos = 1;
+      int iNeg = 1;
+      int iTrinary = 0;
+      int iScale = 0;
+      Paragraph paragraph = new Paragraph();
+      paragraph.setParagraph(decodedText, c.resources, c.options);
+      iNeg = paragraph.getParagraphNegativeSentiment();
+      iPos = paragraph.getParagraphPositiveSentiment();
+      iTrinary = paragraph.getParagraphTrinarySentiment();
+      iScale = paragraph.getParagraphScaleSentiment();
+      String sRationale = "";
+      if (c.options.bgEchoText) {
+         sRationale = " " + decodedText;
+      }
+
+      if (c.options.bgExplainClassification) {
+         sRationale = " " + paragraph.getClassificationRationale();
+      }
+
+      String sOutput;
+      if (c.options.bgTrinaryMode) {
+         sOutput = iPos + " " + iNeg + " " + iTrinary + sRationale;
+      } else if (c.options.bgScaleMode) {
+         sOutput = iPos + " " + iNeg + " " + iScale + sRationale;
+      } else {
+         sOutput = iPos + " " + iNeg + sRationale;
+      }
+
+      if (c.options.bgForceUTF8) {
+         try {
+            out.print(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
+         } catch (UnsupportedEncodingException var22) {
+            out.print("UTF-8 Not found on your system!");
+            var22.printStackTrace();
+         }
+      } else {
+         out.print(sOutput);
+      }
+   }
+
+   /**
     * 在指定端口上监听并接受来自客户端的请求
     * UC-14
     * @param c 要使用的Corpus对象
@@ -1103,22 +1205,14 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    private void listenAtPort(Corpus c, int iListenPort) {
-      ServerSocket serverSocket = null;
-      String decodedText = "";
-      boolean var6 = false;
-
-      try {
-         serverSocket = new ServerSocket(iListenPort);
-      } catch (IOException var23) {
-         System.out.println("Could not listen on port " + iListenPort + " because\n" + var23.getMessage());
+      ServerSocket serverSocket = setupSocket(iListenPort);
+      if (serverSocket == null) {
          return;
       }
-
-      System.out.println("Listening on port: " + iListenPort + " IP: " + serverSocket.getInetAddress());
+      String decodedText = "";
 
       while (true) {
          Socket clientSocket = null;
-
          try {
             clientSocket = serverSocket.accept();
          } catch (IOException var20) {
@@ -1144,71 +1238,9 @@ public class SentiStrength {
             return;
          }
 
-         String inputLine;
-         try {
-            while ((inputLine = in.readLine()) != null) {
-               if (inputLine.indexOf("GET /") == 0) {
-                  int lastSpacePos = inputLine.lastIndexOf(" ");
-                  if (lastSpacePos < 5) {
-                     lastSpacePos = inputLine.length();
-                  }
+         setupDecodedText(decodedText, in);
 
-                  decodedText = URLDecoder.decode(inputLine.substring(5, lastSpacePos), "UTF-8");
-                  System.out.println("Analysis of text: " + decodedText);
-                  break;
-               }
-
-               if (inputLine.equals("MikeSpecialMessageToEnd.")) {
-                  break;
-               }
-            }
-         } catch (IOException var24) {
-            System.out.println("IOException " + var24.getMessage());
-            var24.printStackTrace();
-            decodedText = "";
-         } catch (Exception var25) {
-            System.out.println("Non-IOException " + var25.getMessage());
-            decodedText = "";
-         }
-
-         int iPos = 1;
-         int iNeg = 1;
-         int iTrinary = 0;
-         int iScale = 0;
-         Paragraph paragraph = new Paragraph();
-         paragraph.setParagraph(decodedText, c.resources, c.options);
-         iNeg = paragraph.getParagraphNegativeSentiment();
-         iPos = paragraph.getParagraphPositiveSentiment();
-         iTrinary = paragraph.getParagraphTrinarySentiment();
-         iScale = paragraph.getParagraphScaleSentiment();
-         String sRationale = "";
-         if (c.options.bgEchoText) {
-            sRationale = " " + decodedText;
-         }
-
-         if (c.options.bgExplainClassification) {
-            sRationale = " " + paragraph.getClassificationRationale();
-         }
-
-         String sOutput;
-         if (c.options.bgTrinaryMode) {
-            sOutput = iPos + " " + iNeg + " " + iTrinary + sRationale;
-         } else if (c.options.bgScaleMode) {
-            sOutput = iPos + " " + iNeg + " " + iScale + sRationale;
-         } else {
-            sOutput = iPos + " " + iNeg + sRationale;
-         }
-
-         if (c.options.bgForceUTF8) {
-            try {
-               out.print(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
-            } catch (UnsupportedEncodingException var22) {
-               out.print("UTF-8 Not found on your system!");
-               var22.printStackTrace();
-            }
-         } else {
-            out.print(sOutput);
-         }
+         printOutput(c, decodedText, out);
 
          try {
             out.close();
