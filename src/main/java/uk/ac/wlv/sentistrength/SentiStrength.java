@@ -21,7 +21,7 @@ import uk.ac.wlv.utilities.FileOps;
 public class SentiStrength {
    Corpus corpus = new Corpus();
 
-   
+
    /**
     * SentiStrength的构造方法，在其中一同初始化了语料库Corpus
     * @author ruohao.zhang
@@ -39,7 +39,7 @@ public class SentiStrength {
       this.corpus = new Corpus();
       this.initialiseAndRun(args);
    }
-   
+
    /**
     * main方法，来运行initialiseAndRun
     * @param args 命令行参数
@@ -49,14 +49,14 @@ public class SentiStrength {
       SentiStrength classifier = new SentiStrength();
       classifier.initialiseAndRun(args);
    }
-   
+
    /**
     * 无使用情况
     * @return null
     * @author ruohao.zhang
     */
    public String[] getinput() {
-	return null;
+      return null;
    }
 
    /**
@@ -671,7 +671,7 @@ public class SentiStrength {
                this.corpus.options.bgForceUTF8 = true;
                bArgumentRecognised[i] = true;
             }
-            
+
          } catch (NumberFormatException var5) {
             System.out.println("Error in argument for " + args[i] + ". Integer expected!");
             return;
@@ -680,7 +680,7 @@ public class SentiStrength {
             return;
          }
       }
-      
+
    }
 
    /**
@@ -718,7 +718,7 @@ public class SentiStrength {
     * 用于计算情感分数
     * UC-22,UC-23,UC-24
     * @param sentence 要进行计算的句子
-    * @return String 
+    * @return String
     * @author ruohao.zhang
     */
    public String computeSentimentScores(String sentence) {
@@ -806,7 +806,7 @@ public class SentiStrength {
 
       }
    }
-   
+
    /**
     * 将给定的文本文件或文件夹中的文本进行分类，并将结果和文本ID保存在文件中
     * UC-11,UC-12，UC-13,UC-19,UC-20
@@ -892,7 +892,7 @@ public class SentiStrength {
 
       }
    }
-   
+
    /**
     * 解析给定文本，并为给定语料库设置情感值。情绪值包括正负情绪评分、情绪值和尺度情绪值。如果指定，输出可以进行URL编码。
     * @param c 语料库对象
