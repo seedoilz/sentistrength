@@ -6,10 +6,11 @@ import java.net.URLEncoder;
 public class SentiStrengthWeb {
 
     public static void main(String args[]){
-        String text = "hey kevin hope u are good and well miss ya dude";
+        String text = "hey witch wat cha been up too";
         Corpus corpus = new Corpus();
-        corpus.options.bgExplainClassification=true;
-        corpus.options.bgEchoText=true;
+        corpus.initialise();
+        corpus.options.bgExplainClassification=false;
+        corpus.options.bgEchoText=false;
         analyzeText(corpus, text);
     }
     public static String analyzeText(Corpus corpus, String text) {
