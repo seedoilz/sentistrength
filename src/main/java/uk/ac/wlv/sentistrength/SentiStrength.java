@@ -335,7 +335,7 @@ public class SentiStrength {
                   System.out.println("Input folder specified but textCol and IDcol or annotateCol needed");
                }
 
-               if (!sInputFile.equals("")) {
+               if (sInputFile.equals("")) {
                   System.out.println("No action taken because no input file nor text specified");
                   this.showBriefHelp();
                   return;
