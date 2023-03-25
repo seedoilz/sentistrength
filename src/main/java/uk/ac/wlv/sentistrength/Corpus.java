@@ -256,7 +256,7 @@ public class Corpus {
                 sLine = rReader.readLine();
             }
             while ((sLine = rReader.readLine()) != null) {
-                if (sLine.equals("")) {
+                if (!sLine.equals("")) {
                     paragraph[++igParagraphCount] = new Paragraph();
                     int iLastTabPos = sLine.lastIndexOf("\t");
                     int iFirstTabPos = sLine.indexOf("\t");
