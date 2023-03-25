@@ -35,12 +35,20 @@ public class Paragraph {
 	 * @param iEstNegClass 负实例的估计数量
 	 * @author zhangsong
 	 */
-	public void addParagraphToIndexWithPosNegValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectPosClass, int iEstPosClass, int iCorrectNegClass, int iEstNegClass) {
+	public void addParagraphToIndexWithPosNegValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex,
+													int iCorrectPosClass,
+													int iEstPosClass,
+													int iCorrectNegClass,
+													int iEstNegClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
 		}
 
-		unusedTermsClassificationIndex.addNewIndexToMainIndexWithPosNegValues(iCorrectPosClass, iEstPosClass, iCorrectNegClass, iEstNegClass);
+		unusedTermsClassificationIndex.addNewIndexToMainIndexWithPosNegValues(
+				iCorrectPosClass,
+				iEstPosClass,
+				iCorrectNegClass,
+				iEstNegClass);
 	}
 
 	/**
@@ -53,7 +61,9 @@ public class Paragraph {
 	 * @param iEstScaleClass 预估的单尺度值
 	 * @author zhangsong
 	 */
-	public void addParagraphToIndexWithScaleValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectScaleClass, int iEstScaleClass) {
+	public void addParagraphToIndexWithScaleValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex,
+												   int iCorrectScaleClass,
+												   int iEstScaleClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
 		}
@@ -71,7 +81,9 @@ public class Paragraph {
 	 * @param iEstBinaryClass 估计的二进制值
 	 * @author zhangsong
 	 */
-	public void addParagraphToIndexWithBinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectBinaryClass, int iEstBinaryClass) {
+	public void addParagraphToIndexWithBinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex,
+													int iCorrectBinaryClass,
+													int iEstBinaryClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
 		}
@@ -91,7 +103,10 @@ public class Paragraph {
 	 * @return int 返回段落中所有句子中添加的术语总数
 	 * @author zhangsong
 	 */
-	public int addToStringIndex(StringIndex stringIndex, TextParsingOptions textParsingOptions, boolean bRecordCount, boolean bArffIndex) {
+	public int addToStringIndex(StringIndex stringIndex,
+								TextParsingOptions textParsingOptions,
+								boolean bRecordCount,
+								boolean bArffIndex) {
 		int iTermsChecked = 0;
 
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
@@ -111,7 +126,9 @@ public class Paragraph {
 	 * @param iEstTrinaryClass 估计的三位一体值
 	 * @author zhangsong
 	 */
-	public void addParagraphToIndexWithTrinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex, int iCorrectTrinaryClass, int iEstTrinaryClass) {
+	public void addParagraphToIndexWithTrinaryValues(UnusedTermsClassificationIndex unusedTermsClassificationIndex,
+													 int iCorrectTrinaryClass,
+													 int iEstTrinaryClass) {
 		for (int i = 1; i <= this.igSentenceCount; ++i) {
 			this.sentence[i].addSentenceToIndex(unusedTermsClassificationIndex);
 		}
@@ -131,7 +148,9 @@ public class Paragraph {
 	 * @param newClassificationOptions 新的分类选项
 	 * @author zhangsong
 	 */
-	public void setParagraph(String sParagraph, ClassificationResources classResources, ClassificationOptions newClassificationOptions) {
+	public void setParagraph(String sParagraph,
+							 ClassificationResources classResources,
+							 ClassificationOptions newClassificationOptions) {
 		this.resources = classResources;
 		this.options = newClassificationOptions;
 		if (sParagraph.indexOf("\"") >= 0) { // 将所有出现的双引号替换为单引号
@@ -194,19 +213,19 @@ public class Paragraph {
 				sNextSentence = sParagraph.substring(iLastSentenceEnd + 1, iPos);
 				iLastSentenceEnd = iPos + 3;
 				iNextBr = sParagraph.indexOf("<br>", iNextBr + 2);
-			} else if (this.b_IsSentenceEndPunctuation(sNextChar)) {
+			} else if (this.bIsSentenceEndPunctuation(sNextChar)) {
 				bPunctuationIndicatesSentenceEnd = true;
 			} else if (sNextChar.compareTo(" ") == 0) {
 				if (bPunctuationIndicatesSentenceEnd) {
 					sNextSentence = sParagraph.substring(iLastSentenceEnd + 1, iPos);
 					iLastSentenceEnd = iPos;
 				}
-			} else if (this.b_IsAlphanumeric(sNextChar) && bPunctuationIndicatesSentenceEnd) {
+			} else if (this.bIsAlphanumeric(sNextChar) && bPunctuationIndicatesSentenceEnd) {
 				sNextSentence = sParagraph.substring(iLastSentenceEnd + 1, iPos);
 				iLastSentenceEnd = iPos - 1;
 			}
 
-			if (sNextSentence != "") {
+			if (!sNextSentence.equals("")) {
 				++this.igSentenceCount;
 				this.sentence[this.igSentenceCount] = new Sentence();
 				this.sentence[this.igSentenceCount].setSentence(sNextSentence, this.resources, this.options);
@@ -377,7 +396,11 @@ public class Paragraph {
 			}
 
 			if (this.igSentimentIDListCount != 0) {
-				if (Sort.i_FindIntPositionInSortedArray(iSentimentWordID, this.igSentimentIDList, 1, this.igSentimentIDListCount) >= 0) {
+				if (Sort.i_FindIntPositionInSortedArray(
+						iSentimentWordID,
+						this.igSentimentIDList,
+						1,
+						this.igSentimentIDListCount) >= 0) {
 					for (int iSentence = 1; iSentence <= this.igSentenceCount; ++iSentence) {
 						this.sentence[iSentence].reClassifyClassifiedSentenceForSentimentChange(iSentimentWordID);
 					}
@@ -467,7 +490,7 @@ public class Paragraph {
 	 * @return boolean 句尾是否有./!/?，有为false
 	 * @author zhangsong
 	 */
-	private boolean b_IsSentenceEndPunctuation(String sChar) {
+	private boolean bIsSentenceEndPunctuation(String sChar) {
 		return sChar.compareTo(".") == 0 || sChar.compareTo("!") == 0 || sChar.compareTo("?") == 0;
 	}
 
@@ -477,8 +500,12 @@ public class Paragraph {
 	 * @return boolean 全为字母数字为true
 	 * @author zhangsong
 	 */
-	private boolean b_IsAlphanumeric(String sChar) {
-		return sChar.compareToIgnoreCase("a") >= 0 && sChar.compareToIgnoreCase("z") <= 0 || sChar.compareTo("0") >= 0 && sChar.compareTo("9") <= 0 || sChar.compareTo("$") == 0 || sChar.compareTo("£") == 0 || sChar.compareTo("'") == 0;
+	private boolean bIsAlphanumeric(String sChar) {
+		return sChar.compareToIgnoreCase("a") >= 0 && sChar.compareToIgnoreCase("z") <= 0
+				|| sChar.compareTo("0") >= 0 && sChar.compareTo("9") <= 0
+				|| sChar.compareTo("$") == 0
+				|| sChar.compareTo("£") == 0
+				|| sChar.compareTo("'") == 0;
 	}
 
 	/**
@@ -493,7 +520,8 @@ public class Paragraph {
 	 *     一、如果 igEmotionParagraphCombineMethod 等于 1，则计算每个句子的平均正面和负面情感分数，并将其用作该段落的正面和负面情感分数。
 	 *     二、如果 igEmotionParagraphCombineMethod 等于 2，则将每个句子的正面和负面情感总分作为该段落的正面和负面情感分数。
 	 *     三、如果 igEmotionParagraphCombineMethod 是其他任何东西，每个句子的最大正面和负面情绪分数将用作该段落的正面和负面情绪分数。
-	 *     四、如果 igEmotionParagraphCombineMethod 不等于 2，则该段落的正面和负面情绪分数分别设置为 1 和 -1。igScaleSentiment 变量设置为该段落的正面和负面情绪分数的总和。
+	 *     四、如果 igEmotionParagraphCombineMethod 不等于 2，则该段落的正面和负面情绪分数分别设置为 1 和 -1。
+	 *     	  igScaleSentiment 变量设置为该段落的正面和负面情绪分数的总和。
 	 *     五、如果 bgBinaryVersionOfTrinaryMode 为真且该段落的正面和负面情绪得分为 0，则 igTrinarySentiment 设置为 igDefaultBinaryClassification。
 	 *     六、否则，如果该段落的积极情绪得分大于或等于消极情绪得分，则 igTrinarySentiment 设置为 0，否则设置为 -1。
 	 * </p>
@@ -505,6 +533,7 @@ public class Paragraph {
 
 	 * @author zhangsong
 	 */
+	@SuppressWarnings("checkstyle:NestedIfDepth")
 	private void calculateParagraphSentimentScores() {
 		this.igPositiveSentiment = 1;
 		this.igNegativeSentiment = -1;
@@ -543,7 +572,9 @@ public class Paragraph {
 				}
 
 				if (this.options.bgExplainClassification) {
-					this.sgClassificationRationale = this.sgClassificationRationale + this.sentence[iNegTot].getClassificationRationale() + " ";
+					this.sgClassificationRationale = this.sgClassificationRationale
+							+ this.sentence[iNegTot].getClassificationRationale()
+							+ " ";
 				}
 			}
 
@@ -565,7 +596,13 @@ public class Paragraph {
 				this.igPositiveSentiment = (int) ((double) ((float) iPosTotal / (float) iSentencesUsed) + 0.5D);
 				this.igNegativeSentiment = (int) ((double) ((float) iNegTotal / (float) iSentencesUsed) - 0.5D);
 				if (this.options.bgExplainClassification) {
-					this.sgClassificationRationale = this.sgClassificationRationale + "[result = average (" + iPosTotal + " and " + iNegTotal + ") of " + iSentencesUsed + " sentences]";
+					this.sgClassificationRationale = this.sgClassificationRationale
+							+ "[result = average ("
+							+ iPosTotal
+							+ " and "
+							+ iNegTotal + ") of "
+							+ iSentencesUsed
+							+ " sentences]";
 				}
 			} else {
 				var10000 = this.options.igEmotionParagraphCombineMethod;
@@ -574,13 +611,15 @@ public class Paragraph {
 					this.igPositiveSentiment = iPosTotal;
 					this.igNegativeSentiment = iNegTotal;
 					if (this.options.bgExplainClassification) {
-						this.sgClassificationRationale = this.sgClassificationRationale + "[result: total positive; total negative]";
+						this.sgClassificationRationale = this.sgClassificationRationale
+								+ "[result: total positive; total negative]";
 					}
 				} else {
 					this.igPositiveSentiment = iPosMax;
 					this.igNegativeSentiment = iNegMax;
 					if (this.options.bgExplainClassification) {
-						this.sgClassificationRationale = this.sgClassificationRationale + "[result: max + and - of any sentence]";
+						this.sgClassificationRationale = this.sgClassificationRationale
+								+ "[result: max + and - of any sentence]";
 					}
 				}
 			}
@@ -600,7 +639,8 @@ public class Paragraph {
 			if (this.options.bgScaleMode) {
 				this.igScaleSentiment = this.igPositiveSentiment + this.igNegativeSentiment;
 				if (this.options.bgExplainClassification) {
-					this.sgClassificationRationale = this.sgClassificationRationale + "[scale result = sum of pos and neg scores]";
+					this.sgClassificationRationale = this.sgClassificationRationale
+							+ "[scale result = sum of pos and neg scores]";
 				}
 
 			} else {
@@ -611,19 +651,24 @@ public class Paragraph {
 						if (this.options.bgBinaryVersionOfTrinaryMode) {
 							this.igTrinarySentiment = this.options.igDefaultBinaryClassification;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[binary result set to default value]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[binary result set to default value]";
 							}
 						} else {
 							this.igTrinarySentiment = 0;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[trinary result 0 as pos=1, neg=-1]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[trinary result 0 as pos=1, neg=-1]";
 							}
 						}
 					} else {
 						if ((float) this.igPositiveSentiment > this.options.fgNegativeSentimentMultiplier * (float) (-this.igNegativeSentiment)) {
 							this.igTrinarySentiment = 1;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[overall result 1 as pos > -neg * " + this.options.fgNegativeSentimentMultiplier + "]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[overall result 1 as pos > -neg * "
+										+ this.options.fgNegativeSentimentMultiplier
+										+ "]";
 							}
 
 							return;
@@ -632,7 +677,10 @@ public class Paragraph {
 						if ((float) this.igPositiveSentiment < this.options.fgNegativeSentimentMultiplier * (float) (-this.igNegativeSentiment)) {
 							this.igTrinarySentiment = -1;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[overall result -1 as pos < -neg * " + this.options.fgNegativeSentimentMultiplier + "]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[overall result -1 as pos < -neg * "
+										+ this.options.fgNegativeSentimentMultiplier
+										+ "]";
 							}
 
 							return;
@@ -641,12 +689,18 @@ public class Paragraph {
 						if (this.options.bgBinaryVersionOfTrinaryMode) {
 							this.igTrinarySentiment = this.options.igDefaultBinaryClassification;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[binary result = default value as pos = -neg * " + this.options.fgNegativeSentimentMultiplier + "]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[binary result = default value as pos = -neg * "
+										+ this.options.fgNegativeSentimentMultiplier
+										+ "]";
 							}
 						} else {
 							this.igTrinarySentiment = 0;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[trinary result = 0 as pos = -neg * " + this.options.fgNegativeSentimentMultiplier + "]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[trinary result = 0 as pos = -neg * "
+										+ this.options.fgNegativeSentimentMultiplier
+										+ "]";
 							}
 						}
 					}
@@ -655,12 +709,14 @@ public class Paragraph {
 						if (this.options.bgBinaryVersionOfTrinaryMode) {
 							this.igTrinarySentiment = this.binarySelectionTieBreaker();
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[binary result = default value as pos=1 neg=-1]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[binary result = default value as pos=1 neg=-1]";
 							}
 						} else {
 							this.igTrinarySentiment = 0;
 							if (this.options.bgExplainClassification) {
-								this.sgClassificationRationale = this.sgClassificationRationale + "[trinary result = 0 as pos=1 neg=-1]";
+								this.sgClassificationRationale = this.sgClassificationRationale
+										+ "[trinary result = 0 as pos=1 neg=-1]";
 							}
 						}
 
@@ -670,7 +726,8 @@ public class Paragraph {
 					if (this.igPositiveSentiment > -this.igNegativeSentiment) {
 						this.igTrinarySentiment = 1;
 						if (this.options.bgExplainClassification) {
-							this.sgClassificationRationale = this.sgClassificationRationale + "[overall result = 1 as pos>-neg]";
+							this.sgClassificationRationale = this.sgClassificationRationale
+									+ "[overall result = 1 as pos>-neg]";
 						}
 
 						return;
@@ -679,7 +736,8 @@ public class Paragraph {
 					if (this.igPositiveSentiment < -this.igNegativeSentiment) {
 						this.igTrinarySentiment = -1;
 						if (this.options.bgExplainClassification) {
-							this.sgClassificationRationale = this.sgClassificationRationale + "[overall result = -1 as pos<-neg]";
+							this.sgClassificationRationale = this.sgClassificationRationale
+									+ "[overall result = -1 as pos<-neg]";
 						}
 
 						return;
@@ -696,11 +754,13 @@ public class Paragraph {
 					if (this.options.bgBinaryVersionOfTrinaryMode && iPosTot == -iNegTot) {
 						this.igTrinarySentiment = this.binarySelectionTieBreaker();
 						if (this.options.bgExplainClassification) {
-							this.sgClassificationRationale = this.sgClassificationRationale + "[binary result = default as posSentenceTotal>-negSentenceTotal]";
+							this.sgClassificationRationale = this.sgClassificationRationale
+									+ "[binary result = default as posSentenceTotal>-negSentenceTotal]";
 						}
 					} else {
 						if (this.options.bgExplainClassification) {
-							this.sgClassificationRationale = this.sgClassificationRationale + "[overall result = largest of posSentenceTotal, negSentenceTotal]";
+							this.sgClassificationRationale = this.sgClassificationRationale
+									+ "[overall result = largest of posSentenceTotal, negSentenceTotal]";
 						}
 
 						if (iPosTot > -iNegTot) {
@@ -725,7 +785,8 @@ public class Paragraph {
 		if (this.options.igDefaultBinaryClassification != 1 && this.options.igDefaultBinaryClassification != -1) {
 			return this.generator.nextDouble() > 0.5D ? 1 : -1;
 		} else {
-			return this.options.igDefaultBinaryClassification != 1 && this.options.igDefaultBinaryClassification != -1 ? this.options.igDefaultBinaryClassification : this.options.igDefaultBinaryClassification;
+			return this.options.igDefaultBinaryClassification != 1
+					&& this.options.igDefaultBinaryClassification != -1 ? this.options.igDefaultBinaryClassification : this.options.igDefaultBinaryClassification;
 		}
 	}
 }
