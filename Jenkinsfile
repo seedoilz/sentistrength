@@ -17,7 +17,8 @@ pipeline {
     stage('项目部署') {
         steps {
             echo '项目部署'
-            sh '/var/lib/jenkins/workspace/test/start.sh'
+            sh 'chmod 777 -R .'
+            sh './start.sh'
             }
         }
    }
