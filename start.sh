@@ -18,11 +18,11 @@ function kill_project()
 function start_project()
 {
         source /etc/profile
-        echo "切换路径：/var/lib/jenkins/workspace/test/target"
-        cd /var/lib/jenkins/workspace/test/target
+        echo "切换路径：/var/lib/jenkins/workspace/test"
+        cd /var/lib/jenkins/workspace/test
         echo "--------------------"
         echo "正在启动项目"
-        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar sentistrength-1.0-SNAPSHOT.jar>publish.log &
+        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/sentistrength-1.0-SNAPSHOT.jar>publish.log &
         sleep 10s
         echo "--------------------"
 
