@@ -19,7 +19,7 @@ public class TextServiceImpl implements TextService {
     @Override
     public Result analizeText(String text) {
         corpus.initialise();
-//        return ResultGenerator.genSuccessResult("success", SentiStrengthWeb.analyzeText(corpus, text));
-        return ResultGenerator.genSuccessResult("success", System.getProperty("user.dir"));
+        return ResultGenerator.genSuccessResult("success", SentiStrengthWeb.analyzeText(corpus, text));
+//        return ResultGenerator.genSuccessResult("success", System.getProperty("user.dir"));
     }
 }
