@@ -17,6 +17,7 @@ pipeline {
     stage('项目部署') {
         steps {
             echo '项目部署'
+            sh 'chmod 777 -R .'
             sh './start.sh'
             }
         }
