@@ -17,7 +17,7 @@ pipeline {
     stage('项目部署') {
         steps {
             echo '项目部署'
-            sh 'start.sh'
+            sh './start.sh'
             }
         }
    }
