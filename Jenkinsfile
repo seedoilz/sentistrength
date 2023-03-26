@@ -11,7 +11,7 @@ pipeline {
     stage('编译构建') {
         steps {
             echo '编译构建'
-            sh 'mvn clean package'
+            sh 'mvn package'
             }
     }
     stage('项目部署') {
