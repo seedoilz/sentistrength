@@ -9,5 +9,5 @@ import java.io.File;
 public interface TextService {
     Result analyzeText(String text);
 
-    ResponseEntity<Resource> analyzeFile(File file);
+    Result analyzeFile(File file);
 }

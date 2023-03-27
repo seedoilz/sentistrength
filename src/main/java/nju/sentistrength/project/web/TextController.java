@@ -19,8 +19,8 @@ public class TextController {
         return textService.analyzeText(text);
     }
 
-    @GetMapping("/file")
-    public ResponseEntity<Resource> analyzeFile(@RequestBody File file){
+    @PostMapping("/file")
+    public Result<String> analyzeFile(@RequestBody File file){
         return textService.analyzeFile(file);
     }
 }

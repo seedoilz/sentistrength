@@ -35,22 +35,9 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public ResponseEntity<Resource> analyzeFile(File file) {
+    public Result analyzeFile(File file) {
         corpus.initialise();
-        File outFile = SentiStrengthWeb.analyzeFile(corpus, file);
-        Path path = outFile.toPath();
-        ByteArrayResource resource = null;
-        try {
-            resource = new ByteArrayResource(Files.readAllBytes(path));
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok()
-                .contentLength(file.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .body((Resource) resource);
+        return ResultGenerator.genSuccessResult("success", SentiStrengthWeb.analyzeFile(corpus, file));
     }
 
     public void parseOptionsForCorpus(String[] checkedOptions) {
