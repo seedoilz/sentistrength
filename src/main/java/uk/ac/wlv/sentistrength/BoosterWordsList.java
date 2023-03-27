@@ -17,19 +17,16 @@ import uk.ac.wlv.utilities.Sort;
  * 该类用于存放、翻译、替换加强/减弱情绪表达的词汇和符号，对应了SentStrength_Data中的BoosterWordList.txt
  * @author zhengjie
  */
-public class BoosterWordsList
-{
-
-    private String sgBoosterWords[];//加强情绪表达的词汇
-    private int igBoosterWordStrength[];//词汇所对应的情绪值
-    private int igBoosterWordsCount;//词汇个数
+public class BoosterWordsList {
+    private String[] sgBoosterWords; //加强情绪表达的词汇
+    private int[] igBoosterWordStrength; //词汇所对应的情绪值
+    private int igBoosterWordsCount; //词汇个数
 
     /**
      * 构造函数
      * @author zhengjie
      */
-    public BoosterWordsList()
-    {
+    public BoosterWordsList() {
         igBoosterWordsCount = 0;
     }
 
@@ -41,80 +38,70 @@ public class BoosterWordsList
      * @return true(当成功初始化时返回) 或者false(当初始化失败时返回，通常情况为找不到对应的sFilename、文件为空或无法读文件)。
      * @author zhengjie
      */
-    public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude)
-    {
+    public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
         int iLinesInFile = 0;
         int iWordStrength = 0;
-        if(sFilename == "")
-        {
+        if (sFilename.equals("")) {
             System.out.println("No booster words file specified");
             return false;
         }
         File f = new File(sFilename);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             System.out.println((new StringBuilder("Could not find booster words file: ")).append(sFilename).toString());
             return false;
         }
         iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
-        if(iLinesInFile < 1)
-        {
+        if (iLinesInFile < 1) {
             System.out.println("No booster words specified");
             return false;
         }
         sgBoosterWords = new String[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
         igBoosterWordStrength = new int[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
         igBoosterWordsCount = 0;
-        try
-        {
+        try {
             BufferedReader rReader;
-            if(options.bgForceUTF8)
+            if (options.bgForceUTF8) {
                 rReader = new BufferedReader(new InputStreamReader(new FileInputStream(sFilename), "UTF8"));
-            else
+
+            } else {
                 rReader = new BufferedReader(new FileReader(sFilename));
+            }
             String sLine;
-            while((sLine = rReader.readLine()) != null) 
-                if(sLine != "")
-                {
+            while ((sLine = rReader.readLine()) != null) {
+                if (!sLine.equals("")) {
                     int iFirstTabLocation = sLine.indexOf("\t");
-                    if(iFirstTabLocation >= 0)
-                    {
+                    if (iFirstTabLocation >= 0) {
                         int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
-                        try
-                        {
-                            if(iSecondTabLocation > 0)
+                        try {
+                            if (iSecondTabLocation > 0) {
                                 iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation));
-                            else
+                            } else {
                                 iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1).trim());
-                        }
-                        catch(NumberFormatException e)
-                        {
+                            }
+                        } catch (NumberFormatException e) {
                             System.out.println("Failed to identify integer weight for booster word! Assuming it is zero");
                             System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
                             iWordStrength = 0;
                         }
                         sLine = sLine.substring(0, iFirstTabLocation);
-                        if(sLine.indexOf(" ") >= 0)
+                        if (sLine.indexOf(" ") >= 0) {
                             sLine = sLine.trim();
-                        if(sLine != "")
-                        {
+                        }
+                        if (!sLine.equals("")) {
                             igBoosterWordsCount++;
                             sgBoosterWords[igBoosterWordsCount] = sLine;
                             igBoosterWordStrength[igBoosterWordsCount] = iWordStrength;
                         }
                     }
                 }
+            }
             Sort.quickSortStringsWithInt(sgBoosterWords, igBoosterWordStrength, 1, igBoosterWordsCount);
             rReader.close();
-        }
-        catch(FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             System.out.println((new StringBuilder("Could not find booster words file: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println((new StringBuilder("Found booster words file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
@@ -130,18 +117,15 @@ public class BoosterWordsList
      * @return 添加成功时返回true，失败时返回false
      * @author zhengjie
      */
-    public boolean addExtraTerm(String sText, int iWordStrength, boolean bSortBoosterListAfterAddingTerm)
-    {
-        try
-        {
+    public boolean addExtraTerm(String sText, int iWordStrength, boolean bSortBoosterListAfterAddingTerm) {
+        try {
             igBoosterWordsCount++;
             sgBoosterWords[igBoosterWordsCount] = sText;
             igBoosterWordStrength[igBoosterWordsCount] = iWordStrength;
-            if(bSortBoosterListAfterAddingTerm)
+            if (bSortBoosterListAfterAddingTerm) {
                 Sort.quickSortStringsWithInt(sgBoosterWords, igBoosterWordStrength, 1, igBoosterWordsCount);
-        }
-        catch(Exception e)
-        {
+            }
+        } catch (Exception e) {
             System.out.println((new StringBuilder("Could not add extra booster word: ")).append(sText).toString());
             e.printStackTrace();
             return false;
@@ -153,8 +137,7 @@ public class BoosterWordsList
      *该方法对BoosterWords数组进行了排序
      * @author zhengjie
      */
-    public void sortBoosterWordList()
-    {
+    public void sortBoosterWordList() {
         Sort.quickSortStringsWithInt(sgBoosterWords, igBoosterWordStrength, 1, igBoosterWordsCount);
     }
 
@@ -164,12 +147,12 @@ public class BoosterWordsList
      * @return 返回单词长度
      * @author zhengjie
      */
-    public int getBoosterStrength(String sWord)
-    {
+    public int getBoosterStrength(String sWord) {
         int iWordID = Sort.i_FindStringPositionInSortedArray(sWord.toLowerCase(), sgBoosterWords, 1, igBoosterWordsCount);
-        if(iWordID >= 0)
+        if (iWordID >= 0) {
             return igBoosterWordStrength[iWordID];
-        else
+        } else {
             return 0;
+        }
     }
 }
