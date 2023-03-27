@@ -1391,6 +1391,239 @@ public class Corpus {
         }
     }
 
+    public File classifyAllLinesInInputFile(File sInputFile, int iTextCol, String sOutputFile) {
+        int iPos = 0;
+        int iNeg = 0;
+        int iTrinary = -3;
+        int iScale = -10;
+        int iFileTrinary = -2;
+        int iFileScale = -9;
+        int iClassified = 0;
+        int iCorrectPosCount = 0;
+        int iCorrectNegCount = 0;
+        int iCorrectTrinaryCount = 0;
+        int iCorrectScaleCount = 0;
+        int iPosAbsDiff = 0;
+        int iNegAbsDiff = 0;
+        int[][] confusion = {
+                new int[3], new int[3], new int[3]
+        };
+        int maxClassifyForCorrelation = 20000;
+        int[] iPosClassCorr = new int[maxClassifyForCorrelation];
+        int[] iNegClassCorr = new int[maxClassifyForCorrelation];
+        int[] iPosClassPred = new int[maxClassifyForCorrelation];
+        int[] iNegClassPred = new int[maxClassifyForCorrelation];
+        int[] iScaleClassCorr = new int[maxClassifyForCorrelation];
+        int[] iScaleClassPred = new int[maxClassifyForCorrelation];
+        String sRationale = "";
+        String sOutput = "";
+        try {
+            BufferedReader rReader;
+            BufferedWriter wWriter;
+            File outPut = new File(sOutputFile);
+            if (options.bgForceUTF8) {
+                wWriter = new BufferedWriter(new FileWriter(outPut));
+                rReader = new BufferedReader(new FileReader(sInputFile));
+            } else {
+                wWriter = new BufferedWriter(new FileWriter(outPut));
+                rReader = new BufferedReader(new FileReader(sInputFile));
+            }
+            if (options.bgTrinaryMode || options.bgScaleMode) {
+                wWriter.write("Overall\tText");
+            } else if (options.bgTensiStrength) {
+                wWriter.write("Relax\tStress\tText");
+            } else {
+                wWriter.write("Positive\tNegative\tText");
+            }
+            if (options.bgExplainClassification) {
+                wWriter.write("\tExplanation\n");
+            } else {
+                wWriter.write("\n");
+            }
+            while (rReader.ready()) {
+                String sLine = rReader.readLine();
+                if (!sLine.equals("")) {
+                    int iTabPos = sLine.lastIndexOf("\t");
+                    int iFilePos = 0;
+                    int iFileNeg = 0;
+                    if (iTabPos >= 0) {
+                        String[] sData = sLine.split("\t");
+                        if (sData.length > 1) {
+                            if (iTextCol > -1) {
+                                wWriter.write((new StringBuilder(String.valueOf(sLine))).append("\t").toString());
+                                if (iTextCol < sData.length) {
+                                    sLine = sData[iTextCol];
+                                }
+                            } else if (options.bgTrinaryMode) {
+                                iFileTrinary = -2;
+                                try {
+                                    iFileTrinary = Integer.parseInt(sData[0].trim());
+                                    if (iFileTrinary > 1 || iFileTrinary < -1) {
+                                        System.err.println((new StringBuilder("Invalid trinary sentiment "))
+                                                .append(iFileTrinary)
+                                                .append(" (expected -1,0,1) at line: ")
+                                                .append(sLine)
+                                                .toString());
+                                        iFileTrinary = 0;
+                                    }
+                                } catch (NumberFormatException numberformatexception) {
+                                }
+                            } else if (options.bgScaleMode) {
+                                iFileScale = -9;
+                                try {
+                                    iFileScale = Integer.parseInt(sData[0].trim());
+                                    if (iFileScale > 4 || iFileScale < -4) {
+                                        System.err.println((new StringBuilder("Invalid overall sentiment "))
+                                                .append(iFileScale)
+                                                .append(" (expected -4 to +4) at line: ")
+                                                .append(sLine)
+                                                .toString());
+                                        iFileScale = 0;
+                                    }
+                                } catch (NumberFormatException numberformatexception1) {
+                                }
+                            } else {
+                                try {
+                                    iFilePos = Integer.parseInt(sData[0].trim());
+                                    iFileNeg = Integer.parseInt(sData[1].trim());
+                                    if (iFileNeg < 0) {
+                                        iFileNeg = -iFileNeg;
+                                    }
+                                } catch (NumberFormatException numberformatexception2) {
+                                }
+                            }
+                        }
+                        sLine = sLine.substring(iTabPos + 1);
+                    }
+                    Paragraph paragraph = new Paragraph();
+                    paragraph.setParagraph(sLine, resources, options);
+                    if (options.bgTrinaryMode) {
+                        iTrinary = paragraph.getParagraphTrinarySentiment();
+                        if (options.bgExplainClassification) {
+                            sRationale = (new StringBuilder("\t")).append(paragraph.getClassificationRationale()).toString();
+                        }
+                        sOutput = (new StringBuilder(String.valueOf(iTrinary)))
+                                .append("\t").append(sLine).append(sRationale).append("\n").toString();
+                    } else if (options.bgScaleMode) {
+                        iScale = paragraph.getParagraphScaleSentiment();
+                        if (options.bgExplainClassification) {
+                            sRationale = (new StringBuilder("\t"))
+                                    .append(paragraph.getClassificationRationale()).toString();
+                        }
+                        sOutput = (new StringBuilder(String.valueOf(iScale)))
+                                .append("\t").append(sLine).append(sRationale).append("\n").toString();
+                    } else {
+                        iPos = paragraph.getParagraphPositiveSentiment();
+                        iNeg = paragraph.getParagraphNegativeSentiment();
+                        if (options.bgExplainClassification) {
+                            sRationale = (new StringBuilder("\t"))
+                                    .append(paragraph.getClassificationRationale()).toString();
+                        }
+                        sOutput = (new StringBuilder(String.valueOf(iPos)))
+                                .append("\t").append(iNeg).append("\t").append(sLine).append(sRationale).append("\n").toString();
+                    }
+                    wWriter.write(sOutput);
+                    if (options.bgTrinaryMode) {
+                        if (iFileTrinary > -2 && iFileTrinary < 2 && iTrinary > -2 && iTrinary < 2) {
+                            iClassified++;
+                            if (iFileTrinary == iTrinary) {
+                                iCorrectTrinaryCount++;
+                            }
+                            confusion[iTrinary + 1][iFileTrinary + 1]++;
+                        }
+                    } else if (options.bgScaleMode) {
+                        if (iFileScale > -9) {
+                            iClassified++;
+                            if (iFileScale == iScale) {
+                                iCorrectScaleCount++;
+                            }
+                            if (iClassified < maxClassifyForCorrelation) {
+                                iScaleClassCorr[iClassified] = iFileScale;
+                            }
+                            iScaleClassPred[iClassified] = iScale;
+                        }
+                    } else if (iFileNeg != 0) {
+                        iClassified++;
+                        if (iPos == iFilePos) {
+                            iCorrectPosCount++;
+                        }
+                        iPosAbsDiff += Math.abs(iPos - iFilePos);
+                        if (iClassified < maxClassifyForCorrelation) {
+                            iPosClassCorr[iClassified] = iFilePos;
+                        }
+                        iPosClassPred[iClassified] = iPos;
+                        if (iNeg == -iFileNeg) {
+                            iCorrectNegCount++;
+                        }
+                        iNegAbsDiff += Math.abs(iNeg + iFileNeg);
+                        if (iClassified < maxClassifyForCorrelation) {
+                            iNegClassCorr[iClassified] = iFileNeg;
+                        }
+                        iNegClassPred[iClassified] = iNeg;
+                    }
+                }
+            }
+            rReader.close();
+            wWriter.close();
+            return outPut;
+//            if (iClassified > 0) {
+//                if (options.bgTrinaryMode) {
+//                    System.err.println((new StringBuilder("Trinary correct: "))
+//                            .append(iCorrectTrinaryCount).append(" (").append(((float) iCorrectTrinaryCount / (float) iClassified) * 100F)
+//                            .append("%).").toString());
+//                    System.err.println("Correct -> -1   0   1");
+//                    System.err.println((new StringBuilder("Est = -1   "))
+//                            .append(confusion[0][0]).append(" ").append(confusion[0][1]).append(" ").append(confusion[0][2]).toString());
+//                    System.err.println((new StringBuilder("Est =  0   "))
+//                            .append(confusion[1][0]).append(" ").append(confusion[1][1]).append(" ").append(confusion[1][2]).toString());
+//                    System.err.println((new StringBuilder("Est =  1   "))
+//                            .append(confusion[2][0]).append(" ").append(confusion[2][1]).append(" ").append(confusion[2][2]).toString());
+//                } else if (options.bgScaleMode) {
+//                    System.err.println((new StringBuilder("Scale correct: "))
+//                            .append(iCorrectScaleCount).append(" (").append(((float) iCorrectScaleCount / (float) iClassified) * 100F)
+//                            .append("%) out of ").append(iClassified).toString());
+//                    System.err.println((new StringBuilder("  Correlation: "))
+//                            .append(ClassificationStatistics.correlation(iScaleClassCorr, iScaleClassPred, iClassified)).toString());
+//                } else {
+//                    System.out.print((new StringBuilder(String.valueOf(options.sgProgramPos)))
+//                            .append(" correct: ").append(iCorrectPosCount).append(" (")
+//                            .append(((float) iCorrectPosCount / (float) iClassified) * 100F).append("%).").toString());
+//                    System.err.println((new StringBuilder(" Mean abs diff: "))
+//                            .append((float) iPosAbsDiff / (float) iClassified).toString());
+//                    if (iClassified < maxClassifyForCorrelation) {
+//                        System.err.println((new StringBuilder(" Correlation: "))
+//                                .append(ClassificationStatistics.correlationAbs(iPosClassCorr, iPosClassPred, iClassified)).toString());
+//                        int corrWithin1 = ClassificationStatistics.accuracyWithin1(iPosClassCorr, iPosClassPred, iClassified, false);
+//                        System.err.println((new StringBuilder(" Correct +/- 1: "))
+//                                .append(corrWithin1).append(" (").append((float) (100 * corrWithin1) / (float) iClassified)
+//                                .append("%)").toString());
+//                    }
+//                    System.err.print((new StringBuilder(String.valueOf(options.sgProgramNeg)))
+//                            .append(" correct: ").append(iCorrectNegCount).append(" (")
+//                            .append(((float) iCorrectNegCount / (float) iClassified) * 100F)
+//                            .append("%).").toString());
+//                    System.err.println((new StringBuilder(" Mean abs diff: ")).
+//                            append((float) iNegAbsDiff / (float) iClassified).toString());
+//                    if (iClassified < maxClassifyForCorrelation) {
+//                        System.err.println((new StringBuilder(" Correlation: "))
+//                                .append(ClassificationStatistics.correlationAbs(iNegClassCorr, iNegClassPred, iClassified)).toString());
+//                        int corrWithin1 = ClassificationStatistics.accuracyWithin1(iNegClassCorr, iNegClassPred, iClassified, true);
+//                        System.err.println((new StringBuilder(" Correct +/- 1: ")).append(corrWithin1)
+//                                .append(" (").append((float) (100 * corrWithin1) / (float) iClassified).append("%)").toString());
+//                    }
+//                }
+//            }
+        } catch (FileNotFoundException e) {
+            System.err.println((new StringBuilder("Could not find input file: ")).append(sInputFile).toString());
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println((new StringBuilder("Error reading from input file: "))
+                    .append(sInputFile).append(" or writing to output file ").append(sOutputFile).toString());
+            e.printStackTrace();
+        }
+        return sInputFile;
+    }
+
     /**
      * UC-26 将分类算法写入标题中
      * @param w description

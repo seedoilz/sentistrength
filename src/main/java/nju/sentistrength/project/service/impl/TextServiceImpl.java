@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.ac.wlv.sentistrength.Corpus;
 import uk.ac.wlv.sentistrength.SentiStrengthWeb;
 
+import java.io.File;
+
 @Service
 @Transactional
 public class TextServiceImpl implements TextService {
@@ -17,9 +19,15 @@ public class TextServiceImpl implements TextService {
     private Corpus corpus = new Corpus();
 
     @Override
-    public Result analizeText(String text) {
+    public Result analyzeText(String text) {
         corpus.initialise();
         return ResultGenerator.genSuccessResult("success", SentiStrengthWeb.analyzeText(corpus, text));
 //        return ResultGenerator.genSuccessResult("success", System.getProperty("user.dir"));
+    }
+
+    @Override
+    public Result analyzeFile(File file) {
+        corpus.initialise();
+        return ResultGenerator.genSuccessResult("success", SentiStrengthWeb.analyzeFile(corpus, file));
     }
 }

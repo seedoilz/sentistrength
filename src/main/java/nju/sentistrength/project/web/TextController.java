@@ -16,7 +16,7 @@ public class TextController {
     private TextService textService;
 
     @PostMapping("/basic")
-    public Result<String> analizeText(@RequestBody String text) {
-        return textService.analizeText(text);
+    public Result<String> analyzeText(@RequestBody String text) {
+        return textService.analyzeText(text);
     }
 }

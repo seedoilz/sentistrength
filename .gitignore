@@ -1,6 +1,6 @@
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/libraries/Maven__log4j_log4j_1_2_17.xml
+/.idea/
 /target/
 /社交文本数据.txt
 /SentiStrength.jar
+/src/main/resources/application.yaml
 /文本/
