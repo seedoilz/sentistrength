@@ -995,7 +995,10 @@ public class Corpus {
                                                       String sOutFileName) {
         try {
             BufferedWriter wWriter = new BufferedWriter(new FileWriter(sOutFileName));
-            BufferedWriter wTermStrengthWriter = new BufferedWriter(new FileWriter((new StringBuilder(String.valueOf(FileOps.s_ChopFileNameExtension(sOutFileName))))
+            BufferedWriter wTermStrengthWriter = new BufferedWriter(
+                    new FileWriter((
+                            new StringBuilder(
+                                    String.valueOf(FileOps.s_ChopFileNameExtension(sOutFileName))))
                     .append("_termStrVars.txt").toString()));
             options.printClassificationOptionsHeadings(wWriter);
             writeClassificationStatsHeadings(wWriter);
