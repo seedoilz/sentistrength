@@ -4,19 +4,18 @@ import uk.ac.wlv.utilities.FileOps;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class SentiStrengthWeb {
 
-    public static void main(String args[]){
+    public static void main(String[] args) {
         String text = "hey witch wat cha been up too";
         String filePath = "/Users/seedoilz/Codes/sentistrength/src/main/resources/test.txt";
         File file = new File(filePath);
         Corpus corpus = new Corpus();
         corpus.initialise();
-        corpus.options.bgExplainClassification=false;
-        corpus.options.bgEchoText=false;
-        analyzeFile(corpus,file);
+        corpus.options.bgExplainClassification = false;
+        corpus.options.bgEchoText = false;
+        analyzeFile(corpus, file);
     }
     public static String analyzeText(Corpus corpus, String text) {
         int iPos = 1;
@@ -67,8 +66,8 @@ public class SentiStrengthWeb {
         return sOutput;
     }
 
-    public static File analyzeFile(Corpus corpus, File file){
+    public static File analyzeFile(Corpus corpus, File file) {
         String sOutputFile = FileOps.getNextAvailableFilename(FileOps.s_ChopFileNameExtension(file.getName()), "_out.txt");
-        return corpus.classifyAllLinesInInputFile(file,-1, sOutputFile);
+        return corpus.classifyAllLinesInInputFile(file, -1, sOutputFile);
     }
 }
