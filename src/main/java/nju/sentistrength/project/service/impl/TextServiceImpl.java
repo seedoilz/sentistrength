@@ -5,13 +5,21 @@ import nju.sentistrength.project.core.Result;
 import nju.sentistrength.project.core.ResultGenerator;
 import nju.sentistrength.project.service.TextService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.wlv.sentistrength.ClassificationOptions;
 import uk.ac.wlv.sentistrength.Corpus;
 import uk.ac.wlv.sentistrength.SentiStrengthWeb;
 
+import javax.annotation.Resource;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Service
 @Transactional
@@ -27,9 +35,22 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public Result analyzeFile(File file) {
+    public ResponseEntity<Resource> analyzeFile(File file) {
         corpus.initialise();
-        return ResultGenerator.genSuccessResult("success", SentiStrengthWeb.analyzeFile(corpus, file));
+        File outFile = SentiStrengthWeb.analyzeFile(corpus, file);
+        Path path = outFile.toPath();
+        ByteArrayResource resource = null;
+        try {
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .body((Resource) resource);
     }
 
     public void parseOptionsForCorpus(String[] checkedOptions) {
