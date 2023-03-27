@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.File;
 
 @RestController
 @RequestMapping("/text")
@@ -18,5 +19,10 @@ public class TextController {
     @PostMapping("/basic")
     public Result<String> analyzeText(@RequestBody String text) {
         return textService.analyzeText(text);
+    }
+
+    @PostMapping("/file")
+    public Result<String> analyzeFile(@RequestBody File file){
+        return textService.analyzeFile(file);
     }
 }
