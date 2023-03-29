@@ -58,13 +58,14 @@ public class IdiomList {
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
         int iLinesInFile = 0;
         int iIdiomStrength = 0;
+        boolean flag = true;
         if ("".equals(sFilename)) {
-            return false;
+            flag = false;
         }
         File f = new File(sFilename);
         if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find idiom list file: ")).append(sFilename).toString());
-            return false;
+            System.err.println((new StringBuilder("Could not find idiom list file: ")).append(sFilename).toString());
+            flag = false;
         }
         iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
         sgIdioms = new String[iLinesInFile + 2 + iExtraBlankArrayEntriesToInclude];
@@ -79,58 +80,70 @@ public class IdiomList {
             }
             String sLine;
             while ((sLine = rReader.readLine()) != null) {
-                if (!"".equals(sLine)) {
-                    int iFirstTabLocation = sLine.indexOf("\t");
-                    if (iFirstTabLocation >= 0) {
-                        int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
-                        try {
-                            if (iSecondTabLocation > 0) {
-                                iIdiomStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation).trim());
-                            } else {
-                                iIdiomStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1).trim());
-                            }
-                            if (iIdiomStrength > 0) {
-                                iIdiomStrength--;
-                            } else if (iIdiomStrength < 0) {
-                                iIdiomStrength++;
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Failed to identify integer weight for idiom! Ignoring idiom");
-                            System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
-                            iIdiomStrength = 0;
-                        }
-                        sLine = sLine.substring(0, iFirstTabLocation);
-                        if (sLine.indexOf(" ") >= 0) {
-                            sLine = sLine.trim();
-                        }
-                        if (sLine.indexOf("  ") > 0) {
-                            sLine = sLine.replace("  ", " ");
-                        }
-                        if (sLine.indexOf("  ") > 0) {
-                            sLine = sLine.replace("  ", " ");
-                        }
-                        if (!"".equals(sLine)) {
-                            igIdiomCount++;
-                            sgIdioms[igIdiomCount] = sLine;
-                            igIdiomStrength[igIdiomCount] = iIdiomStrength;
-                        }
-                    }
-                }
+                iIdiomStrength = initializeSingleRead(sLine, iIdiomStrength);
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find idiom list file: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Could not find idiom list file: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            flag = false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found idiom list file but could not read from it: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Found idiom list file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            flag = false;
         }
         convertIdiomStringsToWordLists();
-        return true;
+        return flag;
     }
 
+    /**
+     * 为了简化initialize方法，分拆出的单步读取
+     * @param sLine 一行文本
+     * @param iIdiomStrength initialize时等待赋值的习语强度
+     * @return 读取后，为原方法的iIdiomStrength变量赋值
+     */
+    public int initializeSingleRead(String sLine, int iIdiomStrength) {
+        int resIdiomSrength;
+        if (!"".equals(sLine)) {
+            int iFirstTabLocation = sLine.indexOf("\t");
+            if (iFirstTabLocation >= 0) {
+                int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
+                try {
+                    if (iSecondTabLocation > 0) {
+                        iIdiomStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation).trim());
+                    } else {
+                        iIdiomStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1).trim());
+                    }
+                    if (iIdiomStrength > 0) {
+                        iIdiomStrength--;
+                    } else if (iIdiomStrength < 0) {
+                        iIdiomStrength++;
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Failed to identify integer weight for idiom! Ignoring idiom");
+                    System.err.println((new StringBuilder("Line: ")).append(sLine).toString());
+                    iIdiomStrength = 0;
+                }
+                sLine = sLine.substring(0, iFirstTabLocation);
+                if (sLine.indexOf(" ") >= 0) {
+                    sLine = sLine.trim();
+                }
+                if (sLine.indexOf("  ") > 0) {
+                    sLine = sLine.replace("  ", " ");
+                }
+                if (sLine.indexOf("  ") > 0) {
+                    sLine = sLine.replace("  ", " ");
+                }
+                if (!"".equals(sLine)) {
+                    igIdiomCount++;
+                    sgIdioms[igIdiomCount] = sLine;
+                    igIdiomStrength[igIdiomCount] = iIdiomStrength;
+                }
+            }
+        }
+        resIdiomSrength = iIdiomStrength;
+        return resIdiomSrength;
+    }
     /**
      * 在习语列表中添加一个额外的习语
      * @param sIdiom 要添加的习语
@@ -154,7 +167,7 @@ public class IdiomList {
                 }
             }
         } catch (Exception e) {
-            System.out.println((new StringBuilder("Could not add extra idiom: ")).append(sIdiom).toString());
+            System.err.println((new StringBuilder("Could not add extra idiom: ")).append(sIdiom).toString());
             e.printStackTrace();
             return false;
         }
@@ -170,7 +183,7 @@ public class IdiomList {
         for (int iIdiom = 1; iIdiom <= igIdiomCount; iIdiom++) {
             String[] sWordList = sgIdioms[iIdiom].split(" ");
             if (sWordList.length >= 9) {
-                System.out.println((new StringBuilder("Ignoring idiom! Too many words in it! (>9): ")).append(sgIdioms[iIdiom]).toString());
+                System.err.println((new StringBuilder("Ignoring idiom! Too many words in it! (>9): ")).append(sgIdioms[iIdiom]).toString());
             } else {
                 igIdiomWordCount[iIdiom] = sWordList.length;
                 for (int iTerm = 0; iTerm < sWordList.length; iTerm++) {

@@ -48,13 +48,14 @@ public class NegatingWordList {
      * @return 初始化成功返回true，反之返回false
      */
     public boolean initialise(String sFilename, ClassificationOptions options) {
+        boolean flag = true;
         if (igNegatingWordMax > 0) {
-            return true;
+            flag = true;
         }
         File f = new File(sFilename);
         if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find the negating words file: ")).append(sFilename).toString());
-            return false;
+            System.err.println((new StringBuilder("Could not find the negating words file: ")).append(sFilename).toString());
+            flag = false;
         }
         igNegatingWordMax = FileOps.i_CountLinesInTextFile(sFilename) + 2;
         sgNegatingWord = new String[igNegatingWordMax];
@@ -76,15 +77,15 @@ public class NegatingWordList {
             rReader.close();
             Sort.quickSortStrings(sgNegatingWord, 1, igNegatingWordCount);
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find negating words file: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Could not find negating words file: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            flag = false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found negating words file but could not read from it: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Found negating words file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            flag = false;
         }
-        return true;
+        return flag;
     }
 
     /**

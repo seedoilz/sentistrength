@@ -56,13 +56,13 @@ public class IronyList {
      * @return 初始化成功则返回true，反之则返回false
      */
     public boolean initialise(String sSourceFile, ClassificationOptions options) {
-
+        boolean flag = true;
         if (igIronyTermCount > 0) {
-            return true;
+            flag = true;
         }
         File f = new File(sSourceFile);
         if (!f.exists()) {
-            return true;
+            flag = true;
         }
         try {
             igIronyTermMax = FileOps.i_CountLinesInTextFile(sSourceFile) + 2;
@@ -86,15 +86,15 @@ public class IronyList {
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
+            System.err.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
             e.printStackTrace();
-            return false;
+            flag = false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
+            System.err.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
             e.printStackTrace();
-            return false;
+            flag = false;
         }
         Sort.quickSortStrings(sgIronyTerm, 1, igIronyTermCount);
-        return true;
+        return flag;
     }
 }
