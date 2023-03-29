@@ -1811,7 +1811,7 @@ public class Corpus {
     /**
      * UC-29 执行 10 折交叉验证的更大情绪分析系统的十次迭代
      * <p>
-     *     运行 10 折交叉验证过程的一次迭代，循环运行十次之后重新计算整个预料的情感分数，最后打印
+     *     运行 10 折交叉验证过程的一次迭代，循环运行十次之后重新计算整个语料的情感分数，最后打印
      * </p>
      * @param iMinImprovement description
      * @param bUseTotalDifference description
