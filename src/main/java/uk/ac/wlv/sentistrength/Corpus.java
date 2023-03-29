@@ -2015,13 +2015,18 @@ public class Corpus {
     public void optimiseDictionaryWeightingsForCorpusMultipleTimes(int iMinImprovement,
                                                                    boolean bUseTotalDifference,
                                                                    int iOptimisationTotal) {
+        boolean flag = false;
         if (iOptimisationTotal < 1) {
-            return;
+            flag = true;
         }
-        if (iOptimisationTotal == 1) {
+        if (iOptimisationTotal == 1 && !flag) {
             optimiseDictionaryWeightingsForCorpus(iMinImprovement, bUseTotalDifference);
+            flag = true;
+        }
+        if (flag) {
             return;
         }
+
         int iTotalSentimentWords = resources.sentimentWords.getSentimentWordCount();
         int[] iOriginalSentimentStrengths = new int[iTotalSentimentWords + 1];
         for (int j = 1; j <= iTotalSentimentWords; j++) {

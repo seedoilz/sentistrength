@@ -156,47 +156,12 @@ public class Paragraph {
 		if (sParagraph.indexOf("\"") >= 0) { // 将所有出现的双引号替换为单引号
 			sParagraph = sParagraph.replace("\"", "'");
 		}
-
 		int iSentenceEnds = 2;
 		int iPos = 0;
 
-		while (iPos >= 0 && iPos < sParagraph.length()) {
-			iPos = sParagraph.indexOf("<br>", iPos);
-			if (iPos >= 0) {
-				iPos += 3;
-				++iSentenceEnds;
-			}
-		}
-
-		iPos = 0;
-
-		while (iPos >= 0 && iPos < sParagraph.length()) {
-			iPos = sParagraph.indexOf(".", iPos);
-			if (iPos >= 0) {
-				++iPos;
-				++iSentenceEnds;
-			}
-		}
-
-		iPos = 0;
-
-		while (iPos >= 0 && iPos < sParagraph.length()) {
-			iPos = sParagraph.indexOf("!", iPos);
-			if (iPos >= 0) {
-				++iPos;
-				++iSentenceEnds;
-			}
-		}
-
-		iPos = 0;
-
-		while (iPos >= 0 && iPos < sParagraph.length()) {
-			iPos = sParagraph.indexOf("?", iPos);
-			if (iPos >= 0) {
-				++iPos;
-				++iSentenceEnds;
-			}
-		}
+		int[] temp = getPodSentence(iPos, iSentenceEnds, sParagraph);
+		iPos = temp[0];
+		iSentenceEnds = temp[1];
 
 		this.sentence = new Sentence[iSentenceEnds];
 		this.igSentenceCount = 0;
@@ -204,7 +169,6 @@ public class Paragraph {
 		boolean bPunctuationIndicatesSentenceEnd = false;
 		int iNextBr = sParagraph.indexOf("<br>");
 		String sNextSentence = "";
-
 		for (iPos = 0; iPos < sParagraph.length(); ++iPos) {
 			String sNextChar = sParagraph.substring(iPos, iPos + 1);
 			if (iPos == sParagraph.length() - 1) {
@@ -224,7 +188,6 @@ public class Paragraph {
 				sNextSentence = sParagraph.substring(iLastSentenceEnd + 1, iPos);
 				iLastSentenceEnd = iPos - 1;
 			}
-
 			if (!sNextSentence.equals("")) {
 				++this.igSentenceCount;
 				this.sentence[this.igSentenceCount] = new Sentence();
@@ -233,7 +196,45 @@ public class Paragraph {
 				bPunctuationIndicatesSentenceEnd = false;
 			}
 		}
+	}
+	public int[] getPodSentence(int iPos, int iSentenceEnds, String sParagraph) {
+		int[] result = new int[2];
 
+		while (iPos >= 0 && iPos < sParagraph.length()) {
+			iPos = sParagraph.indexOf("<br>", iPos);
+			if (iPos >= 0) {
+				iPos += 3;
+				++iSentenceEnds;
+			}
+		}
+		iPos = 0;
+		while (iPos >= 0 && iPos < sParagraph.length()) {
+			iPos = sParagraph.indexOf(".", iPos);
+			if (iPos >= 0) {
+				++iPos;
+				++iSentenceEnds;
+			}
+		}
+		iPos = 0;
+		while (iPos >= 0 && iPos < sParagraph.length()) {
+			iPos = sParagraph.indexOf("!", iPos);
+			if (iPos >= 0) {
+				++iPos;
+				++iSentenceEnds;
+			}
+		}
+		iPos = 0;
+		while (iPos >= 0 && iPos < sParagraph.length()) {
+			iPos = sParagraph.indexOf("?", iPos);
+			if (iPos >= 0) {
+				++iPos;
+				++iSentenceEnds;
+			}
+		}
+		result[0] = iPos;
+		result[1] = iSentenceEnds;
+
+		return result;
 	}
 
 	/**
@@ -786,7 +787,8 @@ public class Paragraph {
 			return this.generator.nextDouble() > 0.5D ? 1 : -1;
 		} else {
 			return this.options.igDefaultBinaryClassification != 1
-					&& this.options.igDefaultBinaryClassification != -1 ? this.options.igDefaultBinaryClassification : this.options.igDefaultBinaryClassification;
+					&& this.options.igDefaultBinaryClassification != -1
+					? this.options.igDefaultBinaryClassification : this.options.igDefaultBinaryClassification;
 		}
 	}
 }
