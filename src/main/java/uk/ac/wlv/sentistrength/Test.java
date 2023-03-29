@@ -33,24 +33,24 @@ public class Test {
     public static void main(String[] args) {
         CharsetEncoder asciiEncoder = Charset.forName("US-ASCII").newEncoder();
         String test = "R\351al";
-        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
+        System.err.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
                 .append(asciiEncoder.canEncode(test)).toString());
         for (int i = 0; i < test.length(); i++) {
             if (!asciiEncoder.canEncode(test.charAt(i))) {
-                System.out.println((new StringBuilder(String.valueOf(test.charAt(i)))).append(" isn't Ascii() : ").toString());
+                System.err.println((new StringBuilder(String.valueOf(test.charAt(i)))).append(" isn't Ascii() : ").toString());
             }
         }
         test = "Real";
-        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
+        System.err.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
                 .append(asciiEncoder.canEncode(test)).toString());
         test = "a\u2665c";
-        System.out.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
+        System.err.println((new StringBuilder(String.valueOf(test))).append(" isPureAscii() : ")
                 .append(asciiEncoder.canEncode(test)).toString());
         for (int i = 0; i < test.length(); i++) {
             if (!asciiEncoder.canEncode(test.charAt(i))) {
-                System.out.println((new StringBuilder(String.valueOf(test.charAt(i)))).append(" isn't Ascii() : ").toString());
+                System.err.println((new StringBuilder(String.valueOf(test.charAt(i)))).append(" isn't Ascii() : ").toString());
             }
         }
-        System.out.println((new StringBuilder("Encoded Word = ")).append(URLEncoder.encode(test)).toString());
+        System.err.println((new StringBuilder("Encoded Word = ")).append(URLEncoder.encode(test)).toString());
     }
 }

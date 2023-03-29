@@ -1811,7 +1811,7 @@ public class Corpus {
     /**
      * UC-29 执行 10 折交叉验证的更大情绪分析系统的十次迭代
      * <p>
-     *     运行 10 折交叉验证过程的一次迭代，循环运行十次之后重新计算整个预料的情感分数，最后打印
+     *     运行 10 折交叉验证过程的一次迭代，循环运行十次之后重新计算整个语料的情感分数，最后打印
      * </p>
      * @param iMinImprovement description
      * @param bUseTotalDifference description
@@ -2015,13 +2015,18 @@ public class Corpus {
     public void optimiseDictionaryWeightingsForCorpusMultipleTimes(int iMinImprovement,
                                                                    boolean bUseTotalDifference,
                                                                    int iOptimisationTotal) {
+        boolean flag = false;
         if (iOptimisationTotal < 1) {
-            return;
+            flag = true;
         }
-        if (iOptimisationTotal == 1) {
+        if (iOptimisationTotal == 1 && !flag) {
             optimiseDictionaryWeightingsForCorpus(iMinImprovement, bUseTotalDifference);
+            flag = true;
+        }
+        if (flag) {
             return;
         }
+
         int iTotalSentimentWords = resources.sentimentWords.getSentimentWordCount();
         int[] iOriginalSentimentStrengths = new int[iTotalSentimentWords + 1];
         for (int j = 1; j <= iTotalSentimentWords; j++) {

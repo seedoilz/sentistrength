@@ -46,7 +46,7 @@ public class ClassificationOptions {
      **/
     public boolean bgTrinaryMode = false;
     /**
-     * 一个布尔值，指示是否使用三元模式的。
+     * 一个布尔值，指示是否使用三元模式的二元模式。
      **/
     public boolean bgBinaryVersionOfTrinaryMode = false;
     /**

@@ -265,10 +265,10 @@ public class SentiStrength {
                return;
             }
          } catch (NumberFormatException var32) {
-            System.out.println("Error in argument for " + args[i] + ". Integer expected!");
+            System.err.println("Error in argument for " + args[i] + ". Integer expected!");
             return;
          } catch (Exception var33) {
-            System.out.println("Error in argument for " + args[i] + ". Argument missing?");
+            System.err.println("Error in argument for " + args[i] + ". Argument missing?");
             return;
          }
       }
@@ -281,7 +281,7 @@ public class SentiStrength {
 
       for (i = 0; i < args.length; ++i) {
          if (!bArgumentRecognised[i]) {
-            System.out.println("Unrecognised command - wrong spelling or case?: " + args[i]);
+            System.err.println("Unrecognised command - wrong spelling or case?: " + args[i]);
             this.showBriefHelp();
             return;
          }
@@ -309,22 +309,22 @@ public class SentiStrength {
          } else if (!bWait) {
             if (!sOptimalTermStrengths.equals("")) {
                if (sInputFile.equals("")) {
-                  System.out.println("Input file must be specified to optimise term weights");
+                  System.err.println("Input file must be specified to optimise term weights");
                   return;
                }
 
                if (c.setCorpus(sInputFile)) {
                   c.optimiseDictionaryWeightingsForCorpus(iMinImprovement, bUseTotalDifference);
                   c.resources.sentimentWords.saveSentimentList(sOptimalTermStrengths, c);
-                  System.out.println("Saved optimised term weights to " + sOptimalTermStrengths);
+                  System.err.println("Saved optimised term weights to " + sOptimalTermStrengths);
                } else {
-                  System.out.println("Error: Too few texts in " + sInputFile);
+                  System.err.println("Error: Too few texts in " + sInputFile);
                }
             } else if (bReportNewTermWeightsForBadClassifications) {
                if (c.setCorpus(sInputFile)) {
                   c.printCorpusUnusedTermsClassificationIndex(FileOps.s_ChopFileNameExtension(sInputFile) + "_unusedTerms.txt", 1);
                } else {
-                  System.out.println("Error: Too few texts in " + sInputFile);
+                  System.err.println("Error: Too few texts in " + sInputFile);
                }
             } else if (iTextCol > 0 && iIdCol > 0) {
                this.classifyAndSaveWithID(c, sInputFile, sInputFolder, iTextCol, iIdCol);
@@ -332,11 +332,11 @@ public class SentiStrength {
                this.annotationTextCol(c, sInputFile, sInputFolder, sFileSubString, iTextColForAnnotation, bOkToOverwrite);
             } else {
                if (!sInputFolder.equals("")) {
-                  System.out.println("Input folder specified but textCol and IDcol or annotateCol needed");
+                  System.err.println("Input folder specified but textCol and IDcol or annotateCol needed");
                }
 
                if (sInputFile.equals("")) {
-                  System.out.println("No action taken because no input file nor text specified");
+                  System.err.println("No action taken because no input file nor text specified");
                   this.showBriefHelp();
                   return;
                }
@@ -354,19 +354,19 @@ public class SentiStrength {
                   c.classifyAllLinesInInputFile(sInputFile, iTextCol, sOutputFile);
                }
 
-               System.out.println("Finished! Results in: " + sOutputFile);
+               System.err.println("Finished! Results in: " + sOutputFile);
             }
          }
       } else {
-         System.out.println("Failed to initialise!");
+         System.err.println("Failed to initialise!");
 
          try {
             File f = new File(c.resources.sgSentiStrengthFolder);
             if (!f.exists()) {
-               System.out.println("Folder does not exist! " + c.resources.sgSentiStrengthFolder);
+               System.err.println("Folder does not exist! " + c.resources.sgSentiStrengthFolder);
             }
          } catch (Exception var30) {
-            System.out.println("Folder doesn't exist! " + c.resources.sgSentiStrengthFolder);
+            System.err.println("Folder doesn't exist! " + c.resources.sgSentiStrengthFolder);
          }
 
          this.showBriefHelp();
@@ -452,7 +452,7 @@ public class SentiStrength {
                this.corpus.options.bgScaleMode = true;
                bArgumentRecognised[i] = true;
                if (this.corpus.options.bgTrinaryMode) {
-                  System.out.println("Must choose binary/trinary OR scale mode");
+                  System.err.println("Must choose binary/trinary OR scale mode");
                   return;
                }
             }
@@ -673,10 +673,10 @@ public class SentiStrength {
             }
 
          } catch (NumberFormatException var5) {
-            System.out.println("Error in argument for " + args[i] + ". Integer expected!");
+            System.err.println("Error in argument for " + args[i] + ". Integer expected!");
             return;
          } catch (Exception var6) {
-            System.out.println("Error in argument for " + args[i] + ". Argument missing?");
+            System.err.println("Error in argument for " + args[i] + ". Argument missing?");
             return;
          }
       }
@@ -702,14 +702,14 @@ public class SentiStrength {
 
       for (i = 0; i < args.length; ++i) {
          if (!bArgumentRecognised[i]) {
-            System.out.println("Unrecognised command - wrong spelling or case?: " + args[i]);
+            System.err.println("Unrecognised command - wrong spelling or case?: " + args[i]);
             this.showBriefHelp();
             return;
          }
       }
 
       if (!this.corpus.initialise()) {
-         System.out.println("Failed to initialise!");
+         System.err.println("Failed to initialise!");
       }
 
    }
@@ -764,7 +764,7 @@ public class SentiStrength {
    private void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement,
                                    boolean bUseTotalDifference, int iIterations, int iMultiOptimisations, String sOutputFile) {
       if (iMinImprovement < 1) {
-         System.out.println("No action taken because min improvement < 1");
+         System.err.println("No action taken because min improvement < 1");
          this.showBriefHelp();
       } else {
          c.setCorpus(sInputFile);
@@ -772,33 +772,33 @@ public class SentiStrength {
          int corpusSize = c.getCorpusSize();
          if (c.options.bgTrinaryMode) {
             if (c.options.bgBinaryVersionOfTrinaryMode) {
-               System.out.print("Before training, binary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " "
+               System.err.print("Before training, binary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " "
                        + (float) c.getClassificationTrinaryNumberCorrect() / (float) corpusSize * 100.0F + "%");
             } else {
-               System.out.print("Before training, trinary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " "
+               System.err.print("Before training, trinary accuracy: " + c.getClassificationTrinaryNumberCorrect() + " "
                        + (float) c.getClassificationTrinaryNumberCorrect() / (float) corpusSize * 100.0F + "%");
             }
          } else if (c.options.bgScaleMode) {
-            System.out.print("Before training, scale accuracy: " + c.getClassificationScaleNumberCorrect() + " "
+            System.err.print("Before training, scale accuracy: " + c.getClassificationScaleNumberCorrect() + " "
                     + (float) c.getClassificationScaleNumberCorrect() * 100.0F / (float) corpusSize + "% corr "
                     + c.getClassificationScaleCorrelationWholeCorpus());
          } else {
-            System.out.print("Before training, positive: " + c.getClassificationPositiveNumberCorrect() + " "
+            System.err.print("Before training, positive: " + c.getClassificationPositiveNumberCorrect() + " "
                     + c.getClassificationPositiveAccuracyProportion() * 100.0F + "% negative "
                     + c.getClassificationNegativeNumberCorrect() + " "
                     + c.getClassificationNegativeAccuracyProportion() * 100.0F + "% ");
-            System.out.print("   Positive corr: " + c.getClassificationPosCorrelationWholeCorpus() + " negative "
+            System.err.print("   Positive corr: " + c.getClassificationPosCorrelationWholeCorpus() + " negative "
                     + c.getClassificationNegCorrelationWholeCorpus());
          }
 
-         System.out.println(" out of " + c.getCorpusSize());
+         System.err.println(" err of " + c.getCorpusSize());
          if (bDoAll) {
-            System.out.println("Running " + iIterations + " iteration(s) of all options on file "
+            System.err.println("Running " + iIterations + " iteration(s) of all options on file "
                     + sInputFile + "; results in " + sOutputFile);
             c.run10FoldCrossValidationForAllOptionVariations(iMinImprovement, bUseTotalDifference,
                     iIterations, iMultiOptimisations, sOutputFile);
          } else {
-            System.out.println("Running " + iIterations + " iteration(s) for standard or selected options on file "
+            System.err.println("Running " + iIterations + " iteration(s) for standard or selected options on file "
                     + sInputFile + "; results in " + sOutputFile);
             c.run10FoldCrossValidationMultipleTimes(iMinImprovement, bUseTotalDifference,
                     iIterations, iMultiOptimisations, sOutputFile);
@@ -823,7 +823,7 @@ public class SentiStrength {
                  FileOps.s_ChopFileNameExtension(sInputFile) + "_classID.txt");
       } else {
          if (sInputFolder.equals("")) {
-            System.out.println("No annotations done because no input file or folder specfied");
+            System.err.println("No annotations done because no input file or folder specfied");
             this.showBriefHelp();
             return;
          }
@@ -831,14 +831,14 @@ public class SentiStrength {
          File folder = new File(sInputFolder);
          File[] listOfFiles = folder.listFiles();
          if (listOfFiles == null) {
-            System.out.println("Incorrect or empty input folder specfied");
+            System.err.println("Incorrect or empty input folder specfied");
             this.showBriefHelp();
             return;
          }
 
          for (int i = 0; i < listOfFiles.length; ++i) {
             if (listOfFiles[i].isFile()) {
-               System.out.println("Classify + save with ID: " + listOfFiles[i].getName());
+               System.err.println("Classify + save with ID: " + listOfFiles[i].getName());
                c.classifyAllLinesAndRecordWithID(sInputFolder + "/" + listOfFiles[i].getName(),
                        iTextCol - 1, iIdCol - 1, sInputFolder + "/"
                                + FileOps.s_ChopFileNameExtension(listOfFiles[i].getName()) + "_classID.txt");
@@ -866,13 +866,13 @@ public class SentiStrength {
    private void annotationTextCol(Corpus c, String sInputFile, String sInputFolder, String sFileSubString,
                                   int iTextColForAnnotation, boolean bOkToOverwrite) {
       if (!bOkToOverwrite) {
-         System.out.println("Must include parameter overwrite to annotate");
+         System.err.println("Must include parameter overwrite to annotate");
       } else {
          if (!sInputFile.equals("")) {
             c.annotateAllLinesInInputFile(sInputFile, iTextColForAnnotation - 1);
          } else {
             if (sInputFolder.equals("")) {
-               System.out.println("No annotations done because no input file or folder specfied");
+               System.err.println("No annotations done because no input file or folder specfied");
                this.showBriefHelp();
                return;
             }
@@ -881,9 +881,9 @@ public class SentiStrength {
             for (int i = 0; i < listOfFiles.length; ++i) {
                if (listOfFiles[i].isFile()) {
                   if (!sFileSubString.equals("") && listOfFiles[i].getName().indexOf(sFileSubString) <= 0) {
-                     System.out.println("  Ignoring " + listOfFiles[i].getName());
+                     System.err.println("  Ignoring " + listOfFiles[i].getName());
                   } else {
-                     System.out.println("Annotate: " + listOfFiles[i].getName());
+                     System.err.println("Annotate: " + listOfFiles[i].getName());
                      c.annotateAllLinesInInputFile(sInputFolder + "/" + listOfFiles[i].getName(), iTextColForAnnotation - 1);
                   }
                }
@@ -931,19 +931,19 @@ public class SentiStrength {
 
       if (bURLEncodedOutput) {
          try {
-            System.out.println(URLEncoder.encode(sOutput, "UTF-8"));
+            System.err.println(URLEncoder.encode(sOutput, "UTF-8"));
          } catch (UnsupportedEncodingException var13) {
             var13.printStackTrace();
          }
       } else if (c.options.bgForceUTF8) {
          try {
-            System.out.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
+            System.err.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
          } catch (UnsupportedEncodingException var12) {
-            System.out.println("UTF-8 Not found on your system!");
+            System.err.println("UTF-8 Not found on your system!");
             var12.printStackTrace();
          }
       } else {
-         System.out.println(sOutput);
+         System.err.println(sOutput);
       }
 
    }
@@ -1018,9 +1018,9 @@ public class SentiStrength {
                String[] sData = sTextToParse.split("\t");
                bSuccess = c.resources.sentimentWords.setSentiment(sData[1], Integer.parseInt(sData[2]));
                if (bSuccess) {
-                  System.out.println("1");
+                  System.err.println("1");
                } else {
-                  System.out.println("0");
+                  System.err.println("0");
                }
             } else {
                String sOutput = "";
@@ -1028,18 +1028,18 @@ public class SentiStrength {
 
                if (c.options.bgForceUTF8) {
                   try {
-                     System.out.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
+                     System.err.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
                   } catch (UnsupportedEncodingException var13) {
-                     System.out.println("UTF-8Not found on your system!");
+                     System.err.println("UTF-8Not found on your system!");
                      var13.printStackTrace();
                   }
                } else {
-                  System.out.println(sOutput);
+                  System.err.println(sOutput);
                }
             }
          }
       } catch (IOException var14) {
-         System.out.println("Error reading input");
+         System.err.println("Error reading input");
          var14.printStackTrace();
       }
 
@@ -1085,18 +1085,18 @@ public class SentiStrength {
                      sOutput = iPos + " " + iNeg + sRationale;
                   }
                   if (!c.options.bgForceUTF8) {
-                     System.out.println(sOutput);
+                     System.err.println(sOutput);
                   } else {
                      try {
-                        System.out.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
+                        System.err.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
                      } catch (UnsupportedEncodingException var12) {
-                        System.out.println("UTF-8Not found on your system!");
+                        System.err.println("UTF-8Not found on your system!");
                         var12.printStackTrace();
                      }
                   }
                }
             } catch (IOException var13) {
-               System.out.println(var13);
+               System.err.println(var13);
             }
          }
       }
@@ -1114,11 +1114,11 @@ public class SentiStrength {
       try {
          serverSocket = new ServerSocket(iListenPort);
       } catch (IOException var23) {
-         System.out.println("Could not listen on port " + iListenPort + " because\n" + var23.getMessage());
+         System.err.println("Could not listen on port " + iListenPort + " because\n" + var23.getMessage());
          return null;
       }
 
-      System.out.println("Listening on port: " + iListenPort + " IP: " + serverSocket.getInetAddress());
+      System.err.println("Listening on port: " + iListenPort + " IP: " + serverSocket.getInetAddress());
       return serverSocket;
    }
 
@@ -1138,7 +1138,7 @@ public class SentiStrength {
                }
 
                decodedText = URLDecoder.decode(inputLine.substring(5, lastSpacePos), "UTF-8");
-               System.out.println("Analysis of text: " + decodedText);
+               System.err.println("Analysis of text: " + decodedText);
                break;
             }
 
@@ -1147,16 +1147,16 @@ public class SentiStrength {
             }
          }
       } catch (IOException var24) {
-         System.out.println("IOException " + var24.getMessage());
+         System.err.println("IOException " + var24.getMessage());
          var24.printStackTrace();
          decodedText = "";
       } catch (Exception var25) {
-         System.out.println("Non-IOException " + var25.getMessage());
+         System.err.println("Non-IOException " + var25.getMessage());
          decodedText = "";
       }
    }
 
-   private void printOutput(Corpus c, String decodedText, PrintWriter out){
+   private void printOutput(Corpus c, String decodedText, PrintWriter err) {
       int iPos = 1;
       int iNeg = 1;
       int iTrinary = 0;
@@ -1187,13 +1187,13 @@ public class SentiStrength {
 
       if (c.options.bgForceUTF8) {
          try {
-            out.print(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
+            err.print(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
          } catch (UnsupportedEncodingException var22) {
-            out.print("UTF-8 Not found on your system!");
+            err.print("UTF-8 Not found on your system!");
             var22.printStackTrace();
          }
       } else {
-         out.print(sOutput);
+         err.print(sOutput);
       }
    }
 
@@ -1216,15 +1216,15 @@ public class SentiStrength {
          try {
             clientSocket = serverSocket.accept();
          } catch (IOException var20) {
-            System.out.println("Accept failed at port: " + iListenPort);
+            System.err.println("Accept failed at port: " + iListenPort);
             return;
          }
 
-         PrintWriter out;
+         PrintWriter err;
          try {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            err = new PrintWriter(clientSocket.getOutputStream(), true);
          } catch (IOException var19) {
-            System.out.println("IOException clientSocket.getOutputStream " + var19.getMessage());
+            System.err.println("IOException clientSocket.getOutputStream " + var19.getMessage());
             var19.printStackTrace();
             return;
          }
@@ -1233,21 +1233,21 @@ public class SentiStrength {
          try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          } catch (IOException var18) {
-            System.out.println("IOException InputStreamReader " + var18.getMessage());
+            System.err.println("IOException InputStreamReader " + var18.getMessage());
             var18.printStackTrace();
             return;
          }
 
          setupDecodedText(decodedText, in);
 
-         printOutput(c, decodedText, out);
+         printOutput(c, decodedText, err);
 
          try {
-            out.close();
+            err.close();
             in.close();
             clientSocket.close();
          } catch (IOException var21) {
-            System.out.println("IOException closing streams or sockets" + var21.getMessage());
+            System.err.println("IOException closing streams or sockets" + var21.getMessage());
             var21.printStackTrace();
          }
       }
@@ -1258,33 +1258,33 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    private void showBriefHelp() {
-      System.out.println();
-      System.out.println("====" + this.corpus.options.sgProgramName + "Brief Help====");
-      System.out.println("For most operations, a minimum of two parameters must be set");
-      System.out.println("1) folder location for the linguistic files");
-      System.out.println("   e.g., on Windows: C:/mike/Lexical_Data/");
-      System.out.println("   e.g., on Mac/Linux/Unix: /usr/Lexical_Data/");
+      System.err.println();
+      System.err.println("====" + this.corpus.options.sgProgramName + "Brief Help====");
+      System.err.println("For most operations, a minimum of two parameters must be set");
+      System.err.println("1) folder location for the linguistic files");
+      System.err.println("   e.g., on Windows: C:/mike/Lexical_Data/");
+      System.err.println("   e.g., on Mac/Linux/Unix: /usr/Lexical_Data/");
       if (this.corpus.options.bgTensiStrength) {
-         System.out.println("TensiiStrength_Data can be downloaded from...[not completed yet]");
+         System.err.println("TensiiStrength_Data can be downloaded from...[not completed yet]");
       } else {
-         System.out.println("SentiStrength_Data can be downloaded with the Windows version of SentiStrength from sentistrength.wlv.ac.uk");
+         System.err.println("SentiStrength_Data can be downloaded with the Windows version of SentiStrength from sentistrength.wlv.ac.uk");
       }
 
-      System.out.println();
-      System.out.println("2) text to be classified or file name of texts to be classified");
-      System.out.println("   e.g., To classify one text: text love+u");
-      System.out.println("   e.g., To classify a file of texts: input /bob/data.txt");
-      System.out.println();
-      System.out.println("Here is an example complete command:");
+      System.err.println();
+      System.err.println("2) text to be classified or file name of texts to be classified");
+      System.err.println("   e.g., To classify one text: text love+u");
+      System.err.println("   e.g., To classify a file of texts: input /bob/data.txt");
+      System.err.println();
+      System.err.println("Here is an example complete command:");
       if (this.corpus.options.bgTensiStrength) {
-         System.out.println("java -jar TensiStrength.jar sentidata C:/a/Stress_Data/ text am+stressed");
+         System.err.println("java -jar TensiStrength.jar sentidata C:/a/Stress_Data/ text am+stressed");
       } else {
-         System.out.println("java -jar SentiStrength.jar sentidata C:/a/SentStrength_Data/ text love+u");
+         System.err.println("java -jar SentiStrength.jar sentidata C:/a/SentStrength_Data/ text love+u");
       }
 
-      System.out.println();
+      System.err.println();
       if (!this.corpus.options.bgTensiStrength) {
-         System.out.println("To list all commands: java -jar SentiStrength.jar help");
+         System.err.println("To list all commands: java -jar SentiStrength.jar help");
       }
 
    }
@@ -1294,101 +1294,101 @@ public class SentiStrength {
     * @author ruohao.zhang
     */
    private void printCommandLineOptions() {
-      System.out.println("====" + this.corpus.options.sgProgramName + " Command Line Options====");
-      System.out.println("=Source of data to be classified=");
-      System.out.println(" text [text to process] OR");
-      System.out.println(" input [filename] (each line of the file is classified SEPARATELY");
-      System.out.println("        May have +ve 1st col., -ve 2nd col. in evaluation mode) OR");
-      System.out.println(" annotateCol [col # 1..] (classify text in col, result at line end) OR");
-      System.out.println(" textCol, idCol [col # 1..] (classify text in col, result & ID in new file) OR");
-      System.out.println(" inputFolder  [foldername] (all files in folder will be *annotated*)");
-      System.out.println(" outputFolder [foldername where to put the output (default: folder of input)]");
-      System.out.println(" resultsExtension [file-extension for output (default _out.txt)]");
-      System.out.println("  fileSubstring [text] (string must be present in files to annotate)");
-      System.out.println("  Ok to overwrite files [overwrite]");
-      System.out.println(" listen [port number to listen at - call http://127.0.0.1:81/text]");
-      System.out.println(" cmd (wait for stdin input, write to stdout, terminate on input: @end");
-      System.out.println(" stdin (read from stdin input, write to stdout, terminate when stdin finished)");
-      System.out.println(" wait (just initialise; allow calls to public String computeSentimentScores)");
-      System.out.println("=Linguistic data source=");
-      System.out.println(" sentidata [folder for " + this.corpus.options.sgProgramName + " data (end in slash, no spaces)]");
-      System.out.println("=Options=");
-      System.out.println(" keywords [comma-separated list - " + this.corpus.options.sgProgramMeasuring
+      System.err.println("====" + this.corpus.options.sgProgramName + " Command Line Options====");
+      System.err.println("=Source of data to be classified=");
+      System.err.println(" text [text to process] OR");
+      System.err.println(" input [filename] (each line of the file is classified SEPARATELY");
+      System.err.println("        May have +ve 1st col., -ve 2nd col. in evaluation mode) OR");
+      System.err.println(" annotateCol [col # 1..] (classify text in col, result at line end) OR");
+      System.err.println(" textCol, idCol [col # 1..] (classify text in col, result & ID in new file) OR");
+      System.err.println(" inputFolder  [foldername] (all files in folder will be *annotated*)");
+      System.err.println(" outputFolder [foldername where to put the output (default: folder of input)]");
+      System.err.println(" resultsExtension [file-extension for output (default _out.txt)]");
+      System.err.println("  fileSubstring [text] (string must be present in files to annotate)");
+      System.err.println("  Ok to overwrite files [overwrite]");
+      System.err.println(" listen [port number to listen at - call http://127.0.0.1:81/text]");
+      System.err.println(" cmd (wait for stdin input, write to stdout, terminate on input: @end");
+      System.err.println(" stdin (read from stdin input, write to stdout, terminate when stdin finished)");
+      System.err.println(" wait (just initialise; allow calls to public String computeSentimentScores)");
+      System.err.println("=Linguistic data source=");
+      System.err.println(" sentidata [folder for " + this.corpus.options.sgProgramName + " data (end in slash, no spaces)]");
+      System.err.println("=Options=");
+      System.err.println(" keywords [comma-separated list - " + this.corpus.options.sgProgramMeasuring
               + " only classified close to these]");
-      System.out.println("   wordsBeforeKeywords [words to classify before keyword (default 4)]");
-      System.out.println("   wordsAfterKeywords [words to classify after keyword (default 4)]");
-      System.out.println(" trinary (report positive-negative-neutral classifcation instead)");
-      System.out.println(" binary (report positive-negative classifcation instead)");
-      System.out.println(" scale (report single -4 to +4 classifcation instead)");
-      System.out.println(" emotionLookupTable [filename (default: EmotionLookupTable.txt)]");
-      System.out.println(" additionalFile [filename] (domain-specific terms and evaluations)");
-      System.out.println(" lemmaFile [filename] (word tab lemma list for lemmatisation)");
-      System.out.println("=Classification algorithm parameters=");
-      System.out.println(" noBoosters (ignore sentiment booster words (e.g., very))");
-      System.out.println(" noNegators (don't use negating words (e.g., not) to flip sentiment) -OR-");
-      System.out.println(" noNegatingPositiveFlipsEmotion (don't use negating words to flip +ve words)");
-      System.out.println(" bgNegatingNegativeNeutralisesEmotion (negating words don't neuter -ve words)");
-      System.out.println(" negatedWordStrengthMultiplier (strength multiplier when negated (default=0.5))");
-      System.out.println(" negatingWordsOccurAfterSentiment (negate "
+      System.err.println("   wordsBeforeKeywords [words to classify before keyword (default 4)]");
+      System.err.println("   wordsAfterKeywords [words to classify after keyword (default 4)]");
+      System.err.println(" trinary (report positive-negative-neutral classifcation instead)");
+      System.err.println(" binary (report positive-negative classifcation instead)");
+      System.err.println(" scale (report single -4 to +4 classifcation instead)");
+      System.err.println(" emotionLookupTable [filename (default: EmotionLookupTable.txt)]");
+      System.err.println(" additionalFile [filename] (domain-specific terms and evaluations)");
+      System.err.println(" lemmaFile [filename] (word tab lemma list for lemmatisation)");
+      System.err.println("=Classification algorithm parameters=");
+      System.err.println(" noBoosters (ignore sentiment booster words (e.g., very))");
+      System.err.println(" noNegators (don't use negating words (e.g., not) to flip sentiment) -OR-");
+      System.err.println(" noNegatingPositiveFlipsEmotion (don't use negating words to flip +ve words)");
+      System.err.println(" bgNegatingNegativeNeutralisesEmotion (negating words don't neuter -ve words)");
+      System.err.println(" negatedWordStrengthMultiplier (strength multiplier when negated (default=0.5))");
+      System.err.println(" negatingWordsOccurAfterSentiment (negate "
               + this.corpus.options.sgProgramMeasuring + " occurring before negatives)");
-      System.out.println("  maxWordsAfterSentimentToNegate (max words "
+      System.err.println("  maxWordsAfterSentimentToNegate (max words "
               + this.corpus.options.sgProgramMeasuring + " to negator (default 0))");
-      System.out.println(" negatingWordsDontOccurBeforeSentiment (don't negate "
+      System.err.println(" negatingWordsDontOccurBeforeSentiment (don't negate "
               + this.corpus.options.sgProgramMeasuring + " after negatives)");
-      System.out.println("   maxWordsBeforeSentimentToNegate (max from negator to "
+      System.err.println("   maxWordsBeforeSentimentToNegate (max from negator to "
               + this.corpus.options.sgProgramMeasuring + " (default 0))");
-      System.out.println(" noIdioms (ignore idiom list)");
-      System.out.println(" questionsReduceNeg (-ve sentiment reduced in questions)");
-      System.out.println(" noEmoticons (ignore emoticon list)");
-      System.out.println(" exclamations2 (sentence with ! counts as +2 if otherwise neutral)");
-      System.out.println(" minPunctuationWithExclamation (min punctuation with ! to boost term "
+      System.err.println(" noIdioms (ignore idiom list)");
+      System.err.println(" questionsReduceNeg (-ve sentiment reduced in questions)");
+      System.err.println(" noEmoticons (ignore emoticon list)");
+      System.err.println(" exclamations2 (sentence with ! counts as +2 if otherwise neutral)");
+      System.err.println(" minPunctuationWithExclamation (min punctuation with ! to boost term "
               + this.corpus.options.sgProgramMeasuring + ")");
-      System.out.println(" mood [-1,0,1] (default 1: -1 assume neutral emphasis is neg, 1, assume is pos");
-      System.out.println(" noMultiplePosWords (multiple +ve words don't increase "
+      System.err.println(" mood [-1,0,1] (default 1: -1 assume neutral emphasis is neg, 1, assume is pos");
+      System.err.println(" noMultiplePosWords (multiple +ve words don't increase "
               + this.corpus.options.sgProgramPos + ")");
-      System.out.println(" noMultipleNegWords (multiple -ve words don't increase "
+      System.err.println(" noMultipleNegWords (multiple -ve words don't increase "
               + this.corpus.options.sgProgramNeg + ")");
-      System.out.println(" noIgnoreBoosterWordsAfterNegatives (don't ignore boosters after negating words)");
-      System.out.println(" noDictionary (don't try to correct spellings using the dictionary)");
-      System.out.println(" noMultipleLetters (don't use additional letters in a word to boost "
+      System.err.println(" noIgnoreBoosterWordsAfterNegatives (don't ignore boosters after negating words)");
+      System.err.println(" noDictionary (don't try to correct spellings using the dictionary)");
+      System.err.println(" noMultipleLetters (don't use additional letters in a word to boost "
               + this.corpus.options.sgProgramMeasuring + ")");
-      System.out.println(" noDeleteExtraDuplicateLetters (don't delete extra duplicate letters in words)");
-      System.out.println(" illegalDoubleLettersInWordMiddle [letters never duplicate in word middles]");
-      System.out.println("    default for English: ahijkquvxyz (specify list without spaces)");
-      System.out.println(" illegalDoubleLettersAtWordEnd [letters never duplicate at word ends]");
-      System.out.println("    default for English: achijkmnpqruvwxyz (specify list without spaces)");
-      System.out.println(" sentenceCombineAv (average " + this.corpus.options.sgProgramMeasuring
+      System.err.println(" noDeleteExtraDuplicateLetters (don't delete extra duplicate letters in words)");
+      System.err.println(" illegalDoubleLettersInWordMiddle [letters never duplicate in word middles]");
+      System.err.println("    default for English: ahijkquvxyz (specify list without spaces)");
+      System.err.println(" illegalDoubleLettersAtWordEnd [letters never duplicate at word ends]");
+      System.err.println("    default for English: achijkmnpqruvwxyz (specify list without spaces)");
+      System.err.println(" sentenceCombineAv (average " + this.corpus.options.sgProgramMeasuring
               + " strength of terms in each sentence) OR");
-      System.out.println(" sentenceCombineTot (total the " + this.corpus.options.sgProgramMeasuring
+      System.err.println(" sentenceCombineTot (total the " + this.corpus.options.sgProgramMeasuring
               + " strength of terms in each sentence)");
-      System.out.println(" paragraphCombineAv (average " + this.corpus.options.sgProgramMeasuring
+      System.err.println(" paragraphCombineAv (average " + this.corpus.options.sgProgramMeasuring
               + " strength of sentences in each text) OR");
-      System.out.println(" paragraphCombineTot (total the " + this.corpus.options.sgProgramMeasuring
+      System.err.println(" paragraphCombineTot (total the " + this.corpus.options.sgProgramMeasuring
               + " strength of sentences in each text)");
-      System.out.println("  *the default for the above 4 options is the maximum, not the total or average");
-      System.out.println(" negativeMultiplier [negative total strength polarity multiplier, default 1.5]");
-      System.out.println(" capitalsBoostTermSentiment (" + this.corpus.options.sgProgramMeasuring + " words in CAPITALS are stronger)");
-      System.out.println(" alwaysSplitWordsAtApostrophes (e.g., t'aime -> t ' aime)");
-      System.out.println(" MinSentencePosForQuotesIrony [integer] quotes in +ve sentences indicate irony");
-      System.out.println(" MinSentencePosForPunctuationIrony [integer] +ve ending in !!+ indicates irony");
-      System.out.println(" MinSentencePosForTermsIrony [integer] irony terms in +ve sent. indicate irony");
-      System.out.println(" MinSentencePosForAllIrony [integer] all of the above irony terms");
-      System.out.println(" lang [ISO-639 lower-case two-letter langauge code] set processing language");
-      System.out.println("=Input and Output=");
-      System.out.println(" explain (explain classification after results)");
-      System.out.println(" echo (echo original text after results [for pipeline processes])");
-      System.out.println(" UTF8 (force all processing to be in UTF-8 format)");
-      System.out.println(" urlencoded (input and output text is URL encoded)");
-      System.out.println("=Advanced - machine learning [1st input line ignored]=");
-      System.out.println(" termWeights (list terms in badly classified texts; must specify inputFile)");
-      System.out.println(" optimise [Filename for optimal term strengths (eg. EmotionLookupTable2.txt)]");
-      System.out.println(" train (evaluate " + this.corpus.options.sgProgramName + " by training term strengths on results in file)");
-      System.out.println("   all (test all option variations rather than use default)");
-      System.out.println("   numCorrect (optimise by # correct - not total classification difference)");
-      System.out.println("   iterations [number of 10-fold iterations] (default 1)");
-      System.out.println("   minImprovement [min. accuracy improvement to change "
+      System.err.println("  *the default for the above 4 options is the maximum, not the total or average");
+      System.err.println(" negativeMultiplier [negative total strength polarity multiplier, default 1.5]");
+      System.err.println(" capitalsBoostTermSentiment (" + this.corpus.options.sgProgramMeasuring + " words in CAPITALS are stronger)");
+      System.err.println(" alwaysSplitWordsAtApostrophes (e.g., t'aime -> t ' aime)");
+      System.err.println(" MinSentencePosForQuotesIrony [integer] quotes in +ve sentences indicate irony");
+      System.err.println(" MinSentencePosForPunctuationIrony [integer] +ve ending in !!+ indicates irony");
+      System.err.println(" MinSentencePosForTermsIrony [integer] irony terms in +ve sent. indicate irony");
+      System.err.println(" MinSentencePosForAllIrony [integer] all of the above irony terms");
+      System.err.println(" lang [ISO-639 lower-case two-letter langauge code] set processing language");
+      System.err.println("=Input and Output=");
+      System.err.println(" explain (explain classification after results)");
+      System.err.println(" echo (echo original text after results [for pipeline processes])");
+      System.err.println(" UTF8 (force all processing to be in UTF-8 format)");
+      System.err.println(" urlencoded (input and output text is URL encoded)");
+      System.err.println("=Advanced - machine learning [1st input line ignored]=");
+      System.err.println(" termWeights (list terms in badly classified texts; must specify inputFile)");
+      System.err.println(" optimise [Filename for optimal term strengths (eg. EmotionLookupTable2.txt)]");
+      System.err.println(" train (evaluate " + this.corpus.options.sgProgramName + " by training term strengths on results in file)");
+      System.err.println("   all (test all option variations rather than use default)");
+      System.err.println("   numCorrect (optimise by # correct - not total classification difference)");
+      System.err.println("   iterations [number of 10-fold iterations] (default 1)");
+      System.err.println("   minImprovement [min. accuracy improvement to change "
               + this.corpus.options.sgProgramMeasuring + " weights (default 1)]");
-      System.out.println("   multi [# duplicate term strength optimisations to change "
+      System.err.println("   multi [# duplicate term strength optimisations to change "
               + this.corpus.options.sgProgramMeasuring + " weights (default 1)]");
    }
 

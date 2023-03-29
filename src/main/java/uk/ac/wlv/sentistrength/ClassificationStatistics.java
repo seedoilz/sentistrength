@@ -5,7 +5,7 @@
 
 package uk.ac.wlv.sentistrength;
 
-import java.io.PrintStream;
+
 
 /**
  * 本类进行计算的基础规则由UC-1 - UC10决定。此外，该类也为UC-29,UC-27服务。
@@ -14,14 +14,12 @@ import java.io.PrintStream;
  * 该类中的iPredicted为程序预测的每一行情绪值
  * @author zhengjie
  */
-public class ClassificationStatistics
-{
+public class ClassificationStatistics {
 
     /**
      * 构造函数
      */
-    public ClassificationStatistics()
-    {
+    public ClassificationStatistics() {
     }
 
     /**
@@ -33,27 +31,24 @@ public class ClassificationStatistics
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
      * @author zhengjie
      */
-    public static double correlationAbs(int iCorrect[], int iPredicted[], int iCount)
-    {
+    public static double correlationAbs(int[] iCorrect, int[] iPredicted, int iCount) {
         double fMeanC = 0.0D;
         double fMeanP = 0.0D;
         double fProdCP = 0.0D;
         double fSumCSq = 0.0D;
         double fSumPSq = 0.0D;
         //遍历
-        for(int iRow = 1; iRow <= iCount; iRow++)
-        {
+        for (int iRow = 1; iRow <= iCount; iRow++) {
             fMeanC += Math.abs(iCorrect[iRow]);
             fMeanP += Math.abs(iPredicted[iRow]);
         }
 
-        fMeanC /= iCount;//计算平均的正确的情绪值
-        fMeanP /= iCount;//计算平均的预测的情绪值.
-        for(int iRow = 1; iRow <= iCount; iRow++)
-        {
-            fProdCP += ((double)Math.abs(iCorrect[iRow]) - fMeanC) * ((double)Math.abs(iPredicted[iRow]) - fMeanP);
-            fSumPSq += Math.pow((double)Math.abs(iPredicted[iRow]) - fMeanP, 2D);
-            fSumCSq += Math.pow((double)Math.abs(iCorrect[iRow]) - fMeanC, 2D);
+        fMeanC /= iCount; //计算平均的正确的情绪值
+        fMeanP /= iCount; //计算平均的预测的情绪值.
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            fProdCP += ((double) Math.abs(iCorrect[iRow]) - fMeanC) * ((double) Math.abs(iPredicted[iRow]) - fMeanP);
+            fSumPSq += Math.pow((double) Math.abs(iPredicted[iRow]) - fMeanP, 2D);
+            fSumCSq += Math.pow((double) Math.abs(iCorrect[iRow]) - fMeanC, 2D);
         }
 
         return fProdCP / (Math.sqrt(fSumPSq) * Math.sqrt(fSumCSq));
@@ -68,26 +63,23 @@ public class ClassificationStatistics
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
      * @author zhengjie
      */
-    public static double correlation(int iCorrect[], int iPredicted[], int iCount)
-    {
+    public static double correlation(int[] iCorrect, int[] iPredicted, int iCount) {
         double fMeanC = 0.0D;
         double fMeanP = 0.0D;
         double fProdCP = 0.0D;
         double fSumCSq = 0.0D;
         double fSumPSq = 0.0D;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-        {
+        for (int iRow = 1; iRow <= iCount; iRow++) {
             fMeanC += iCorrect[iRow];
             fMeanP += iPredicted[iRow];
         }
 
         fMeanC /= iCount;
         fMeanP /= iCount;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-        {
-            fProdCP += ((double)iCorrect[iRow] - fMeanC) * ((double)iPredicted[iRow] - fMeanP);//减平均数去中心化
-            fSumPSq += Math.pow((double)iPredicted[iRow] - fMeanP, 2D);
-            fSumCSq += Math.pow((double)iCorrect[iRow] - fMeanC, 2D);
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            fProdCP += ((double) iCorrect[iRow] - fMeanC) * ((double) iPredicted[iRow] - fMeanP); //减平均数去中心化
+            fSumPSq += Math.pow((double) iPredicted[iRow] - fMeanP, 2D);
+            fSumCSq += Math.pow((double) iCorrect[iRow] - fMeanC, 2D);
         }
         //计算Pearson相关系数，越接近1则越相关。
         return fProdCP / (Math.sqrt(fSumPSq) * Math.sqrt(fSumCSq));
@@ -103,22 +95,21 @@ public class ClassificationStatistics
      * @param estCorr 估计关联性，若estimate[i]和correct[i]两个情绪值均为-1，0或1，则对应的estCorr[i][i]++证明正确相关
      * @author zhengjie
      */
-    public static void TrinaryOrBinaryConfusionTable(int iTrinaryEstimate[], int iTrinaryCorrect[], int iDataCount, int estCorr[][])
-    {
-        for(int i = 0; i <= 2; i++)
-        {
-            for(int j = 0; j <= 2; j++)
+    public static void TrinaryOrBinaryConfusionTable(int[] iTrinaryEstimate, int[] iTrinaryCorrect, int iDataCount, int[][] estCorr) {
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 2; j++) {
                 estCorr[i][j] = 0;
-
+            }
         }
 
-        for(int i = 1; i <= iDataCount; i++)
+        for (int i = 1; i <= iDataCount; i++) {
             //情绪值需要为-1，0或1
-            if(iTrinaryEstimate[i] > -2 && iTrinaryEstimate[i] < 2 && iTrinaryCorrect[i] > -2 && iTrinaryCorrect[i] < 2)
+            if (iTrinaryEstimate[i] > -2 && iTrinaryEstimate[i] < 2 && iTrinaryCorrect[i] > -2 && iTrinaryCorrect[i] < 2) {
                 estCorr[iTrinaryEstimate[i] + 1][iTrinaryCorrect[i] + 1]++;
-            else
+            } else {
                 System.out.println((new StringBuilder("Estimate or correct value ")).append(i).append(" out of range -1 to +1 (data count may be wrong): ").append(iTrinaryEstimate[i]).append(" ").append(iTrinaryCorrect[i]).toString());
-
+            }
+        }
     }
 
     /**
@@ -131,32 +122,29 @@ public class ClassificationStatistics
      * @return 返回Pearson相关系数，该值越接近1or-1则说明越近似，即预测结果越接近正确，关联性越大。
      * @author zhengjie
      */
-    public static double correlationAbs(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
-    {
+    public static double correlationAbs(int[] iCorrect, int[] iPredicted, boolean[] bSelected, boolean bInvert, int iCount) {
         double fMeanC = 0.0D;
         double fMeanP = 0.0D;
         double fProdCP = 0.0D;
         double fSumCSq = 0.0D;
         double fSumPSq = 0.0D;
-        int iDataCount = 0;//被选中的data数
-        for(int iRow = 1; iRow <= iCount; iRow++)
-            if(bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert)
-            {
+        int iDataCount = 0; //被选中的data数
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            if (bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) {
                 fMeanC += Math.abs(iCorrect[iRow]);
                 fMeanP += Math.abs(iPredicted[iRow]);
                 iDataCount++;
             }
-
+        }
         fMeanC /= iDataCount;
         fMeanP /= iDataCount;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-            if(bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert)
-            {
-                fProdCP += ((double)Math.abs(iCorrect[iRow]) - fMeanC) * ((double)Math.abs(iPredicted[iRow]) - fMeanP);
-                fSumPSq += Math.pow((double)Math.abs(iPredicted[iRow]) - fMeanP, 2D);
-                fSumCSq += Math.pow((double)Math.abs(iCorrect[iRow]) - fMeanC, 2D);
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            if (bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) {
+                fProdCP += ((double) Math.abs(iCorrect[iRow]) - fMeanC) * ((double) Math.abs(iPredicted[iRow]) - fMeanP);
+                fSumPSq += Math.pow((double) Math.abs(iPredicted[iRow]) - fMeanP, 2D);
+                fSumCSq += Math.pow((double) Math.abs(iCorrect[iRow]) - fMeanC, 2D);
             }
-
+        }
         return fProdCP / (Math.sqrt(fSumPSq) * Math.sqrt(fSumCSq));
     }
 
@@ -170,21 +158,20 @@ public class ClassificationStatistics
      * @return 正确的情绪值行数
      * @author zhengjie
      */
-    public static int accuracy(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
-    {
+    public static int accuracy(int[] iCorrect, int[] iPredicted, int iCount, boolean bChangeSignOfOneArray) {
         int iCorrectCount = 0;
-        if(bChangeSignOfOneArray)
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
-                if(iCorrect[iRow] == -iPredicted[iRow])
+        if (bChangeSignOfOneArray) {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
+                if (iCorrect[iRow] == -iPredicted[iRow]) {
                     iCorrectCount++;
-
-        } else
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
-                if(iCorrect[iRow] == iPredicted[iRow])
+                }
+            }
+        } else {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
+                if (iCorrect[iRow] == iPredicted[iRow]) {
                     iCorrectCount++;
-
+                }
+            }
         }
         return iCorrectCount;
     }
@@ -200,13 +187,13 @@ public class ClassificationStatistics
      * @return 正确的情绪值行数
      * @author zhengjie
      */
-    public static int accuracy(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
-    {
+    public static int accuracy(int[] iCorrect, int[] iPredicted, boolean[] bSelected, boolean bInvert, int iCount) {
         int iCorrectCount = 0;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-            if((bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) && iCorrect[iRow] == iPredicted[iRow])
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            if ((bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) && iCorrect[iRow] == iPredicted[iRow]) {
                 iCorrectCount++;
-
+            }
+        }
         return iCorrectCount;
     }
 
@@ -221,13 +208,13 @@ public class ClassificationStatistics
      * @return 正确的行数
      * @author zhengjie
      */
-    public static int accuracyWithin1(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
-    {
+    public static int accuracyWithin1(int[] iCorrect, int[] iPredicted, boolean[] bSelected, boolean bInvert, int iCount) {
         int iCorrectCount = 0;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-            if((bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) && Math.abs(iCorrect[iRow] - iPredicted[iRow]) <= 1)
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            if ((bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) && Math.abs(iCorrect[iRow] - iPredicted[iRow]) <= 1) {
                 iCorrectCount++;
-
+            }
+        }
         return iCorrectCount;
     }
 
@@ -241,22 +228,21 @@ public class ClassificationStatistics
      * @return 正确的行数
      * @author zhengjie
      */
-    public static int accuracyWithin1(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
-    {
+    public static int accuracyWithin1(int[] iCorrect, int[] iPredicted, int iCount, boolean bChangeSignOfOneArray) {
         int iCorrectCount = 0;
         //只要iCorrect[i]和iPredicted[i]绝对值的差小于等于1则认为正确，采用绝对值是为了避免negative词汇的正负号反转。
-        if(bChangeSignOfOneArray)
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
-                if(Math.abs(iCorrect[iRow] + iPredicted[iRow]) <= 1)
+        if (bChangeSignOfOneArray) {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
+                if (Math.abs(iCorrect[iRow] + iPredicted[iRow]) <= 1) {
                     iCorrectCount++;
-
-        } else
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
-                if(Math.abs(iCorrect[iRow] - iPredicted[iRow]) <= 1)
+                }
+            }
+        } else {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
+                if (Math.abs(iCorrect[iRow] - iPredicted[iRow]) <= 1) {
                     iCorrectCount++;
-
+                }
+            }
         }
         return iCorrectCount;
     }
@@ -272,18 +258,16 @@ public class ClassificationStatistics
      * @return 平均每一行的情绪值偏差
      * @author zhengjie
      */
-    public static double absoluteMeanPercentageErrorNoDivision(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
-    {
+    public static double absoluteMeanPercentageErrorNoDivision(int[] iCorrect, int[] iPredicted, boolean[] bSelected, boolean bInvert, int iCount) {
         int iDataCount = 0;
         double fAMeanPE = 0.0D;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-            if(bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert)
-            {
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            if (bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) {
                 fAMeanPE += Math.abs(iPredicted[iRow] - iCorrect[iRow]);
                 iDataCount++;
             }
-
-        return fAMeanPE / (double)iDataCount;
+        }
+        return fAMeanPE / (double) iDataCount;
     }
 
     /**
@@ -297,18 +281,16 @@ public class ClassificationStatistics
      * @return 偏差比例
      * @author zhengjie
      */
-    public static double absoluteMeanPercentageError(int iCorrect[], int iPredicted[], boolean bSelected[], boolean bInvert, int iCount)
-    {
+    public static double absoluteMeanPercentageError(int[] iCorrect, int[] iPredicted, boolean[] bSelected, boolean bInvert, int iCount) {
         int iDataCount = 0;
         double fAMeanPE = 0.0D;
-        for(int iRow = 1; iRow <= iCount; iRow++)
-            if(bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert)
-            {
-                fAMeanPE += Math.abs((double)(iPredicted[iRow] - iCorrect[iRow]) / (double)iCorrect[iRow]);
+        for (int iRow = 1; iRow <= iCount; iRow++) {
+            if (bSelected[iRow] && !bInvert || !bSelected[iRow] && bInvert) {
+                fAMeanPE += Math.abs((double) (iPredicted[iRow] - iCorrect[iRow]) / (double) iCorrect[iRow]);
                 iDataCount++;
             }
-
-        return fAMeanPE / (double)iDataCount;
+        }
+        return fAMeanPE / (double) iDataCount;
     }
 
     /**
@@ -321,21 +303,18 @@ public class ClassificationStatistics
      * @return 平均每一行的情绪差
      * @author zhengjie
      */
-    public static double absoluteMeanPercentageErrorNoDivision(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
-    {
+    public static double absoluteMeanPercentageErrorNoDivision(int[] iCorrect, int[] iPredicted, int iCount, boolean bChangeSignOfOneArray) {
         double fAMeanPE = 0.0D;
-        if(bChangeSignOfOneArray)
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
+        if (bChangeSignOfOneArray) {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
                 fAMeanPE += Math.abs(iPredicted[iRow] + iCorrect[iRow]);
-
-        } else
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
+            }
+        } else {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
                 fAMeanPE += Math.abs(iPredicted[iRow] - iCorrect[iRow]);
-
+            }
         }
-        return fAMeanPE / (double)iCount;
+        return fAMeanPE / (double) iCount;
     }
 
     /**
@@ -346,37 +325,40 @@ public class ClassificationStatistics
      * @return 返回情绪值出现最多的值（众数）/总行数，返回一个比例
      * @author zhengjie
      */
-    public static double baselineAccuracyMajorityClassProportion(int iCorrect[], int iCount)
-    {
-        if(iCount == 0)
+    public static double baselineAccuracyMajorityClassProportion(int[] iCorrect, int iCount) {
+        if (iCount == 0) {
             return 0.0D;
-        int iClassCount[] = new int[100];
+        }
+        int[] iClassCount = new int[100];
         int iMinClass = iCorrect[1];
         int iMaxClass = iCorrect[1];
         //设定最大情绪值的一行和最小情绪值的一行的情绪差，作为分类标准
-        for(int i = 2; i <= iCount; i++)
-        {
-            if(iCorrect[i] < iMinClass)
+        for (int i = 2; i <= iCount; i++) {
+            if (iCorrect[i] < iMinClass) {
                 iMinClass = iCorrect[i];
-            if(iCorrect[i] > iMaxClass)
+            }
+            if (iCorrect[i] > iMaxClass) {
                 iMaxClass = iCorrect[i];
+            }
         }
 
-        if(iMaxClass - iMinClass >= 100)
+        if (iMaxClass - iMinClass >= 100) {
             return 0.0D;
-        for(int i = 0; i <= iMaxClass - iMinClass; i++)
+        }
+        for (int i = 0; i <= iMaxClass - iMinClass; i++) {
             iClassCount[i] = 0;
-
-        for(int i = 1; i <= iCount; i++)
+        }
+        for (int i = 1; i <= iCount; i++) {
             iClassCount[iCorrect[i] - iMinClass]++;
-
+        }
         int iMaxClassCount = 0;
         //遍历，iMaxClassCount为情绪值出现最多的数目
-        for(int i = 0; i <= iMaxClass - iMinClass; i++)
-            if(iClassCount[i] > iMaxClassCount)
+        for (int i = 0; i <= iMaxClass - iMinClass; i++) {
+            if (iClassCount[i] > iMaxClassCount) {
                 iMaxClassCount = iClassCount[i];
-
-        return (double)iMaxClassCount / (double)iCount;
+            }
+        }
+        return (double) iMaxClassCount / (double) iCount;
     }
 
     /**
@@ -387,48 +369,47 @@ public class ClassificationStatistics
      * @param bChangeSign 是否有转换符
      * @author zhengjie
      */
-    public static void baselineAccuracyMakeLargestClassPrediction(int iCorrect[], int iPredict[], int iCount, boolean bChangeSign)
-    {
-        if(iCount == 0)
+    public static void baselineAccuracyMakeLargestClassPrediction(int[] iCorrect, int[] iPredict, int iCount, boolean bChangeSign) {
+        if (iCount == 0) {
             return;
-        int iClassCount[] = new int[100];
+        }
+        int[] iClassCount = new int[100];
         int iMinClass = iCorrect[1];
         int iMaxClass = iCorrect[1];
-        for(int i = 2; i <= iCount; i++)
-        {
-            if(iCorrect[i] < iMinClass)
+        for (int i = 2; i <= iCount; i++) {
+            if (iCorrect[i] < iMinClass) {
                 iMinClass = iCorrect[i];
-            if(iCorrect[i] > iMaxClass)
+            }
+            if (iCorrect[i] > iMaxClass) {
                 iMaxClass = iCorrect[i];
+            }
         }
 
-        if(iMaxClass - iMinClass >= 100)
+        if (iMaxClass - iMinClass >= 100) {
             return;
-        for(int i = 0; i <= iMaxClass - iMinClass; i++)
+        }
+        for (int i = 0; i <= iMaxClass - iMinClass; i++) {
             iClassCount[i] = 0;
-
-        for(int i = 1; i <= iCount; i++)
+        }
+        for (int i = 1; i <= iCount; i++) {
             iClassCount[iCorrect[i] - iMinClass]++;
-
+        }
         int iMaxClassCount = 0;
         int iLargestClass = 0;
-        for(int i = 0; i <= iMaxClass - iMinClass; i++)
-            if(iClassCount[i] > iMaxClassCount)
-            {
+        for (int i = 0; i <= iMaxClass - iMinClass; i++) {
+            if (iClassCount[i] > iMaxClassCount) {
                 iMaxClassCount = iClassCount[i];
                 iLargestClass = i + iMinClass;
             }
-
-        if(bChangeSign)
-        {
-            for(int i = 1; i <= iCount; i++)
+        }
+        if (bChangeSign) {
+            for (int i = 1; i <= iCount; i++) {
                 iPredict[i] = -iLargestClass;
-
-        } else
-        {
-            for(int i = 1; i <= iCount; i++)
+            }
+        } else {
+            for (int i = 1; i <= iCount; i++) {
                 iPredict[i] = iLargestClass;
-
+            }
         }
     }
 
@@ -441,21 +422,18 @@ public class ClassificationStatistics
      * @return 返回每一行的情绪值偏差比例
      * @author zhengjie
      */
-    public static double absoluteMeanPercentageError(int iCorrect[], int iPredicted[], int iCount, boolean bChangeSignOfOneArray)
-    {
+    public static double absoluteMeanPercentageError(int[] iCorrect, int[] iPredicted, int iCount, boolean bChangeSignOfOneArray) {
         double fAMeanPE = 0.0D;
         //fAMeanPE做完for循环后为每一行偏差比例的总和
-        if(bChangeSignOfOneArray)
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
-                fAMeanPE += Math.abs((double)(iPredicted[iRow] + iCorrect[iRow]) / (double)iCorrect[iRow]);
-
-        } else
-        {
-            for(int iRow = 1; iRow <= iCount; iRow++)
-                fAMeanPE += Math.abs((double)(iPredicted[iRow] - iCorrect[iRow]) / (double)iCorrect[iRow]);
-
+        if (bChangeSignOfOneArray) {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
+                fAMeanPE += Math.abs((double) (iPredicted[iRow] + iCorrect[iRow]) / (double) iCorrect[iRow]);
+            }
+        } else {
+            for (int iRow = 1; iRow <= iCount; iRow++) {
+                fAMeanPE += Math.abs((double) (iPredicted[iRow] - iCorrect[iRow]) / (double) iCorrect[iRow]);
+            }
         }
-        return fAMeanPE / (double)iCount;
+        return fAMeanPE / (double) iCount;
     }
 }
