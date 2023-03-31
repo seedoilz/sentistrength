@@ -40,20 +40,7 @@ public class Lemmatiser {
      */
     public boolean initialise(String sFileName, boolean bForceUTF8) {
         int iLinesInFile = 0;
-        if (sFileName.equals("")) {
-            System.err.println("No lemma file specified!");
-            return false;
-        }
-        File f = new File(sFileName);
-        if (!f.exists()) {
-            System.err.println((new StringBuilder("Could not find lemma file: ")).append(sFileName).toString());
-            return false;
-        }
-        iLinesInFile = FileOps.i_CountLinesInTextFile(sFileName);
-        if (iLinesInFile < 2) {
-            System.err.println((new StringBuilder("Less than 2 lines in sentiment file: ")).append(sFileName).toString());
-            return false;
-        }
+        check(sFileName, bForceUTF8);
         sgWord = new String[iLinesInFile + 1];
         sgLemma = new String[iLinesInFile + 1];
         igWordLast = -1;
@@ -97,6 +84,27 @@ public class Lemmatiser {
             return false;
         }
         return true;
+    }
+
+    public boolean check(String sFileName, boolean bForceUTF8) {
+        int iLinesInFile = 0;
+        if (sFileName.equals("")) {
+            System.err.println("No lemma file specified!");
+            return false;
+        }
+        File f = new File(sFileName);
+        boolean pass = true;
+        if (!f.exists()) {
+            System.err.println((new StringBuilder("Could not find lemma file: ")).append(sFileName).toString());
+            pass = false;
+        } else {
+            iLinesInFile = FileOps.i_CountLinesInTextFile(sFileName);
+            if (iLinesInFile < 2) {
+                System.err.println((new StringBuilder("Less than 2 lines in sentiment file: ")).append(sFileName).toString());
+                pass = false;
+            }
+        }
+        return pass;
     }
 
     /**
