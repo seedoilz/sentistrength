@@ -43,10 +43,13 @@ public class QuestionWords {
      * @author DaiXuezheng
      */
     public boolean initialise(String sFilename, ClassificationOptions options) {
-        check(sFilename, options);
+        if (!check(sFilename, options)) {
+            return false;
+        }
         igQuestionWordMax = FileOps.i_CountLinesInTextFile(sFilename) + 2;
         sgQuestionWord = new String[igQuestionWordMax];
         igQuestionWordCount = 0;
+        boolean pass = true;
         try {
             BufferedReader rReader;
             if (options.bgForceUTF8) {
@@ -66,13 +69,14 @@ public class QuestionWords {
         } catch (FileNotFoundException e) {
             System.err.println((new StringBuilder("Could not find the question word file: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
         } catch (IOException e) {
             System.err.println((new StringBuilder("Found question word file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
+        } finally {
+            return pass;
         }
-        return true;
     }
 
     public boolean check(String sFilename, ClassificationOptions options) {

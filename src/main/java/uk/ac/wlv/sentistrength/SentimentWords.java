@@ -167,17 +167,7 @@ public class SentimentWords {
                     iSentimentStrength++;
                 }
                 //构建输出字符串，格式为“情感词\t情感强度\n”
-                String sOutput = (new StringBuilder(String.valueOf(sgSentimentWords[i]))).append("\t")
-                        .append(iSentimentStrength).append("\n").toString();
-                //如果需要强制使用UTF-8编码，对输出字符串进行转换
-                if (c.options.bgForceUTF8) {
-                    try {
-                        sOutput = new String(sOutput.getBytes("UTF-8"), "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        System.out.println("UTF-8 not found on your system!");
-                        e.printStackTrace();
-                    }
-                }
+                String sOutput = output(iSentimentStrength, c, i);
                 //将构建好的输出字符串写入文件中
                 wWriter.write(sOutput);
             }
@@ -197,7 +187,7 @@ public class SentimentWords {
                     try {
                         sOutput = new String(sOutput.getBytes("UTF-8"), "UTF-8");
                     } catch (UnsupportedEncodingException e) {
-                        System.out.println("UTF-8 not found on your system!");
+                        System.err.println("UTF-8 not found on your system!");
                         e.printStackTrace();
                     }
                 }
@@ -210,6 +200,22 @@ public class SentimentWords {
         }
         // 成功保存情感词典后返回true
         return true;
+    }
+
+    public String output(int iSentimentStrength, Corpus c, int i) {
+        //构建输出字符串，格式为“情感词\t情感强度\n”
+        String sOutput = (new StringBuilder(String.valueOf(sgSentimentWords[i]))).append("\t")
+                .append(iSentimentStrength).append("\n").toString();
+        //如果需要强制使用UTF-8编码，对输出字符串进行转换
+        if (c.options.bgForceUTF8) {
+            try {
+                sOutput = new String(sOutput.getBytes("UTF-8"), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                System.err.println("UTF-8 not found on your system!");
+                e.printStackTrace();
+            }
+        }
+        return sOutput;
     }
 
     /**
@@ -365,22 +371,11 @@ public class SentimentWords {
      */
 
     public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
-        int iWordStrength = 0;
-        int iWordsWithStarAtStart = 0;
-        if (sFilename.equals("")) {
-            System.out.println("No sentiment file specified");
+        int iWordStrength = 0, iWordsWithStarAtStart = 0, iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+        if (!check(sFilename)) {
             return false;
         }
-        File f = new File(sFilename);
-        if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find sentiment file: ")).append(sFilename).toString());
-            return false;
-        }
-        int iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
-        if (iLinesInFile < 2) {
-            System.out.println((new StringBuilder("Less than 2 lines in sentiment file: ")).append(sFilename).toString());
-            return false;
-        }
+        boolean pass = true;
         igSentimentWordsStrengthTake1 = new int[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
         sgSentimentWords = new String[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
         igSentimentWordsCount = 0;
@@ -393,58 +388,85 @@ public class SentimentWords {
             }
             String sLine;
             while ((sLine = rReader.readLine()) != null) {
-                if (!sLine.equals("")) {
-                    if (sLine.indexOf("*") == 0) {
-                        iWordsWithStarAtStart++;
-                    } else {
-                        int iFirstTabLocation = sLine.indexOf("\t");
-                        if (iFirstTabLocation >= 0) {
-                            int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
-                            try {
-                                if (iSecondTabLocation > 0) {
-                                    iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation).trim());
-                                } else {
-                                    iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1).trim());
-                                }
-                            } catch (NumberFormatException e) {
-                                System.out.println((new StringBuilder(
-                                        "Failed to identify integer weight for sentiment word! Ignoring word\nLine: "))
-                                        .append(sLine).toString());
-                                iWordStrength = 0;
-                            }
-                            sLine = sLine.substring(0, iFirstTabLocation);
-                            if (sLine.indexOf(" ") >= 0) {
-                                sLine = sLine.trim();
-                            }
-                            if (!sLine.equals("")) {
-                                sgSentimentWords[++igSentimentWordsCount] = sLine;
-                                if (iWordStrength > 0) {
-                                    iWordStrength--;
-                                } else if (iWordStrength < 0) {
-                                    iWordStrength++;
-                                }
-                                igSentimentWordsStrengthTake1[igSentimentWordsCount] = iWordStrength;
-                            }
-                        }
-                    }
+                if (sLine.equals("")) {
+                    continue;
+                }
+                if (sLine.indexOf("*") == 0) {
+                    iWordsWithStarAtStart++;
+                } else {
+                    loop(sLine, iWordStrength);
                 }
             }
             rReader.close();
             Sort.quickSortStringsWithInt(sgSentimentWords, igSentimentWordsStrengthTake1, 1, igSentimentWordsCount);
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Couldn't find sentiment file: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Couldn't find sentiment file: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found sentiment file but couldn't read from it: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Found sentiment file but couldn't read from it: ")).append(sFilename).toString());
             e.printStackTrace();
+            pass = false;
+        } finally {
+            if (pass) {
+                if (iWordsWithStarAtStart > 0) {
+                    return initialiseWordsWithStarAtStart(sFilename, options, iWordsWithStarAtStart, iExtraBlankArrayEntriesToInclude);
+                }
+            }
+            return pass;
+        }
+    }
+
+    public void loop(String sLine, int iWordStrength) {
+        int iFirstTabLocation = sLine.indexOf("\t");
+        if (iFirstTabLocation >= 0) {
+            int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
+            try {
+                if (iSecondTabLocation > 0) {
+                    iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation).trim());
+                } else {
+                    iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1).trim());
+                }
+            } catch (NumberFormatException e) {
+                System.err.println((new StringBuilder(
+                        "Failed to identify integer weight for sentiment word! Ignoring word\nLine: "))
+                        .append(sLine).toString());
+                iWordStrength = 0;
+            }
+            sLine = sLine.substring(0, iFirstTabLocation);
+            if (sLine.indexOf(" ") >= 0) {
+                sLine = sLine.trim();
+            }
+            if (!sLine.equals("")) {
+                sgSentimentWords[++igSentimentWordsCount] = sLine;
+                if (iWordStrength > 0) {
+                    iWordStrength--;
+                } else if (iWordStrength < 0) {
+                    iWordStrength++;
+                }
+                igSentimentWordsStrengthTake1[igSentimentWordsCount] = iWordStrength;
+            }
+        }
+    }
+
+    public boolean check(String sFilename) {
+        if (sFilename.equals("")) {
+            System.err.println("No sentiment file specified");
             return false;
         }
-        if (iWordsWithStarAtStart > 0) {
-            return initialiseWordsWithStarAtStart(sFilename, options, iWordsWithStarAtStart, iExtraBlankArrayEntriesToInclude);
+        File f = new File(sFilename);
+        boolean pass = true;
+        if (!f.exists()) {
+            System.err.println((new StringBuilder("Could not find sentiment file: ")).append(sFilename).toString());
+            pass = false;
         } else {
-            return true;
+            int iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+            if (iLinesInFile < 2) {
+                System.err.println((new StringBuilder("Less than 2 lines in sentiment file: ")).append(sFilename).toString());
+                pass = false;
+            }
         }
+        return pass;
     }
 
     /**
@@ -463,9 +485,10 @@ public class SentimentWords {
         int iWordStrength = 0;
         File f = new File(sFilename);
         if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find sentiment file: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Could not find sentiment file: ")).append(sFilename).toString());
             return false;
         }
+        boolean pass = true;
         igSentimentWordsWithStarAtStartStrengthTake1 = new int[iWordsWithStarAtStart + 1 + iExtraBlankArrayEntriesToInclude];
         sgSentimentWordsWithStarAtStart = new String[iWordsWithStarAtStart + 1 + iExtraBlankArrayEntriesToInclude];
         bgSentimentWordsWithStarAtStartHasStarAtEnd = new boolean[iWordsWithStarAtStart + 1 + iExtraBlankArrayEntriesToInclude];
@@ -478,58 +501,63 @@ public class SentimentWords {
                 rReader = new BufferedReader(new FileReader(sFilename));
             }
             while (rReader.ready()) {
-                String sLine = rReader.readLine();
-                if (!sLine.equals("") && sLine.indexOf("*") == 0) {
-                    int iFirstTabLocation = sLine.indexOf("\t");
-                    if (iFirstTabLocation >= 0) {
-                        int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
-                        try {
-                            if (iSecondTabLocation > 0) {
-                                iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation));
-                            } else {
-                                iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1));
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println((new StringBuilder(
-                                    "Failed to identify integer weight for *sentiment* word! Ignoring word\nLine: "))
-                                    .append(sLine).toString());
-                            iWordStrength = 0;
-                        }
-                        sLine = sLine.substring(1, iFirstTabLocation);
-                        if (sLine.indexOf("*") > 0) {
-                            sLine = sLine.substring(0, sLine.indexOf("*"));
-                            bgSentimentWordsWithStarAtStartHasStarAtEnd[++igSentimentWordsWithStarAtStartCount] = true;
-                        } else {
-                            bgSentimentWordsWithStarAtStartHasStarAtEnd[++igSentimentWordsWithStarAtStartCount] = false;
-                        }
-                        if (sLine.indexOf(" ") >= 0) {
-                            sLine = sLine.trim();
-                        }
-                        if (!sLine.equals("")) {
-                            sgSentimentWordsWithStarAtStart[igSentimentWordsWithStarAtStartCount] = sLine;
-                            if (iWordStrength > 0) {
-                                iWordStrength--;
-                            } else if (iWordStrength < 0) {
-                                iWordStrength++;
-                            }
-                            igSentimentWordsWithStarAtStartStrengthTake1[igSentimentWordsWithStarAtStartCount] = iWordStrength;
-                        } else {
-                            igSentimentWordsWithStarAtStartCount--;
-                        }
-                    }
-                }
+                starLoop(rReader, iWordStrength);
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Couldn't find *sentiment file*: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Couldn't find *sentiment file*: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found *sentiment file* but couldn't read from it: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Found *sentiment file* but couldn't read from it: ")).append(sFilename).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
+        } finally {
+            return pass;
         }
-        return true;
+    }
+
+    public void starLoop(BufferedReader rReader, int iWordStrength) throws IOException {
+        String sLine = rReader.readLine();
+        if (!sLine.equals("") && sLine.indexOf("*") == 0) {
+            int iFirstTabLocation = sLine.indexOf("\t");
+            if (iFirstTabLocation >= 0) {
+                int iSecondTabLocation = sLine.indexOf("\t", iFirstTabLocation + 1);
+                try {
+                    if (iSecondTabLocation > 0) {
+                        iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1, iSecondTabLocation));
+                    } else {
+                        iWordStrength = Integer.parseInt(sLine.substring(iFirstTabLocation + 1));
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println((new StringBuilder(
+                            "Failed to identify integer weight for *sentiment* word! Ignoring word\nLine: "))
+                            .append(sLine).toString());
+                    iWordStrength = 0;
+                }
+                sLine = sLine.substring(1, iFirstTabLocation);
+                if (sLine.indexOf("*") > 0) {
+                    sLine = sLine.substring(0, sLine.indexOf("*"));
+                    bgSentimentWordsWithStarAtStartHasStarAtEnd[++igSentimentWordsWithStarAtStartCount] = true;
+                } else {
+                    bgSentimentWordsWithStarAtStartHasStarAtEnd[++igSentimentWordsWithStarAtStartCount] = false;
+                }
+                if (sLine.indexOf(" ") >= 0) {
+                    sLine = sLine.trim();
+                }
+                if (!sLine.equals("")) {
+                    sgSentimentWordsWithStarAtStart[igSentimentWordsWithStarAtStartCount] = sLine;
+                    if (iWordStrength > 0) {
+                        iWordStrength--;
+                    } else if (iWordStrength < 0) {
+                        iWordStrength++;
+                    }
+                    igSentimentWordsWithStarAtStartStrengthTake1[igSentimentWordsWithStarAtStartCount] = iWordStrength;
+                } else {
+                    igSentimentWordsWithStarAtStartCount--;
+                }
+            }
+        }
     }
 
     /**
@@ -564,7 +592,7 @@ public class SentimentWords {
                     Sort.quickSortStringsWithInt(sgSentimentWords, igSentimentWordsStrengthTake1, 1, igSentimentWordsCount);
                 }
             } catch (Exception e) {
-                System.out.println((new StringBuilder("Could not add extra sentiment term: ")).append(sTerm).toString());
+                System.err.println((new StringBuilder("Could not add extra sentiment term: ")).append(sTerm).toString());
                 e.printStackTrace();
                 return false;
             }

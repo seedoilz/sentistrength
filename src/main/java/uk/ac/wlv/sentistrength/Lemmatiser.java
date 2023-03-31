@@ -40,10 +40,12 @@ public class Lemmatiser {
      */
     public boolean initialise(String sFileName, boolean bForceUTF8) {
         int iLinesInFile = 0;
-        check(sFileName, bForceUTF8);
-        sgWord = new String[iLinesInFile + 1];
-        sgLemma = new String[iLinesInFile + 1];
+        if (!check(sFileName, bForceUTF8)) {
+            return false;
+        }
+        sgWord = new String[iLinesInFile + 1]; sgLemma = new String[iLinesInFile + 1];
         igWordLast = -1;
+        boolean pass = true;
         try {
             BufferedReader rReader;
             if (bForceUTF8) {
@@ -77,13 +79,14 @@ public class Lemmatiser {
         } catch (FileNotFoundException e) {
             System.err.println((new StringBuilder("Couldn't find lemma file: ")).append(sFileName).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
         } catch (IOException e) {
             System.err.println((new StringBuilder("Found lemma file but couldn't read from it: ")).append(sFileName).toString());
             e.printStackTrace();
-            return false;
+            pass = false;
+        } finally {
+            return pass;
         }
-        return true;
     }
 
     public boolean check(String sFileName, boolean bForceUTF8) {
