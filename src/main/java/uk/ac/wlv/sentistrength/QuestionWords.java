@@ -43,14 +43,7 @@ public class QuestionWords {
      * @author DaiXuezheng
      */
     public boolean initialise(String sFilename, ClassificationOptions options) {
-        if (igQuestionWordMax > 0) {
-            return true;
-        }
-        File f = new File(sFilename);
-        if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find the question word file: ")).append(sFilename).toString());
-            return false;
-        }
+        check(sFilename, options);
         igQuestionWordMax = FileOps.i_CountLinesInTextFile(sFilename) + 2;
         sgQuestionWord = new String[igQuestionWordMax];
         igQuestionWordCount = 0;
@@ -71,12 +64,24 @@ public class QuestionWords {
             rReader.close();
             Sort.quickSortStrings(sgQuestionWord, 1, igQuestionWordCount);
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find the question word file: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Could not find the question word file: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found question word file but could not read from it: ")).append(sFilename).toString());
+            System.err.println((new StringBuilder("Found question word file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean check(String sFilename, ClassificationOptions options) {
+        if (igQuestionWordMax > 0) {
+            return true;
+        }
+        File f = new File(sFilename);
+        if (!f.exists()) {
+            System.err.println((new StringBuilder("Could not find the question word file: ")).append(sFilename).toString());
             return false;
         }
         return true;
