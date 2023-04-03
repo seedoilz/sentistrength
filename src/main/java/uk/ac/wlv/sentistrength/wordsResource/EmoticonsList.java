@@ -3,11 +3,12 @@
 // Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   EmoticonsList.java
 
-package uk.ac.wlv.sentistrength;
+package uk.ac.wlv.sentistrength.wordsResource;
 
 import java.io.*;
 
 
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 

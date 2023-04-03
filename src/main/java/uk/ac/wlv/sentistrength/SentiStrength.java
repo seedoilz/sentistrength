@@ -12,6 +12,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Locale;
 
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 
 /**

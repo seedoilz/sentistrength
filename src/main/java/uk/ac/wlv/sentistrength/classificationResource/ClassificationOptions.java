@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package uk.ac.wlv.sentistrength;
+package uk.ac.wlv.sentistrength.classificationResource;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

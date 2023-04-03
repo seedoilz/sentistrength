@@ -3,12 +3,13 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   IronyList.java
 
-package uk.ac.wlv.sentistrength;
+package uk.ac.wlv.sentistrength.wordsResource;
 
 //import java.util.logging.Logger;
 import java.io.*;
 //import org.apache.log4j.Logger;
 
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
@@ -56,13 +57,12 @@ public class IronyList {
      * @return 初始化成功则返回true，反之则返回false
      */
     public boolean initialise(String sSourceFile, ClassificationOptions options) {
-        boolean flag = true;
         if (igIronyTermCount > 0) {
-            flag = true;
+            return true;
         }
         File f = new File(sSourceFile);
         if (!f.exists()) {
-            flag = true;
+            return true;
         }
         try {
             igIronyTermMax = FileOps.i_CountLinesInTextFile(sSourceFile) + 2;
@@ -86,15 +86,15 @@ public class IronyList {
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            System.err.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
+            System.out.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
             e.printStackTrace();
-            flag = false;
+            return false;
         } catch (IOException e) {
-            System.err.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
+            System.out.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
             e.printStackTrace();
-            flag = false;
+            return false;
         }
         Sort.quickSortStrings(sgIronyTerm, 1, igIronyTermCount);
-        return flag;
+        return true;
     }
 }

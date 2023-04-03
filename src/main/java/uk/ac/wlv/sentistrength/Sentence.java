@@ -5,6 +5,9 @@
 
 package uk.ac.wlv.sentistrength;
 
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationResources;
+import uk.ac.wlv.sentistrength.classificationResource.UnusedTermsClassificationIndex;
 import uk.ac.wlv.utilities.Sort;
 import uk.ac.wlv.utilities.StringIndex;
 import uk.ac.wlv.wkaclass.Arff;

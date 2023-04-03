@@ -1,25 +1,15 @@
 package nju.sentistrength.project.service.impl;
 
-import nju.sentistrength.project.core.AbstractService;
 import nju.sentistrength.project.core.Result;
 import nju.sentistrength.project.core.ResultGenerator;
 import nju.sentistrength.project.service.TextService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uk.ac.wlv.sentistrength.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
 import uk.ac.wlv.sentistrength.Corpus;
 import uk.ac.wlv.sentistrength.SentiStrengthWeb;
 
-import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Service
 @Transactional

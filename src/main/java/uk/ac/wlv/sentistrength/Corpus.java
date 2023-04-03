@@ -8,6 +8,10 @@ package uk.ac.wlv.sentistrength;
 import java.io.*;
 
 
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationResources;
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationStatistics;
+import uk.ac.wlv.sentistrength.classificationResource.UnusedTermsClassificationIndex;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 

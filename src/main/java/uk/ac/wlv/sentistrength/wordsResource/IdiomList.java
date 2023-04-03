@@ -3,11 +3,12 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   IdiomList.java
 
-package uk.ac.wlv.sentistrength;
+package uk.ac.wlv.sentistrength.wordsResource;
 
 import java.io.*;
 
 
+import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 
 /**
@@ -39,7 +40,7 @@ public class IdiomList {
     /**
      * 每个习语中的单词数数组
      */
-    int[] igIdiomWordCount;
+    public int[] igIdiomWordCount;
 
     /**
      * 创建一个新习语列表
