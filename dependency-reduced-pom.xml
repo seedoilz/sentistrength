@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>groupId</groupId>
+  <groupId>cn.edu.nju.se3.2023.hardest</groupId>
   <artifactId>sentistrength</artifactId>
   <version>1.0-SNAPSHOT</version>
   <build>
@@ -33,36 +33,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <id>checkstyle</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>8.42</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <configLocation>checkstyle.xml</configLocation>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>true</failsOnError>
-          <linkXRef>false</linkXRef>
-          <outputDirectory>${project.build.directory}/checkstyle-output</outputDirectory>
-          <outputFile>checkstyle.html</outputFile>
-          <outputFileFormat>html</outputFileFormat>
-          <includeTestSourceDirectory>false</includeTestSourceDirectory>
-        </configuration>
       </plugin>
     </plugins>
   </build>
