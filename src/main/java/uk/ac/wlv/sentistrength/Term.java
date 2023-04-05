@@ -580,7 +580,7 @@ public class Term {
       if (!this.resources.correctSpellings.correctSpelling(this.sgTranslatedWord.toLowerCase())) {
          int iLastChar = this.sgTranslatedWord.length() - 1;
 
-         for (int iPos = 1; iPos <= iLastChar; ++iPos) {
+         for (int iPos = 1; iPos <= iLastChar - 1; ++iPos) {
             if (this.sgTranslatedWord.substring(iPos, iPos + 1).compareTo(this.sgTranslatedWord.substring(iPos - 1, iPos)) == 0) {
                String sReplaceWord = this.sgTranslatedWord.substring(0, iPos) + this.sgTranslatedWord.substring(iPos + 1);
                if (this.resources.correctSpellings.correctSpelling(sReplaceWord.toLowerCase())) {
