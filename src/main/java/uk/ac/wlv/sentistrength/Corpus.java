@@ -65,6 +65,7 @@ public class Corpus {
         igSentimentIDListCount = 0;
         bSentimentIDListMade = false;
         unusedTermsClassificationIndex = null;
+        this.initialise();
     }
 
     /**
