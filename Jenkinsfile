@@ -11,12 +11,12 @@ pipeline {
     stage('编译构建') {
         steps {
             echo '编译构建'
-            sh 'mvn package'
+            sh 'mvn clean package'
             }
     }
-    stage('项目部署') {
+    stage('自动发布') {
         steps {
-            echo '项目部署'
+            echo '自动发布'
             sh 'chmod 777 -R .'
             sh './start.sh'
             }

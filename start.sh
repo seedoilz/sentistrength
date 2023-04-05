@@ -1,44 +1,17 @@
 #!/bin/bash
 
-function kill_project()
-{
-  project_pid=`ps aux | grep "sentistrength-1.0-SNAPSHOT.jar" | grep -v grep | awk 'END{print $2}'`
-  if [  $project_pid > 0 ];then
-        echo "项目已经启动，开始关闭项目，项目pid为: $project_pid "
-        echo "--------------------"
-        kill -9 `ps aux | grep "sentistrength-1.0-SNAPSHOT.jar" | grep -v grep | awk 'END{print $2}'`
-        echo '项目关闭成功，开始重启项目 '
-        echo "--------------------"
-  else
-        echo "项目未启动，直接启动"
-        echo "--------------------"
-  fi
-}
+url="https://git.nju.edu.cn/api/v4/projects/8331/packages/generic/my_package/0.0.1/SentiStrength.jar"
 
-function start_project()
+function release()
 {
-        source /etc/profile
-        echo "切换路径：/var/lib/jenkins/workspace/test"
-        cd /var/lib/jenkins/workspace/test
-        echo "--------------------"
-        echo "正在启动项目"
-        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/sentistrength-1.0-SNAPSHOT.jar>publish.log &
-        sleep 10s
-        echo "--------------------"
+  cd /var/lib/jenkins/workspace/test
+  curl --header "PRIVATE-TOKEN: glpat-vHkkwBeo8wbELj6yW3sr" \
+       --upload-file target/SentiStrength.jar \
+       ${url}
+  curl --header 'Content-Type: application/json' --header "PRIVATE-TOKEN: glpat-vHkkwBeo8wbELj6yW3sr" \
+       --data '{ "name": "release", "tag_name": "v1.0.0", "description": "Super nice release", "assets": { "links": [{ "name": "hoge", "url": "https://git.nju.edu.cn/api/v4/projects/8331/packages/generic/my_package/0.0.1/SentiStrength.jar", "direct_asset_path": "/binaries/arm64", "link_type":"other" }] } }' \
+       --request POST "https://git.nju.edu.cn/api/v4/projects/8331/releases"
 
 }
 
-function check_project()
-{
-  check_pid=`ps aux | grep "sentistrength-1.0-SNAPSHOT.jar" | grep -v grep | awk 'END{print $2}'`
-  if [ $check_pid  > 0 ];then
-        echo "项目启动成功： pid = : $check_pid  "
-  else
-        echo "项目启动失败"
-        exit 1
-  fi
-}
-
-kill_project
-start_project
-check_project
+release
