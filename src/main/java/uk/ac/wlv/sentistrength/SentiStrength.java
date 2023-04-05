@@ -762,7 +762,7 @@ public class SentiStrength {
     * @param sOutputFile 输出文件名
     * @author ruohao.zhang
     */
-   private void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement,
+   public void runMachineLearning(Corpus c, String sInputFile, boolean bDoAll, int iMinImprovement,
                                    boolean bUseTotalDifference, int iIterations, int iMultiOptimisations, String sOutputFile) {
       if (iMinImprovement < 1) {
          System.err.println("No action taken because min improvement < 1");
