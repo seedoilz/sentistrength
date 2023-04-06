@@ -3,12 +3,12 @@
 // Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   EvaluativeTerms.java
 
-package uk.ac.wlv.sentistrength.wordsResource;
+package uk.ac.wlv.sentistrength.wordsresource;
 
 import java.io.*;
 
 
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 
 /**
@@ -54,7 +54,7 @@ public class EvaluativeTerms {
         }
         File f = new File(sSourceFile);
         if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find additional (object/evaluation) file: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Could not find additional (object/evaluation) file: ")).append(sSourceFile).toString());
             return false;
         }
         int iStrength = 0;
@@ -87,8 +87,8 @@ public class EvaluativeTerms {
                                 igObjectEvaluationStrength[igObjectEvaluationCount]++;
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("Failed to identify integer weight for object/evaluation! Ignoring object/evaluation");
-                            System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
+                            //System.err.println("Failed to identify integer weight for object/evaluation! Ignoring object/evaluation");
+                            //System.err.println((new StringBuilder("Line: ")).append(sLine).toString());
                             igObjectEvaluationCount--;
                         }
                     } else if (sData[0].indexOf(" ") > 0) {
@@ -97,8 +97,8 @@ public class EvaluativeTerms {
                             idiomList.addExtraIdiom(sData[0], iStrength, false);
                             bIdiomsAdded = true;
                         } catch (NumberFormatException e) {
-                            System.out.println("Failed to identify integer weight for idiom in additional file! Ignoring it");
-                            System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
+                            //System.err.println("Failed to identify integer weight for idiom in additional file! Ignoring it");
+                            //System.err.println((new StringBuilder("Line: ")).append(sLine).toString());
                         }
                     } else {
                         try {
@@ -106,8 +106,8 @@ public class EvaluativeTerms {
                             sentimentWords.addOrModifySentimentTerm(sData[0], iStrength, false);
                             bSentimentWordsAdded = true;
                         } catch (NumberFormatException e) {
-                            System.out.println("Failed to identify integer weight for sentiment term in additional file! Ignoring it");
-                            System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
+                            //System.err.println("Failed to identify integer weight for sentiment term in additional file! Ignoring it");
+                            //System.err.println((new StringBuilder("Line: ")).append(sLine).toString());
                             igObjectEvaluationCount--;
                         }
                     }
@@ -124,12 +124,12 @@ public class EvaluativeTerms {
                 idiomList.convertIdiomStringsToWordLists();
             }
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find additional (object/evaluation) file: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Could not find additional (object/evaluation) file: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found additional (object/evaluation) file but could not read from it: "))
-                    .append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Found additional (object/evaluation) file but could not read from it: "))
+//                    .append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         }

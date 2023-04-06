@@ -3,12 +3,12 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   ClassificationResources.java
 
-package uk.ac.wlv.sentistrength.classificationResource;
+package uk.ac.wlv.sentistrength.classificationresource;
 
 import java.io.File;
 
 
-import uk.ac.wlv.sentistrength.wordsResource.*;
+import uk.ac.wlv.sentistrength.wordsresource.*;
 import uk.ac.wlv.utilities.FileOps;
 
 // Referenced classes of package uk.ac.wlv.sentistrength:
@@ -164,12 +164,12 @@ public class ClassificationResources {
             iExtraLinesToReserve =
                     FileOps.i_CountLinesInTextFile((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgAdditionalFile).toString());
             if (iExtraLinesToReserve < 0) {
-                System.out.println((new StringBuilder("No lines found in additional file! Ignoring ")).append(sgAdditionalFile).toString());
+                //System.err.println((new StringBuilder("No lines found in additional file! Ignoring ")).append(sgAdditionalFile).toString());
                 return false;
             }
         }
         if (options.bgUseLemmatisation && !lemmatiser.initialise((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgLemmaFile).toString(), false)) {
-            System.out.println((new StringBuilder("Can't load lemma file! ")).append(sgLemmaFile).toString());
+            //System.err.println((new StringBuilder("Can't load lemma file! ")).append(sgLemmaFile).toString());
             return false;
         }
         File f =

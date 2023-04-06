@@ -3,7 +3,7 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   Lemmatiser.java
 
-package uk.ac.wlv.sentistrength.wordsResource;
+package uk.ac.wlv.sentistrength.wordsresource;
 
 import java.io.*;
 

@@ -3,13 +3,13 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   IronyList.java
 
-package uk.ac.wlv.sentistrength.wordsResource;
+package uk.ac.wlv.sentistrength.wordsresource;
 
 //import java.util.logging.Logger;
 import java.io.*;
 //import org.apache.log4j.Logger;
 
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
@@ -86,11 +86,11 @@ public class IronyList {
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Could not find IronyTerm file: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Found IronyTerm file but could not read from it: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         }

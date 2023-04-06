@@ -3,7 +3,7 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   ClassificationStatistics.java
 
-package uk.ac.wlv.sentistrength.classificationResource;
+package uk.ac.wlv.sentistrength.classificationresource;
 
 
 
@@ -107,7 +107,7 @@ public class ClassificationStatistics {
             if (iTrinaryEstimate[i] > -2 && iTrinaryEstimate[i] < 2 && iTrinaryCorrect[i] > -2 && iTrinaryCorrect[i] < 2) {
                 estCorr[iTrinaryEstimate[i] + 1][iTrinaryCorrect[i] + 1]++;
             } else {
-                System.out.println((new StringBuilder("Estimate or correct value ")).append(i).append(" out of range -1 to +1 (data count may be wrong): ").append(iTrinaryEstimate[i]).append(" ").append(iTrinaryCorrect[i]).toString());
+                //System.err.println((new StringBuilder("Estimate or correct value ")).append(i).append(" out of range -1 to +1 (data count may be wrong): ").append(iTrinaryEstimate[i]).append(" ").append(iTrinaryCorrect[i]).toString());
             }
         }
     }

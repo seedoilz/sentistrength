@@ -3,12 +3,12 @@
 // Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   EmoticonsList.java
 
-package uk.ac.wlv.sentistrength.wordsResource;
+package uk.ac.wlv.sentistrength.wordsresource;
 
 import java.io.*;
 
 
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
@@ -65,7 +65,7 @@ public class EmoticonsList {
         }
         File f = new File(sSourceFile);
         if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find file: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Could not find file: ")).append(sSourceFile).toString());
             return false;
         }
         try {
@@ -91,8 +91,8 @@ public class EmoticonsList {
                         try {
                             igEmoticonStrength[igEmoticonCount] = Integer.parseInt(sData[1].trim());
                         } catch (NumberFormatException e) {
-                            System.out.println("Failed to identify integer weight for emoticon! Ignoring emoticon");
-                            System.out.println((new StringBuilder("Line: ")).append(sLine).toString());
+                            //System.err.println("Failed to identify integer weight for emoticon! Ignoring emoticon");
+                            //System.err.println((new StringBuilder("Line: ")).append(sLine).toString());
                             igEmoticonCount--;
                         }
                     }
@@ -100,11 +100,11 @@ public class EmoticonsList {
             }
             rReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find emoticon file: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Could not find emoticon file: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found emoticon file but could not read from it: ")).append(sSourceFile).toString());
+            //System.err.println((new StringBuilder("Found emoticon file but could not read from it: ")).append(sSourceFile).toString());
             e.printStackTrace();
             return false;
         }

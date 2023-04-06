@@ -12,7 +12,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 
 /**
@@ -41,15 +41,15 @@ public class SentiStrength {
       this.initialiseAndRun(args);
    }
 
-   /**
-    * main方法，来运行initialiseAndRun
-    * @param args 命令行参数
-    * @author ruohao.zhang
-    */
-   public static void main(String[] args) {
-      SentiStrength classifier = new SentiStrength();
-      classifier.initialiseAndRun(args);
-   }
+//   /**
+//    * main方法，来运行initialiseAndRun
+//    * @param args 命令行参数
+//    * @author ruohao.zhang
+//    */
+//   public static void main(String[] args) {
+//      SentiStrength classifier = new SentiStrength();
+//      classifier.initialiseAndRun(args);
+//   }
 
    /**
     * 无使用情况

@@ -3,11 +3,11 @@
 // Decompiler options: packimports(3) fieldsfirst
 // Source File Name:   CorrectSpellingsList.java
 
-package uk.ac.wlv.sentistrength.wordsResource;
+package uk.ac.wlv.sentistrength.wordsresource;
 
 import java.io.*;
 
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
 import uk.ac.wlv.utilities.FileOps;
 import uk.ac.wlv.utilities.Sort;
 
@@ -50,7 +50,7 @@ public class CorrectSpellingsList {
         igCorrectWordCount = 0;
         File f = new File(sFilename);
         if (!f.exists()) {
-            System.out.println((new StringBuilder("Could not find the spellings file: ")).append(sFilename).toString());
+            //System.err.println((new StringBuilder("Could not find the spellings file: ")).append(sFilename).toString());
             return false;
         }
         try {
@@ -70,11 +70,11 @@ public class CorrectSpellingsList {
             rReader.close();
             Sort.quickSortStrings(sgCorrectWord, 1, igCorrectWordCount);
         } catch (FileNotFoundException e) {
-            System.out.println((new StringBuilder("Could not find the spellings file: ")).append(sFilename).toString());
+            //System.err.println((new StringBuilder("Could not find the spellings file: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            System.out.println((new StringBuilder("Found spellings file but could not read from it: ")).append(sFilename).toString());
+            //System.err.println((new StringBuilder("Found spellings file but could not read from it: ")).append(sFilename).toString());
             e.printStackTrace();
             return false;
         }

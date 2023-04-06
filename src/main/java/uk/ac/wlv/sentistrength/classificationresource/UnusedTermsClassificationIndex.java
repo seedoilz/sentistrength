@@ -3,7 +3,7 @@
 // Decompiler options: packimports(3) fieldsfirst 
 // Source File Name:   UnusedTermsClassificationIndex.java
 
-package uk.ac.wlv.sentistrength.classificationResource;
+package uk.ac.wlv.sentistrength.classificationresource;
 
 import java.io.*;
 

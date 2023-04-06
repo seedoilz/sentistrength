@@ -1,7 +1,7 @@
 package uk.ac.wlv.sentistrength;
 
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationOptions;
-import uk.ac.wlv.sentistrength.classificationResource.ClassificationResources;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
+import uk.ac.wlv.sentistrength.classificationresource.ClassificationResources;
 
 /**
  * 该类（术语）表示文本中的单个单词、标点符号或表情符号，提供了从文本中提取下一个术语的方法，以及各种判断形式是否规范，与文本是否匹配等方法
