@@ -19,7 +19,7 @@ import uk.ac.wlv.utilities.Sort;
  * 情感符号表极其对应强度的实现类
  * @author haofeng.Yu
  */
-public class EmoticonsList {
+public class EmoticonsList implements WordResource {
 
     private String[] sgEmoticon;
     private int[] igEmoticonStrength;

@@ -56,8 +56,15 @@ public class IdiomList {
      * @param iExtraBlankArrayEntriesToInclude 要包括的额外空白数组条目的数量
      * @return 如果初始化成功，则为 true，否则为 false。
      */
-    public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
+    public boolean initialises(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
         int iLinesInFile = 0;
+        iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+        sgIdioms = new String[iLinesInFile + 2 + iExtraBlankArrayEntriesToInclude];
+        igIdiomStrength = new int[iLinesInFile + 2 + iExtraBlankArrayEntriesToInclude];
+        return initialise(sFilename, options);
+    }
+
+    public boolean initialise(String sFilename, ClassificationOptions options) {
         int iIdiomStrength = 0;
         boolean flag = true;
         if ("".equals(sFilename)) {
@@ -68,9 +75,6 @@ public class IdiomList {
             System.err.println((new StringBuilder("Could not find idiom list file: ")).append(sFilename).toString());
             flag = false;
         }
-        iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
-        sgIdioms = new String[iLinesInFile + 2 + iExtraBlankArrayEntriesToInclude];
-        igIdiomStrength = new int[iLinesInFile + 2 + iExtraBlankArrayEntriesToInclude];
         igIdiomCount = 0;
         try {
             BufferedReader rReader;

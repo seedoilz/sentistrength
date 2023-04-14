@@ -17,7 +17,7 @@ import uk.ac.wlv.utilities.Sort;
  * UC5
  *
  */
-public class NegatingWordList {
+public class NegatingWordList implements WordResource {
     /**
      * 否定词数组
      */

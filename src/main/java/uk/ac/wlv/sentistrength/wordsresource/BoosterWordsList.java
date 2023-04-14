@@ -18,7 +18,7 @@ import uk.ac.wlv.utilities.Sort;
  * 该类用于存放、翻译、替换加强/减弱情绪表达的词汇和符号，对应了SentStrength_Data中的BoosterWordList.txt
  * @author zhengjie
  */
-public class BoosterWordsList {
+public class BoosterWordsList implements WordResource {
     private String[] sgBoosterWords; //加强情绪表达的词汇
     private int[] igBoosterWordStrength; //词汇所对应的情绪值
     private int igBoosterWordsCount; //词汇个数
@@ -39,8 +39,19 @@ public class BoosterWordsList {
      * @return true(当成功初始化时返回) 或者false(当初始化失败时返回，通常情况为找不到对应的sFilename、文件为空或无法读文件)。
      * @author zhengjie
      */
-    public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
+    public boolean initialises(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
         int iLinesInFile = 0;
+        iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+        if (iLinesInFile < 1) {
+            //System.err.println("No booster words specified");
+            return false;
+        }
+        sgBoosterWords = new String[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
+        igBoosterWordStrength = new int[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
+        return initialise(sFilename, options);
+    }
+
+    public boolean initialise(String sFilename, ClassificationOptions options) {
         int iWordStrength = 0;
         if (sFilename.equals("")) {
             //System.err.println("No booster words file specified");
@@ -51,13 +62,6 @@ public class BoosterWordsList {
             //System.err.println((new StringBuilder("Could not find booster words file: ")).append(sFilename).toString());
             return false;
         }
-        iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
-        if (iLinesInFile < 1) {
-            //System.err.println("No booster words specified");
-            return false;
-        }
-        sgBoosterWords = new String[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
-        igBoosterWordStrength = new int[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
         igBoosterWordsCount = 0;
         try {
             BufferedReader rReader;

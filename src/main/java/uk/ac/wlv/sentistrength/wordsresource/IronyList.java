@@ -17,7 +17,7 @@ import uk.ac.wlv.utilities.Sort;
  * 该类表示讽刺语列表，提供初始化列表，和判断术语是否讽刺语的方法
  *
  */
-public class IronyList {
+public class IronyList implements WordResource {
     /**
      * 讽刺语字符串数组
      */

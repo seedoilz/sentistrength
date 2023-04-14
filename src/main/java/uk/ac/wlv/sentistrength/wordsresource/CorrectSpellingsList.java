@@ -15,8 +15,7 @@ import uk.ac.wlv.utilities.Sort;
  * 拼写检查的字典类，用于检查给定字符串是否拼写正确
  * @author haofeng.Yu
  */
-public class CorrectSpellingsList {
-
+public class CorrectSpellingsList implements WordResource {
     private String[] sgCorrectWord;
     private int igCorrectWordCount;
     private int igCorrectWordMax;

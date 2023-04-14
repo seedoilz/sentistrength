@@ -18,7 +18,7 @@ import uk.ac.wlv.utilities.Sort;
  * 初始化和查询问题词
  * @author DaiXuezheng
  */
-public class QuestionWords {
+public class QuestionWords implements WordResource {
     /** 问题词数组 **/
     private String[] sgQuestionWord;
     /** 已读取问题词个数 **/

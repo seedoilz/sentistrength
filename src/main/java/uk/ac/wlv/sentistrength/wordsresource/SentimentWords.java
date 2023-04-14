@@ -372,14 +372,19 @@ public class SentimentWords {
      * @author DaiXuezheng
      */
 
-    public boolean initialise(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
-        int iWordStrength = 0, iWordsWithStarAtStart = 0, iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+    public boolean initialises(String sFilename, ClassificationOptions options, int iExtraBlankArrayEntriesToInclude) {
+        int iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+        igSentimentWordsStrengthTake1 = new int[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
+        sgSentimentWords = new String[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
+        return initialise(sFilename, options);
+    }
+
+    public boolean initialise(String sFilename, ClassificationOptions options) {
+        int iWordStrength = 0, iWordsWithStarAtStart = 0;
         if (!check(sFilename)) {
             return false;
         }
         boolean pass = true;
-        igSentimentWordsStrengthTake1 = new int[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
-        sgSentimentWords = new String[iLinesInFile + 1 + iExtraBlankArrayEntriesToInclude];
         igSentimentWordsCount = 0;
         try {
             BufferedReader rReader;
@@ -412,6 +417,8 @@ public class SentimentWords {
         } finally {
             if (pass) {
                 if (iWordsWithStarAtStart > 0) {
+                    int iLinesInFile = FileOps.i_CountLinesInTextFile(sFilename);
+                    int iExtraBlankArrayEntriesToInclude = igSentimentWordsStrengthTake1.length - 1 - iLinesInFile;
                     return initialiseWordsWithStarAtStart(sFilename, options, iWordsWithStarAtStart, iExtraBlankArrayEntriesToInclude);
                 }
             }
