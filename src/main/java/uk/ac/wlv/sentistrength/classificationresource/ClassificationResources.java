@@ -63,6 +63,7 @@ public class ClassificationResources {
      * 词形还原
      */
     public Lemmatiser lemmatiser;
+    public SlangLookupTable slangLookupTable;
     /**
      * 项目data对应的目录文件夹
      */
@@ -134,13 +135,14 @@ public class ClassificationResources {
         evaluativeTerms = new EvaluativeTerms();
         ironyList = new IronyList();
         lemmatiser = new Lemmatiser();
+        slangLookupTable = new SlangLookupTable();
         sgSentiStrengthFolder = System.getProperty("user.dir") + "/src/main/java/SentStrength_Data/";
         sgSentimentWordsFile = "EmotionLookupTable.txt";
         sgSentimentWordsFile2 = "SentimentLookupTable.txt";
         sgEmoticonLookupTable = "EmoticonLookupTable.txt";
         sgCorrectSpellingFileName = "Dictionary.txt";
         sgCorrectSpellingFileName2 = "EnglishWordList.txt";
-        sgSlangLookupTable = "SlangLookupTable_NOT_USED.txt";
+        sgSlangLookupTable = "SlangLookupTable.txt";
         sgNegatingWordListFile = "NegatingWordList.txt";
         sgBoosterListFile = "BoosterWordList.txt";
         sgIdiomLookupTableFile = "IdiomLookupTable.txt";
@@ -186,6 +188,7 @@ public class ClassificationResources {
                 && correctSpellings.initialise((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgCorrectSpellingFileName).toString(), options)
                 && sentimentWords.initialises((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgSentimentWordsFile).toString(), options, iExtraLinesToReserve)
                 && negatingWords.initialise((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgNegatingWordListFile).toString(), options)
+                && slangLookupTable.initialise((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgSlangLookupTable).toString(), options)
                 && questionWords.initialise((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgQuestionWordListFile).toString(), options)
                 && ironyList.initialise((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgIronyWordListFile).toString(), options)
                 && boosterWords.initialises((new StringBuilder(String.valueOf(sgSentiStrengthFolder))).append(sgBoosterListFile).toString(), options, iExtraLinesToReserve)
