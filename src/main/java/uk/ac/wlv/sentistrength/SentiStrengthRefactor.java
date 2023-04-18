@@ -1,12 +1,8 @@
 package uk.ac.wlv.sentistrength;
 
-import uk.ac.wlv.sentistrength.*;
-import uk.ac.wlv.sentistrength.Corpus;
 import uk.ac.wlv.sentistrength.classificationresource.ClassificationOptions;
-import uk.ac.wlv.utilities.FileOps;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 public class SentiStrengthRefactor {
 
@@ -52,34 +48,34 @@ public class SentiStrengthRefactor {
 
 //        if (bURLEncodedOutput) {
 //            try {
-//                System.out.println(URLEncoder.encode(sOutput, "UTF-8"));
+//                System.err.println(URLEncoder.encode(sOutput, "UTF-8"));
 //            } catch (UnsupportedEncodingException var13) {
 //                var13.printStackTrace();
 //            }
 //        } else if (corpus.options.bgForceUTF8) {
 //            try {
-//                System.out.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
+//                System.err.println(new String(sOutput.getBytes("UTF-8"), "UTF-8"));
 //            } catch (UnsupportedEncodingException var12) {
-//                System.out.println("UTF-8 Not found on your system!");
+//                System.err.println("UTF-8 Not found on your system!");
 //                var12.printStackTrace();
 //            }
 //        } else {
-//            System.out.println(sOutput);
+//            System.err.println(sOutput);
 //        }
-        System.out.println(sOutput);
+        System.err.println(sOutput);
         return sOutput;
     }
 
     public static String analyzeFile(Corpus corpus, File file) {
-        String sOutputFile = "./tmp/" + file.getName().substring(0,file.getName().length()-4) + "_out.txt";
+        String sOutputFile = "./tmp/" + file.getName().substring(0, file.getName().length() - 4) + "_err.txt";
         corpus.classifyAllLinesInInputFile(file, -1, sOutputFile);
         return sOutputFile;
     }
 
     public static String machineLearning(Corpus corpus, String sInputFile, boolean bDoAll, int iMinImprovement,
-                                       boolean bUseTotalDifference, int iIterations, int iMultiOptimisations){
+                                       boolean bUseTotalDifference, int iIterations, int iMultiOptimisations) {
         SentiStrength sentiStrength = new SentiStrength();
-        String outputPath = "./tmp/material_out.txt";
+        String outputPath = "./tmp/material_err.txt";
         sentiStrength.runMachineLearning(corpus, sInputFile, bDoAll, iMinImprovement,
                 bUseTotalDifference, iIterations, iMultiOptimisations, outputPath);
         return outputPath;
@@ -132,7 +128,7 @@ public class SentiStrengthRefactor {
                 if (checkedOptions[i].equalsIgnoreCase("scale")) {
                     this.corpus.options.bgScaleMode = true;
                     if (this.corpus.options.bgTrinaryMode) {
-//                        System.out.println("Must choose binary/trinary OR scale mode");
+//                        System.err.println("Must choose binary/trinary OR scale mode");
                         return;
                     }
                 }
@@ -303,10 +299,10 @@ public class SentiStrengthRefactor {
                 }
 
             } catch (NumberFormatException var5) {
-//                System.out.println("Error in argument for " + checkedOptions[i] + ". Integer expected!");
+//                System.err.println("Error in argument for " + checkedOptions[i] + ". Integer expected!");
                 return;
             } catch (Exception var6) {
-//                System.out.println("Error in argument for " + checkedOptions[i] + ". Argument missing?");
+//                System.err.println("Error in argument for " + checkedOptions[i] + ". Argument missing?");
                 return;
             }
         }
