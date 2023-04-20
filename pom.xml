@@ -6,7 +6,7 @@
 
     <groupId>cn.edu.nju.se3.2023.hardest</groupId>
     <artifactId>sentistrength</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
