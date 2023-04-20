@@ -291,7 +291,7 @@ public class Corpus {
                                         .append(sLine).toString());
                                 igScaleCorrect[igParagraphCount] = 999;
                             }
-                            if (igScaleCorrect[igParagraphCount] > 4 || igTrinaryCorrect[igParagraphCount] < -4) {
+                            if (igScaleCorrect[igParagraphCount] > 4 || igScaleCorrect[igParagraphCount] < -4) {
                                 System.err.println((new StringBuilder(
                                         "Scale classification out of bounds (-4 to +4) and will be ignored!: "))
                                         .append(sLine).toString());
